@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- 	<context:component-scan base-package="com.lec.yes25.personnel, com.lec.yes25.mapper"/> -->
+
+	<bean id="LoginSuccess" class="com.lec.yes25.personnel.LoginSuccessHandler" />
+	<bean id="CustomNoOpPasswordEncoder" class="com.lec.yes25.personnel.CustomNoOpPasswordEncoder"/> 
+	<bean id="userService" class="com.lec.yes25.personnel.CustomUserDetailsService"/>
+
+
+
+
+	<!-- 컨테이너의 HTTP security 요소 -->
+	<security:http>
+		<!-- /sample/member URI 요청은 ROLE_MEMBER 라는 권한이 있는 사용자만이 접근 가능 -->
+<!-- 		<security:intercept-url	pattern="/sample/member" access="hasRole('ROLE_MEMBER')" /> -->
+		<security:intercept-url pattern="/login" access="permitAll" />
+		<security:intercept-url pattern="/personnel/main" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/personnel/commutelist" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+
+		<security:form-login login-page="/personnel/login" authentication-success-handler-ref="LoginSuccess" />
+		<security:logout logout-url="/personnel/logout" logout-success-url="/personnel/login"	invalidate-session="true" delete-cookies="JSESSIONID" />
+
+		<!-- 에러 처리하기 : 에러 난 경우 특정 url 로 처리하여 에러페이지가 나오도록 하는 방법이다. -->
+		<!-- <security:access-denied-handler error-page="/accessError"/> -->
+<!-- 		<security:access-denied-handler	ref="customAccessDenied" /> -->
+
+	</security:http>
+
+
+	<!-- AuthenticationManager 빈 생성 -->
+	<!-- Spring Security 가 동작하기 위해서는 AuthenticationManager 가 필요하다 -->
+	<security:authentication-manager>
+		<!-- UserDetailsService 사용자 인증과 권한 처리 -->
+		<security:authentication-provider >
+			<!-- JDBC 사용 -->
+			<security:jdbc-user-service data-source-ref="dataSource"
+			users-by-username-query=
+				"SELECT username, password, enabled FROM users WHERE username = ?"
+			authorities-by-username-query=
+				"SELECT username, authority FROM authorities WHERE username = ?"
+			
+			/>
+			<!-- PasswordEncoder 설정 -->
+			<security:password-encoder ref="CustomNoOpPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+						
+
+
+</beans>
+

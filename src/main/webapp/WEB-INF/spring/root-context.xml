@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+				<!-- spring-jdbc 빈 객체 생성 -->
+	<!-- DataSource 객체 : Oracle-->
+	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+		<beans:property name="username" value="yes0316"/>
+		<beans:property name="password" value="tiger0316"/>
+	</beans:bean>
+	
+	
+	<!-- MyBatis 관련 설정 -->
+   <beans:bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <beans:property name="dataSource" ref="dataSource"/>
+      <beans:property name="mapperLocations" value="classpath:com/lec/yes25/mapper/*.xml"/>  
+    </beans:bean>
+   
+   <beans:bean name="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> <!-- sql팩토리빈을 활용하여 세션 템플릿을 만듦. -->
+      <beans:constructor-arg index="0" ref="sqlSessionFactory"/>
+   </beans:bean>
+	
+		
+</beans>

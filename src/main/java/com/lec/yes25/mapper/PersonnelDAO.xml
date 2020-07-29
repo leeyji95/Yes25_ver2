@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.yes25.personnel.PersonnelDAO">
+
+	<insert id="insert" flushCache="true">
+		INSERT INTO users (
+			username,
+			password,
+			emp_name,
+			emp_email,
+			dept_uid,
+			position_uid,
+			emp_phone,
+			emp_hiredate,
+			emp_admin
+		)
+		VALUES (
+			CONCAT(TO_CHAR(sysdate, 'YYMM'), LPAD(user_seq.nextval, 4, 0)),
+			CONCAT(TO_CHAR(sysdate, 'YYMM'), LPAD(user_seq.nextval, 4, 0)),
+			#{name},
+			#{email},
+			#{deptno},
+			#{positionno},
+			#{phone},
+			#{hiredate},
+			#{admin}
+		)
+	</insert>
+
+	<insert id="authinsert" flushCache="true">
+		INSERT INTO authorities 
+		VALUES (
+			CONCAT(TO_CHAR(sysdate, 'YYMM'), LPAD(auth_seq.nextval, 4, 0)),
+			#{admin}		
+		)
+	</insert>
+	
+	<select id="selectByUid" resultType="com.lec.yes25.personnel.UserDTO">
+		SELECT 
+			username,
+			emp_name name,
+			emp_email email,
+			dept_uid deptno,
+			position_uid positionno,
+			emp_phone phone, 
+			emp_hiredate hiredate,
+			emp_admin admin
+		FROM 
+			users 
+		WHERE 
+			username = #{username}
+	</select>
+
+	<insert id="goworkinsert" flushCache="true">
+		INSERT INTO tb_commute (
+			commute_uid, 
+			username, 
+			commute_date,
+			commute_start
+		)
+		VALUES(
+			cmmt_seq.nextval,
+			#{username},
+			TO_DATE(SYSDATE, 'yyyy-mm-dd'),		
+			#{commute_start}
+		)
+	</insert>
+
+
+	<update id="goworkState" flushCache="true">
+		UPDATE tb_commute 
+		SET
+			commute_state = #{commute_state}
+		WHERE 
+			username = #{username}
+		AND 
+			TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
+	</update>
+
+
+	<select id="GoworkDateByusername" resultType="java.lang.String" >
+		SELECT TO_CHAR(COMMUTE_START, 'yyyy-mm-dd')
+		FROM 
+			tb_commute	
+		WHERE
+			username = #{username}
+		AND 
+			TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
+	</select>
+
+
+
+</mapper>
