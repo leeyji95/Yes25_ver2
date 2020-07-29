@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.lec.yes25.financial.bean.AjaxFinancialDAO">
+
+<!-- 결재를 기다리고 있는 전표, 페이징 -->
+<select id="selectFromRowProceed" 
+		resultType="com.lec.yes25.financial.bean.FinancialDTO">
+	
+	<!-- 비교연산자 같은 경우에는 xml에서 사용할 수 없기 때문에 CDATA를 이용하여 사용 -->
+	<![CDATA[
+	SELECT 
+		stmt_uid, 
+		stmt_date regDate,
+		account_uid, 
+		stmt_summary summary, 
+		stmt_sum money,
+		stmt_writer writer,
+		stmt_manager manager, 
+		stmt_approver approver, 
+		stmt_proceed proceed
+	FROM 
+		(SELECT ROWNUM AS RNUM, T.* FROM 
+			(SELECT * FROM tb_statement 
+			WHERE (stmt_manager=#{logId} OR stmt_approver=#{logId}) AND stmt_proceed IN (1,2)
+			ORDER BY stmt_uid DESC) T) 
+	WHERE 
+		RNUM >= #{from} AND RNUM < (#{from} + 10)
+	]]>
+	
+</select>
+<select id="countAllProceed" resultType="int">
+	SELECT 
+		count(*)
+	FROM
+		tb_statement
+	WHERE 
+		(stmt_manager=#{logId} OR stmt_approver=#{logId}) AND stmt_proceed IN (1,2)
+</select>
+
+<!-- 작성한 전표 목록 검색, 페이징 -->
+<select id="selectFromRowWrite" 
+		resultType="com.lec.yes25.financial.bean.FinancialDTO">
+	
+	<!-- 비교연산자 같은 경우에는 xml에서 사용할 수 없기 때문에 CDATA를 이용하여 사용 -->
+	<![CDATA[
+	SELECT 
+		stmt_uid, 
+		stmt_date regDate,
+		account_uid, 
+		stmt_summary summary, 
+		stmt_sum money,
+		stmt_writer writer,
+		stmt_manager manager, 
+		stmt_approver approver, 
+		stmt_proceed proceed
+	FROM 
+		(SELECT ROWNUM AS RNUM, T.* FROM 
+			(SELECT * FROM tb_statement ORDER BY stmt_uid DESC) T) 
+	WHERE 
+		(stmt_writer=#{logId}) AND RNUM >= #{from} AND RNUM < (#{from} + 10)
+	]]>
+</select>
+<select id="countAllWrite" resultType="int">
+	SELECT 
+		count(*)
+	FROM
+		tb_statement
+	WHERE 
+		stmt_writer=#{logId}
+</select>
+
+<!-- 글쓰기, insert -->
+<insert id="insert" flushCache="true">
+	INSERT INTO tb_statement
+		(stmt_uid, stmt_date, account_uid, stmt_summary, stmt_sum, 
+ 		stmt_writer, stmt_manager, stmt_approver)
+	VALUES
+		(statement_seq.nextval,
+		#{regDate},
+		#{account_uid},
+		#{summary},
+		#{money},
+		#{writer},
+		#{manager},
+		#{approver})
+</insert>
+
+
+<!-- 계정과목 검색, 사용자 검색용 -->
+<select id="searchAccount"
+	resultType="com.lec.yes25.financial.bean.AccountDTO">
+	SELECT *
+	FROM tb_account
+	WHERE account_name LIKE '%'||#{word}||'%'
+</select>
+<!-- 계정과목 검색, 보여주기용 -->
+<select id="searchAccountName"
+	resultType="com.lec.yes25.financial.bean.AccountDTO">
+	SELECT *
+	FROM tb_account
+	WHERE account_uid = #{account_uid}
+</select>
+
+<!-- 기존에 작성한 글 불러오기 -->
+<select id="selectByStmt_uid"
+	resultType="com.lec.yes25.financial.bean.FinancialDTO">
+	SELECT 
+		stmt_uid, 
+		stmt_date regDate,
+		account_uid, 
+		stmt_summary summary, 
+		stmt_sum money,
+		stmt_writer writer,
+		stmt_manager manager, 
+		stmt_approver approver, 
+		stmt_proceed proceed
+	FROM 
+		tb_statement
+	WHERE
+		stmt_uid = #{stmt_uid}
+</select>
+<!-- 글 수정 -->
+<update id="update" flushCache="true">
+	UPDATE tb_statement
+	set
+		stmt_date = #{regDate},
+		account_uid = #{account_uid},
+		stmt_summary = #{summary},
+		stmt_sum = #{money},
+		stmt_manager = #{manager},
+		stmt_approver = #{approver},
+		stmt_proceed = 1
+	WHERE
+		stmt_uid = #{stmt_uid}
+</update>
+
+<!-- 글 삭제 -->
+<delete id="delete" flushCache="true">
+		DELETE FROM tb_statement
+	 	WHERE stmt_uid = #{stmt_uid}
+</delete>
+
+<!-- 재무부서용, 페이징 -->
+<select id="selectFromRowFinancialDept" 
+		resultType="com.lec.yes25.financial.bean.FinancialDTO">
+	
+	<!-- 비교연산자 같은 경우에는 xml에서 사용할 수 없기 때문에 CDATA를 이용하여 사용 -->
+	<![CDATA[
+	SELECT 
+		stmt_uid, 
+		stmt_date regDate,
+		account_uid, 
+		stmt_summary summary, 
+		stmt_sum money,
+		stmt_writer writer,
+		stmt_manager manager, 
+		stmt_approver approver, 
+		stmt_proceed proceed
+	FROM 
+		(SELECT ROWNUM AS RNUM, T.* FROM 
+			(SELECT * FROM tb_statement 
+			WHERE
+			stmt_date>=#{startDate} AND stmt_date<=#{endDate}
+			ORDER BY stmt_uid DESC) T)
+	WHERE 
+		RNUM >= #{from} AND RNUM < (#{from} + 10)
+	]]>
+	
+</select>
+
+<select id="countAllFinancialDept" resultType="int">
+	<![CDATA[
+	SELECT count(*)
+	FROM tb_statement
+	WHERE stmt_date>=#{startDate} AND stmt_date<=#{endDate}
+	]]>
+</select>
+
+
+
+</mapper>

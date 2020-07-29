@@ -18,10 +18,7 @@ public class EmpListCommand implements BCommand {
 		Map<String, Object> map = model.asMap();  // model 안에 있는 어트리뷰트 애들 어차피 이름 밸류 쌍으로 -> map으로 변환 가능하다
 		int username = Integer.parseInt((String)(map.get("username")));
 		
-		System.out.println("EmpListCommand username  ::: " + username);
-		
 		PersonnelDAO dao = C.sqlSession.getMapper(PersonnelDAO.class);
-		System.out.println("EmpListCommand dao  ::: " + dao);
 		List<UserDTO> list = dao.selectByUid(username);
 		
 		model.addAttribute("list", list); // model  바구니에 담는다!

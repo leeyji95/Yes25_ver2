@@ -1,0 +1,160 @@
+@charset "UTF-8";
+
+/* 전체 기본 여백 */
+body, html {
+	margin: 0 60px 150px 20px;
+}
+
+/* 내 설정 버튼 */
+.btnMyself {
+  border: none;
+  color: white;
+  width: 220px;
+  padding: 30px 0;
+  margin: 0 15px;
+  font-size: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+/* 헤더와 같은 파란 버튼 색상 */
+.info {background-color: #007bff!important; color: white; border: none;}
+.infohover {background: #0052ac!important; color: white; border: none;}
+.info:hover {background: #0052ac!important; color: white; border: none;}
+
+/* 헤더와 어울릴만한 바다색 */
+.skyinfo {background-color: #4d7cc4!important; color: white; border: none;}
+.skyinfo:hover {background-color: #3561a2!important; color: white; border: none;}
+
+/* 제목에 헤더 줌*/
+#proceedHeader, #writeHeader {
+	margin-top: 50px;
+}
+
+/* 기본 세팅 너비 */
+.width100 {width: 100%;}
+.width50 {width: 50%;}
+
+/* 전표 목록 페이지 */
+.left {
+	margin-top: 20px;
+}
+#list table, #viewTable table {
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+#list table, #list th, #list td,
+#viewTable table, #viewTable th, #viewTable td {
+	border-collapse: collapse;
+}
+#list th, #list td,
+#viewTable th, #viewTable td {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+#list th, #list td,
+#viewTable th, #viewTable td {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.clear { clear: both; }
+.moveFinancialView:hover {
+	background-color: #3997ff!important;
+	color: white;
+	cursor: pointer;
+}
+#viewTable th, #viewTable td {
+	text-align: center;
+}
+#viewTable {
+	margin: 100px 0;
+	text-align: center;
+	font-size: 30px;
+}
+
+/* 글쓰기 모달창 */
+.modal-header {
+	font-size: 30px;
+}
+.modal-body {
+	font-size: 20px;
+}
+.approvaLine, .statementBlock {
+	margin: 100px 0;
+}
+.modalTable {
+	border-collapse: collapse;
+}
+.modalTable tr, .modalTable tr td, .modalTable tr th {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+.statementBlock table tr td input {
+	width: 100%;
+	padding: 10px 20px;
+	border: none;
+}
+.statementBlock table tr th {
+	text-align: center;
+}
+.searchValue {
+	width: 100%;
+	border: none;
+	background-color: white;
+	padding: 10px 0;
+}
+.searchValue:hover {
+	background-color: #3997ff!important;
+	color: white;
+}
+
+/* 검색 셀렉트 박스 */
+#choiceYearMonth, #YearMonth {
+	padding: 10px 0;
+	width: 150px;
+	text-align: center;
+}
+
+/* 페이징 */
+#questions-paginator {
+	margin-bottom: 50px;
+}
+.pagination {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pagination>li {
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    line-height: 26px;
+    text-align: center;
+}
+.pagination>li[role=active] {
+    background-color: #007bff!important;
+    color: #ffffff;
+    cursor: default
+}
+.pagination>li[role=button]:hover {
+    color: #35C5F0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.pagination>li:not([rel]) {
+    margin: 0 2px;
+}
+.pagination>li[rel=prev] {
+    margin-right: 4px;
+}
+.icon-pointer-button-square-left,
+.icon-pointer-button-square-right {
+	background: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 3px 6px;
+}
