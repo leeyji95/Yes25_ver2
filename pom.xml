@@ -193,6 +193,21 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+	<!-- lombok -->
+      <dependency>
+    		<groupId>org.projectlombok</groupId>
+    		<artifactId>lombok</artifactId>
+    		<optional>true</optional>
+    		<version>1.18.12</version> 
+	</dependency>
+	
+	<!-- 엑셀 제어(xls) maven setting -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.12</version>
+		</dependency>
 	</dependencies>
 	
     <build>

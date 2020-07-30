@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lec.yes25.logistics.LogisticsDAO">
+	<select id="selectFromOrder"
+		resultType="com.lec.yes25.logistics.OrderDTO">
+		SELECT
+		*
+		FROM
+		v_book_order_test
+		WHERE
+		order_state = 0
+		ORDER BY
+		order_uid DESC
+	</select>
+
+	<select id="countAll" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		v_inbound_test
+	</select>
+
+	<select id="searchByIsbnFromOrder"
+		resultType="com.lec.yes25.logistics.OrderDTO">
+		SELECT
+		*
+		FROM
+		v_book_order_test
+		WHERE
+		REGEXP_LIKE(book_isbn,
+		REGEXP_REPLACE(#{param1}, ' ', ''))
+		AND
+		order_state = 0
+		ORDER BY
+		order_uid DESC
+	</select>
+
+	<select id="searchByIsbnFromInbound"
+		resultType="com.lec.yes25.logistics.InboundDTO">
+		SELECT
+		*
+		FROM
+		v_inbound_test
+		WHERE
+		REGEXP_LIKE(book_isbn,
+		REGEXP_REPLACE(#{param1}, ' ', ''))
+		AND
+		order_state = 1
+		ORDER BY
+		inbound_uid DESC
+	</select>
+
+	<insert id="insertIntoInbound" flushCache="true">
+		INSERT INTO
+		tb_inbound_test (inbound_uid, order_uid)
+		VALUES
+		(inbound_test_seq.NEXTVAL, #{param1})
+	</insert>
+
+	<update id="updateByUidInStockFromInbound" flushCache="true">
+		MERGE INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_inbound_test WHERE order_uid =
+		#{param1}) B
+		ON
+		(A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity + B.order_quantity
+		WHEN NOT MATCHED
+		THEN
+		INSERT
+		(stock_uid, book_uid, A.stock_quantity)
+		VALUES
+		(stock_test_seq.NEXTVAL, B.book_uid, B.order_quantity)
+	</update>
+
+	<update id="updateByUidIntoOrder" flushCache="true"
+		parameterType="int">
+		UPDATE
+		tb_order_test
+		SET
+		order_state = 1
+		WHERE
+		order_uid =
+		#{param1}
+	</update>
+
+
+	<select id="selectFromBook"
+		resultType="com.lec.yes25.logistics.BookDTO">
+		SELECT
+		*
+		FROM
+		v_book_stock_test
+		WHERE
+		stock_quantity > 0
+		ORDER BY
+		book_uid DESC
+	</select>
+
+	<select id="searchByIsbnFromBook"
+		resultType="com.lec.yes25.logistics.BookDTO">
+		SELECT
+		*
+		FROM
+		v_book_stock_test
+		WHERE
+		REGEXP_LIKE(book_isbn,
+		REGEXP_REPLACE(#{param1}, ' ', ''))
+		AND
+		stock_quantity > 0
+		ORDER BY
+		book_isbn DESC
+	</select>
+
+	<select id="searchByIsbnFromOutbound"
+		resultType="com.lec.yes25.logistics.OutboundDTO">
+		SELECT
+		*
+		FROM
+		v_outbound_test
+		WHERE
+		REGEXP_LIKE(book_isbn,
+		REGEXP_REPLACE(#{param1}, ' ', ''))
+		AND
+		outbound_state = 1
+		ORDER BY
+		outbound_uid DESC
+	</select>
+
+	<insert id="insertIntoOutbound" flushCache="true">
+		INSERT INTO
+		tb_outbound_test (outbound_uid, book_uid, outbound_unit_price,
+		outbound_quantitiy, outbound_state)
+		VALUES
+		(
+		outbound_test_seq.NEXTVAL
+		,
+		(SELECT book_uid FROM tb_book_test WHERE book_isbn = #{param1})
+		,
+		#{param2}
+		, (CASE WHEN #{param3} > (SELECT stock_quantity FROM
+		v_book_stock_test
+		WHERE book_isbn = #{param1}) THEN (SELECT
+		stock_quantity FROM
+		v_book_stock_test WHERE book_isbn = #{param1}) ELSE
+		#{param3} END)
+		, 1
+		)
+	</insert>
+
+	<update id="updateByUidInStockFromOutbound" flushCache="true">
+		MERGE
+		INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_book_stock_test WHERE
+		book_isbn = #{param1}) B
+		ON
+		(A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity - (CASE WHEN #{param2} >
+		A.stock_quantity THEN
+		A.stock_quantity ELSE #{param2} END)
+	</update>
+
+
+	<select id="selectByFilter"
+		resultType="com.lec.yes25.logistics.BookDTO">
+		SELECT
+		*
+		FROM
+		v_book_stock_test
+			WHERE
+				stock_quantity > 0
+		<choose>
+			<when test='param1 != 0 and param2 != "0"'>
+			AND
+				<if test="param1 == 1">
+					book_subject
+				</if>
+				<if test="param1 == 2">
+					book_isbn
+				</if>
+				<if test="param1 == 3">
+					publisher_name
+				</if>
+				<if test="param1 == 4">
+					book_author
+				</if>
+				LIKE '%'||#{param2}||'%'
+			</when>
+			<when test="param3 != 0">
+				AND category_uid = #{param3}
+			</when>
+			<when test="param4 != 0 and param5 != 0">
+				AND book_pubdate BETWEEN TO_DATE(#{param4}, 'YYYY-MM-DD') AND
+				TO_DATE(#{param5}, 'YYYY-MM-DD')
+			</when>
+		</choose>
+		ORDER BY
+		book_uid DESC
+	</select>
+
+</mapper>
