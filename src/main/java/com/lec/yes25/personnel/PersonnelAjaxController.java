@@ -46,7 +46,7 @@ public class PersonnelAjaxController {
 	
 	@RequestMapping(value="/personnel/outwork.ajax",  method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult outwork(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
-		System.out.println("/outwork.ajax 응답하라 응답하라 응답하라");
+		System.out.println("/outwork.ajax----퇴근 누르면 ----여기루 ----온다지----");
 		
 		// 현재 인증된(로그인한) 사용자의 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

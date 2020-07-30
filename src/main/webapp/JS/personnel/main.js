@@ -149,34 +149,11 @@ $(".goWork").on("click", function () {
 	return false;
 });
 
-
-	
-// 퇴근 버튼 클릭 하면 -----> 
-//$(".outWork").on("click", function () {
-//	$(this).removeClass("top-active-button").siblings().addClass("top-active-button");
-//	$(this).attr('disabled', true);
-//	$('#changetext').text('퇴근시간  :  ' + byeworkTime);
-//	
-//		$('.to-goWork').prop('disabled', $.cookie('to-goWork')); // Check cookies
-//		$('.to-outWork').prop('disabled', $.cookie('to-outWork'));
-//		$('.to-outWork').click(function() {
-//			$.cookie('sesssssion','true', {9393ff
-//				expires : 1
-//			}); // Remember for 1 day
-//			$(this).prop('disabled', true);
-//			alert('Thanks');
-//		});
-//});
-
-
-
-
+// [퇴근버튼 누르면]
 $(".outWork").on("click", function () {
 	
 	var paramDate = year + "-" + months[month] + "-" + day + " " + h + ":" + m + ":" + s;
 	var outworkTime = year + "년 " + months[month] + "월 " + day + "일 " + h + "시 " + m + "분";
-	alert(paramDate);
-	alert(outworkTime);
 	
 	 $.ajaxSetup({
 	     beforeSend: function(xhr) {
@@ -191,10 +168,9 @@ $(".outWork").on("click", function () {
 		cache : false,
 		data : paramDate, // POST 로 ajax request 하는 경우 parameter 담기
 		success : function(data, status) {
-			alert("outworkTime :::: " + outworkTime);
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
-					alert(data.message + " " + outworkTime);
+					alert(data.message + "\n " + outworkTime);
 //					다시 loadPage... 함수 실행.. 
 				} else {
 					alert("다시 처리해주세요.");

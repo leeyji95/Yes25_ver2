@@ -116,27 +116,27 @@ CREATE TABLE tb_commute
     commute_state       VARCHAR2(10)    NULL,  
     commute_is_apply    NUMBER          DEFAULT 0 NULL
 );
-DELETE FROM tb_commute WHERE username = 20070002 AND TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd');
+DELETE FROM TB_COMMUTE WHERE username = 20070001 AND TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_END , 'yyyy-mm-dd');
 SELECT * FROM tb_commute ; 
 
 -- 예시
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-21', 'yyyy-mm-dd'), TO_DATE('2020-07-21 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-28', 'yyyy-mm-dd'), TO_DATE('2020-07-28 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-22', 'yyyy-mm-dd'), TO_DATE('2020-07-22 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-27', 'yyyy-mm-dd'), TO_DATE('2020-07-27 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-23', 'yyyy-mm-dd'), TO_DATE('2020-07-23 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-23', 'yyyy-mm-dd'), TO_DATE('2020-07-23 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-24', 'yyyy-mm-dd'), TO_DATE('2020-07-24 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-24', 'yyyy-mm-dd'), TO_DATE('2020-07-24 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-25', 'yyyy-mm-dd'), TO_DATE('2020-07-25 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-25', 'yyyy-mm-dd'), TO_DATE('2020-07-25 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-26', 'yyyy-mm-dd'), TO_DATE('2020-07-26 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-29', 'yyyy-mm-dd'), TO_DATE('2020-07-26 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
 VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-27', 'yyyy-mm-dd'), TO_DATE('2020-07-27 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
@@ -178,5 +178,16 @@ SELECT TO_CHAR(c.COMMUTE_START, 'yyyy-mm-dd') 출근시간
 FROM TB_COMMUTE c
 WHERE USERNAME = 20070001;
 
+-- test
+SELECT TO_CHAR(commute_end, 'yyyy-mm-dd') 
+FROM tb_commute
+WHERE username = 20070002
+AND TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
 
-SELECT * FROM tb_commute ORDER BY COMMUTE_DATE;
+-- 20070002 의 오늘날짜 출퇴근 지우기
+DELETE FROM tb_commute
+WHERE username = 20070002
+AND TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
+
+
+SELECT * FROM tb_commute ORDER BY  COMMUTE_DATE ASC ;

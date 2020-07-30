@@ -35,6 +35,7 @@
 		)
 	</insert>
 	
+	<!-- username 으로 사원정보 꺼내기 -->
 	<select id="selectByUid" resultType="com.lec.yes25.personnel.UserDTO">
 		SELECT 
 			username,
@@ -51,6 +52,8 @@
 			username = #{username}
 	</select>
 
+	<!--  /////////////////////  출근    ///////////////////  -->
+	<!-- 출근  -->
 	<insert id="goworkinsert" flushCache="true">
 		INSERT INTO tb_commute (
 			commute_uid, 
@@ -66,7 +69,7 @@
 		)
 	</insert>
 
-
+	<!-- 출근시간에 따흔 근무상태 update -->
 	<update id="goworkState" flushCache="true">
 		UPDATE tb_commute 
 		SET
@@ -77,7 +80,8 @@
 			TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
 	</update>
 
-
+	
+	<!-- 해당 username 이 해당 날짜에 출근등록했는지 여부 알아보기 위해 -->
 	<select id="GoworkDateByusername" resultType="java.lang.String" >
 		SELECT TO_CHAR(COMMUTE_START, 'yyyy-mm-dd')
 		FROM 
@@ -87,6 +91,65 @@
 		AND 
 			TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
 	</select>
+
+
+	<!--  /////////////////////  퇴근   ///////////////////  -->
+	<!-- 퇴근 -->
+	<!-- 일단 조회 -->
+	<select id="OutworkDateByusername" resultType="java.lang.String">
+		SELECT 
+			TO_CHAR(commute_end, 'yyyy-mm-dd') 
+		FROM 
+			tb_commute
+		WHERE 
+			username = #{username}
+		AND 
+			TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(commute_end , 'yyyy-mm-dd')
+	</select>
+
+	<update id="outworkupdate" flushCache="true">
+		UPDATE 
+			tb_commute
+		SET 
+			commute_end = #{commute_end}
+		WHERE 
+			username = #{username}
+		AND 
+			TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
+	</update>
+
+	<update id="outworkState" flushCache="true">
+		UPDATE tb_commute 
+		SET
+			commute_state = #{commute_state}
+		WHERE 
+			username = #{username}
+		AND 
+			TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_END , 'yyyy-mm-dd')
+	</update>
+	
+	<!-- 초과근무시간 select -->
+	<select id="selectoverwork" resultType="java.lang.String">
+		SELECT TO_CHAR(commute_overtime, 'yyyy-mm-dd')
+		FROM tb_commute
+		WHERE username = #{username}
+		AND TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(#{commute_end} , 'yyyy-mm-dd')
+	</select>
+	
+	<!-- 초과근무시간 update-->
+	<update id="overWork" flushCache="true">
+		UPDATE tb_commute
+		SET
+			commute_overtime = #{commute_overtime}
+		WHERE 
+			username = #{username}
+		AND
+			TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(commute_end, 'yyyy-mm-dd')
+	</update>
+
+
+
+
 
 
 
