@@ -336,7 +336,6 @@ function chkWrite() {
 					alert("전표가 생성되었습니다.");
 					$("#WriteModal").modal('toggle');		// 모달창 닫기
 					$('.modal-backdrop').remove(); 
-					//$('.modal-backdrop').attr('class', 'modal-backdrop');
 					loadPage(window.page, window.choice);	// 현재 페이지 리로딩
 					$('.btn-dismiss').trigger('click');
 				} else {
@@ -540,6 +539,7 @@ function chkUpdate() {
 				if(data.status == "OK"){
 					alert("전표 수정 성공하였습니다.");
 					$("#UpdateModal").modal('toggle');		// 모달창 닫기
+					$('.modal-backdrop').remove(); 
 					loadPage(window.page, window.choice);	// 현재 페이지 리로딩
 				} else {
 					alert("전표 수정 실패 " + data.status + " : " + data.message);
@@ -551,6 +551,7 @@ function chkUpdate() {
 	
 	$("#frmUpdate")[0].reset();
 	
+	return false;
 } // end chkUpdate()
 
 // 글 삭제

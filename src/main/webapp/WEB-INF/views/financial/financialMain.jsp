@@ -34,6 +34,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/JS/financial/main.js"></script>
     
+    <!-- 월별 매출 그래프를 사용하기 위한 Chart.js 선언 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
@@ -52,10 +54,59 @@
 			 <div class="col main pt-5 mt-3">
 <!-- 작업페이지 -->
 <!-- 월별 매출 그래프 -->
-<h1 class="display-4 d-none d-sm-block">월별 매출 그래프</h1>
+<h1 class="display-4 d-none d-sm-block" style="padding-top: 50px; text-align: center;">월별 매출 그래프</h1>
 
-<!-- 연매출 그래프 -->
-<h1 class="display-4 d-none d-sm-block">연 매출 그래프</h1>
+<div style="width: 80%; margin: 50px auto 5px auto; height: 500px;">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+// 우선 컨텍스트를 가져옵니다. 
+var ctx = document.getElementById("myChart").getContext('2d');
+/*
+- Chart를 생성하면서, 
+- ctx를 첫번째 argument로 넘겨주고, 
+- 두번째 argument로 그림을 그릴때 필요한 요소들을 모두 넘겨줍니다. 
+*/
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+<br><br><br><br>
 
 <!-- 현제 로그인된 아이디 정보 -->
 <input name="thisLogId" hidden="true"

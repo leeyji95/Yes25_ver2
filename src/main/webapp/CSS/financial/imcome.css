@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+
+table, tr, td, th {
+	margin: 50px auto 100px auto;
+	border-collapse: collapse;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.lineBotton {
+	border-bottom: 1px solid black;
+}
+.lineRight {
+	border-right: 1px solid black;
+	width: 30%; 
+	text-align: left;
+}

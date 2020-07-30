@@ -1,10 +1,25 @@
 package com.lec.yes25.financial.controller;
 
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.ibatis.session.SqlSession;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lec.yes25.common.C;
 import com.lec.yes25.financial.command.FUpdateCommand;
@@ -62,6 +77,109 @@ public class FinancialController {
 		return "financial/incomeView";
 	}
 	
+
+	// 손익계산서 엑셀 다운로드
+	@RequestMapping(value="/excelDown.bn", method = RequestMethod.POST)
+	public void excelDown(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 워크북 생성
+	    Workbook wb = new HSSFWorkbook();
+	    Sheet sheet = wb.createSheet("손익계산서");
+
+	    Row row = null;
+	    Cell cell = null;
+
+	    int rowNo = 0;
+
+	    // 헤더 생성
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("과목");
+	    cell = row.createCell(1);
+	    cell.setCellValue("금액");
+	    
+	    
+	    String value = "";
+	    
+	    // 데이터 부분 생성
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("Ⅰ. 매출액");
+	    value = request.getParameter("netSales");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("Ⅱ. 매출원가");
+	    value = request.getParameter("costOfGoodsSold");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("판매비와관리비");
+	    value = request.getParameter("maintenanceSales");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("Ⅲ. 매출총이익");
+	    value = request.getParameter("grossProfit");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("Ⅳ. 영업이익");
+	    value = request.getParameter("salesIcome");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("기타수익");
+	    value = request.getParameter("etcIncome");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("기타비용");
+	    value = request.getParameter("etcCost");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("Ⅴ. 법인세비용차감전순이익");
+	    value = request.getParameter("corporateTaxIncome");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("법인세비용");
+	    value = request.getParameter("corporateTax");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellValue("Ⅵ. 당기순이익");
+	    value = request.getParameter("currentIncome");
+	    cell = row.createCell(1);
+	    cell.setCellValue(value);
+
+	    
+	    // 컨텐츠 타입과 파일명 지정
+	    response.setContentType("ms-vnd/excel");
+	    response.setHeader("Content-Disposition", "attachment;filename=income_statement.xls");
+
+	    // 엑셀 출력
+	    wb.write(response.getOutputStream());
+	    wb.close();
+	}
 
 	
 } // end Controller
