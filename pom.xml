@@ -194,20 +194,28 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
-	<!-- lombok -->
-      <dependency>
-    		<groupId>org.projectlombok</groupId>
-    		<artifactId>lombok</artifactId>
-    		<optional>true</optional>
-    		<version>1.18.12</version> 
-	</dependency>
-	
-	<!-- 엑셀 제어(xls) maven setting -->
+		<!-- lombok -->
+	      <dependency>
+	    		<groupId>org.projectlombok</groupId>
+	    		<artifactId>lombok</artifactId>
+	    		<optional>true</optional>
+	    		<version>1.18.12</version> 
+		</dependency>
+		
+		<!-- 엑셀 제어(xls) maven setting -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.12</version>
 		</dependency>
+			
+		<!-- 폼 데이터 검증 -->
+		<dependency>
+		   <groupId>org.hibernate.validator</groupId>
+		   <artifactId>hibernate-validator</artifactId>
+		   <version>6.0.18.Final</version>
+		</dependency>
+			
 	</dependencies>
 	
     <build>
