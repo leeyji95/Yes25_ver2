@@ -22,15 +22,16 @@ import com.lec.yes25.personnel.command.OverworkCommand;
 @RestController
 @RequestMapping("/personnel/*.ajax")
 public class PersonnelAjaxController {
-	// 현재 인증된(로그인한) 사용자의 정보 가져오기
-	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	UserDetails userDetails = (UserDetails) principal;
-	String username = userDetails.getUsername();
 
+	
 	@PostMapping("/personnel/writeOk.ajax")
 	public AjaxWriteResult writeOk(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ParseException {
 		System.out.println("/writeOk.ajax 일단 들어옴");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		new NewempCommand().execute(request, response, model);
 		return buildResult(request);
 	}
@@ -38,7 +39,10 @@ public class PersonnelAjaxController {
 	@RequestMapping(value = "/personnel/gowork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult gowork(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 		System.out.println("/gowork.ajax----출근 누르면 ----여기로----");
-
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		new GoworkCommand().execute(request, response, model);
 		return buildResult(request);
@@ -47,7 +51,10 @@ public class PersonnelAjaxController {
 	@RequestMapping(value = "/personnel/outwork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult outwork(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 		System.out.println("/outwork.ajax----퇴근 누르면 ----여기로----");
-
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		new OutworkCommand().execute(request, response, model);
 		return buildResult(request);
@@ -56,7 +63,10 @@ public class PersonnelAjaxController {
 	@RequestMapping(value = "/personnel/overwork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult overwork(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 		System.out.println("/overwork.ajax---- 연장신청 누르면 ----여기로----");
-
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		new OverworkCommand().execute(request, response, model);
 		return buildResult(request);
