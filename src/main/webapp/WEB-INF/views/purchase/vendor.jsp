@@ -4,24 +4,32 @@
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>도서관리</title>
-<meta name="description"
-	content="A Bootstrap 4 admin dashboard theme that will get you started. The sidebar toggles off-canvas on smaller screens. This example also include large stat blocks, modal and cards. The top navbar is controlled by a separate hamburger toggle button." />
+<title>거래처·도서관리</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Codeply">
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
+
 <style>
-    [class^='col-sm'] {
-        padding: 4%;
-    }
+    [class^='col-sm'] 
+    {padding-top: 15px;}
     
-    .pagination {
-   		justify-content: center;
-   	}
+    #publisher-list tr
+   	{cursor : pointer;}
    	
-   	.pagination li {
-   		cursor: pointer;
-   	}
+    .pagination
+    {justify-content : center;}
+   	
+   	.pagination li
+   	{cursor : pointer;}
+   	
+   	.error 
+   	{color : red;}
+   	
+   	.spaceLeft
+   	{padding-left : 0.5em;}
 </style>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
@@ -29,8 +37,9 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
 
-<script src="${pageContext.request.contextPath }/JS/purchase/purchase.js"></script>
+<script src="${pageContext.request.contextPath}/JS/purchase/vendor.js"></script>
 
 <body>
     <div class="container-fluid">
@@ -40,6 +49,7 @@
                 <div class="card">
                 <div class="card-header bg-dark text-white">거래처 목록</div>
                 <div class="card-body">
+                	<div id="page-info"></div>
                     <div class="table-responsive table-hover">
                         <table class="table">
                             <thead class="thead-inverse">
@@ -49,8 +59,7 @@
                                     <th>연락처</th>
                                 </tr>
                             </thead>
-                            <tbody id="publisher-list">
-                            </tbody>
+                            <tbody id="publisher-list"></tbody>
                         </table>
                     </div>
                 </div>
@@ -68,35 +77,34 @@
 					<!-- 거래처 등록 -->
 					<div class="tab-pane fade show active" id="pub-reg-tab">
 						<div class="card">
-							<div class="card-header bg-dark text-white">거래처 등록</div>
 							<div class="card-body">
-								<form role="form" id="reg-pub">
+								<form role="form" id="reg-pub" method="POST">
 									<div class="form-group">
-										<label for="name">거래처명</label>
-										<input type="text" class="form-control" name="pub_name" placeholder="거래처명" required>
+										<label for="reg-pub-pub-name">거래처명</label>
+										<input type="text" class="form-control" id="reg-pub-pub-name" name="pub_name" placeholder="거래처명" required>
 									</div>
 									<div class="form-group">
-										<label for="num">사업자 등록번호</label>
-										<input type="text" class="form-control" name="pub_num"	placeholder="사업자 등록번호" required>
+										<label for="reg-pub-pub-num">사업자 등록번호</label>
+										<input type="text" class="form-control" id="reg-pub-pub-num" name="pub_num" placeholder="사업자 등록번호" required>
 									</div>
 									<div class="form-group">
-										<label for="rep">대표자명</label>
-										<input type="text" class="form-control" name="pub_rep"	placeholder="대표자명">
+										<label for="reg-pub-pub-rep">대표자명</label>
+										<input type="text" class="form-control" id="reg-pub-pub-rep" name="pub_rep"	placeholder="대표자명" required>
 									</div>
 									<div class="form-group">
-										<label for="contact">연락처</label>
-										<input type="text" class="form-control" name="pub_contact"	placeholder="연락처">
+										<label for="reg-pub-pub-contact">연락처</label>
+										<input type="text" class="form-control" id="reg-pub-pub-contact" name="pub_contact"	placeholder="연락처" required>
 									</div>
 									<div class="form-group">
-										<label for="address">주소</label>
-										<input type="text" class="form-control" name="pub_address"	placeholder="주소">
+										<label for="reg-pub-pub-address">주소</label>
+										<input type="text" class="form-control" id="reg-pub-pub-address" name="pub_address"	placeholder="주소" required>
 									</div>
 
 									<div class="form-group text-right">
-										<button type="reset" id="reset" class="btn btn-warning">
+										<button type="reset" id="reset-reg-pub" class="btn btn-warning">
 											초기화<i class="fa fa-refresh spaceLeft"></i>
 										</button>
-										<button id="insert" class="btn btn-primary">
+										<button class="btn btn-primary" id="insert-reg-pub">
 											등록<i class="fa fa-check spaceLeft"></i>
 										</button>
 									</div>
@@ -105,13 +113,12 @@
 						</div>
 					</div>
 					
+					
 					<!-- 거래처 검색 -->
 					<div class="tab-pane fade" id="pub-search-tab">
 		              <div class="card">
-		                <div class="card-header bg-dark text-white">거래처 검색</div>
 		                <div class="card-body">
-		                	<!--  -->
-		                	<form role="form" id="pub-search" onsubmit="return false">
+		                	<form role="form" id="pub-search" method="POST">
 								<div class="form-group row justify-content-center">
 									<div style="padding-right: 10px">
 										<select class="form-control" name="searchType" id="searchType">
@@ -124,24 +131,23 @@
 										<input type="text" class="form-control" name="keyword" id="keyword">
 									</div>
 									<div>
-										<button type="button" class="btn btn-primary" id="search">검색</button>
+										<button class="btn btn-primary" id="search">검색</button>
 									</div>
 								</div>
 							</form>
-							<!--  -->
 		                </div>
 		              </div>
 					</div>
 				</div>
 			</div>
-
 		</div>
     </div>
 </body>
 
+<!-- 거래처 정보 모달 -->
 <div class="modal" id="pub-info">
-	<form role="form" id="edit-pub" method="post">
-	<input type="hidden" id="pub_uid" name="pub_uid">
+	<form role="form" id="edit-pub" method="POST">
+	<input type="hidden" name="pub_uid" id="pub_uid">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<!-- Modal Header -->
@@ -184,7 +190,7 @@
 					</div>
 					<div id="update-btns">
 						<button type="button" id="cancel" class="btn btn-danger">취소</button>
-						<button type="button" id="apply" class="btn btn-primary">적용</button>
+						<button id="apply" class="btn btn-primary">적용</button>
 					</div>
 				</div>
 			</div>

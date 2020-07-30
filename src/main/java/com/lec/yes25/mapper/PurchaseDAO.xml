@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.yes25.purchase.PurchaseDAO">
+	<insert id="insertPub" flushCache="true">
+		INSERT INTO tb_publisher (
+				publisher_uid,
+			    publisher_name, 
+			    publisher_num,
+			    publisher_rep,
+			    publisher_contact,
+			    publisher_address
+			    )
+	    VALUES (
+	    		publisher_seq.nextval,
+			    #{dto.pub_name}, 
+			    #{dto.pub_num},
+			    #{dto.pub_rep},
+			    #{dto.pub_contact},
+			    #{dto.pub_address}
+			    )
+	</insert>
+	
+	<select id="selectPubByUid" resultType="com.lec.yes25.purchase.PublisherDTO">
+		SELECT 
+			publisher_uid pub_uid,
+		    publisher_name pub_name, 
+		    publisher_num pub_num,
+		    publisher_rep pub_rep,
+		    publisher_contact pub_contact,
+		    publisher_address pub_address
+		FROM
+			tb_publisher
+		WHERE 
+			publisher_uid = #{pub_uid}
+	</select>
+	
+	<update id="updatePub" parameterType="com.lec.yes25.purchase.PublisherDTO">
+		UPDATE
+			tb_publisher 
+		SET 
+		    publisher_name = #{dto.pub_name}, 
+		    publisher_num = #{dto.pub_num},
+		    publisher_rep = #{dto.pub_rep},
+		    publisher_contact = #{dto.pub_contact},
+		    publisher_address = #{dto.pub_address}
+		WHERE 
+			publisher_uid = #{dto.pub_uid}
+	</update>
+	
+	<delete id="deletePubByUid" parameterType="java.util.Map">
+		DELETE FROM
+			tb_publisher
+		WHERE
+			publisher_uid IN
+			<foreach collection="array" item="item" index="index" separator="," open="(" close=")">
+			    #{item}
+			</foreach>
+	</delete>
+	
+	<select id="selectBookByUid" resultType="com.lec.yes25.purchase.BookDTO">
+		SELECT 
+		    book_uid,
+		    book_subject,
+		    ctg_uid,
+		    ctg_name,
+		    book_author,
+		    pub_uid,
+		    pub_name,
+		    book_content,
+		    book_price,
+		    book_pubdate,
+		    book_regdate,
+		    book_isbn
+		FROM
+			v_PubAndBook
+		WHERE 
+			book_uid = #{book_uid}
+	</select>
+	
+	<select id="selectBookByPubUid" resultType="com.lec.yes25.purchase.BookDTO">
+		SELECT
+			rnum,
+		    book_uid,
+		    book_subject,
+		    ctg_uid,
+		    ctg_name,
+		    book_author,
+		    pub_uid,
+		    pub_name,
+		    book_content,
+		    book_price,
+		    book_pubdate,
+		    book_regdate,
+		    book_isbn
+		FROM
+			(SELECT Rownum AS rnum, t.* FROM (SELECT * FROM v_PubAndBook
+			WHERE pub_uid = #{pub_uid}
+			ORDER BY book_uid DESC) T)
+	<![CDATA[
+		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
+	]]>	
+	</select>
+	
+	<insert id="insertOrder" parameterType="java.util.Map" flushCache="true">
+		<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO tb_order (
+			order_uid, 
+		    book_uid,
+		    publisher_uid,
+		    order_unit_cost, 
+		    order_quantity,
+		    order_date,
+		    order_state
+			)
+		VALUES (
+			order_seq.nextval,
+			#{item.book_uid},
+			#{item.pub_uid},
+			#{item.ord_unit_cost},
+			#{item.ord_quantity},
+			SYSDATE,
+			0
+			)
+		</foreach>
+	</insert>
+	
+<!-- vendor 페이징 -->
+	<!-- 거래처 목록 전체 개수 가져오기 -->
+	<select id="vendor_countPub" resultType="java.lang.Integer">
+		SELECT 
+			count(*)
+		FROM 
+			tb_publisher
+		<if test='searchType.equals("pub_name")'>
+			WHERE LOWER(publisher_name) LIKE LOWER('%'||#{keyword}||'%')
+		</if>
+		<if test='searchType.equals("pub_rep")'>
+			WHERE LOWER(publisher_rep) LIKE LOWER('%'||#{keyword}||'%')
+		</if>
+		<if test='searchType.equals("all")'>
+			WHERE LOWER(publisher_name) LIKE LOWER('%'||#{keyword}||'%')
+			OR LOWER(publisher_rep) LIKE LOWER('%'||#{keyword}||'%')
+		</if>	
+	</select>
+
+	<!-- romRow 부터 pageRows 만큼 select -->
+	<select id="vendor_selectPubFromRow" resultType="com.lec.yes25.purchase.PublisherDTO">
+		SELECT
+			rnum,
+			publisher_uid pub_uid,
+		    publisher_name pub_name, 
+		    publisher_num pub_num,
+		    publisher_rep pub_rep,
+		    publisher_contact pub_contact,
+		    publisher_address pub_address
+		FROM
+			(SELECT Rownum AS rnum, t.*
+			FROM
+				(SELECT * FROM tb_publisher
+			<if test='searchType.equals("pub_name")'>
+				WHERE LOWER(publisher_name) LIKE LOWER('%'||#{keyword}||'%')
+			</if>
+			<if test='searchType.equals("pub_rep")'>
+				WHERE LOWER(publisher_rep) LIKE LOWER('%'||#{keyword}||'%')
+			</if>
+			<if test='searchType.equals("all")'>
+				WHERE LOWER(publisher_name) LIKE LOWER('%'||#{keyword}||'%')
+				OR LOWER(publisher_rep) LIKE LOWER('%'||#{keyword}||'%')
+			</if>
+				ORDER BY publisher_uid DESC)
+			T)
+	<![CDATA[
+			WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
+	]]>
+	</select>
+
+<!-- order 페이징 -->
+	<!-- 거래처 목록 전체 개수 가져오기 -->
+	<select id="order_countPub" resultType="java.lang.Integer">
+		<if test="book_subject == null or book_subject.equals('')">
+			SELECT 
+				count(*)
+			FROM 
+				tb_publisher
+			WHERE
+				LOWER(publisher_name) LIKE LOWER('%'||#{pub_name}||'%')
+		</if>
+		<if test="book_subject != null and !book_subject.equals('')">
+			SELECT
+				COUNT(DISTINCT pub_uid)
+			FROM 
+				v_PubAndBook
+			WHERE
+				book_subject = #{book_subject} AND
+				LOWER(pub_name) LIKE LOWER('%'||#{pub_name}||'%')
+		</if>
+	</select>
+	
+	<!-- romRow 부터 pageRows 만큼  거래처 select -->
+	<select id="order_selectPubFromRow" resultType="com.lec.yes25.purchase.PublisherDTO">
+	SELECT
+		rnum,
+		publisher_uid pub_uid,
+	    publisher_name pub_name, 
+	    publisher_num pub_num,
+	    publisher_rep pub_rep,
+	    publisher_contact pub_contact,
+	    publisher_address pub_address
+	 FROM
+		(SELECT Rownum AS rnum, t.* 
+		FROM 
+			(SELECT * FROM tb_publisher
+			WHERE 
+		<if test="book_subject != null and !book_subject.equals('')">
+			publisher_uid IN
+			(SELECT publisher_uid FROM tb_book WHERE book_subject = #{book_subject}) AND
+		</if>
+			LOWER(publisher_name) LIKE LOWER('%'||#{pub_name}||'%')
+			ORDER BY publisher_uid DESC)
+		T)
+	<![CDATA[
+		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
+	]]>
+	</select>
+	
+	<!-- 도서 목록 전체 개수 가져오기 -->
+	<select id="order_countBook" resultType="java.lang.Integer">
+		<if test="pub_name == null or pub_name.equals('')">
+			SELECT 
+				COUNT(book_uid)
+			FROM 
+				tb_book
+			WHERE
+				LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%')
+		</if>
+		<if test="pub_name != null and !pub_name.equals('')">
+			SELECT
+				COUNT(book_uid)
+			FROM 
+				v_PubAndBook
+			WHERE
+				pub_name = #{pub_name} AND 
+				LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%')
+		</if>
+	</select>
+	
+	<!-- romRow 부터 pageRows 만큼 도서 select -->
+	<select id="order_selectBookFromRow" resultType="com.lec.yes25.purchase.BookDTO">
+	SELECT
+		rnum,
+		book_uid,
+		book_subject,
+		ctg_uid,
+		ctg_name, 
+		book_author,
+		pub_uid,
+		pub_name,
+		book_content,
+		book_price,
+		book_pubdate, 
+		book_regdate,
+		book_isbn
+	FROM
+		(SELECT
+			Rownum AS rnum, t.* 
+		FROM 
+			(SELECT * FROM v_PubAndBook
+		WHERE
+		<if test="pub_name != null and !pub_name.equals('')">
+			pub_name = #{pub_name} AND
+		</if>
+			LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%')
+			ORDER BY book_uid DESC)
+		T)
+	<![CDATA[
+		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
+	]]>		
+	</select>
+	
+<!-- status 페이징 -->
+	<!-- 발주 목록 전체 개수 가져오기 -->
+	<select id="status_countOrder" resultType="java.lang.Integer">
+	SELECT
+		COUNT(ord_uid)
+	FROM 
+		v_Order
+	WHERE
+		LOWER(pub_name) LIKE LOWER ('%'||#{pub_name}||'%') AND
+		LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%') 
+		<if test="startDate != null and !startDate.equals('')">
+		<![CDATA[
+			AND ord_date >= #{startDate}
+		]]>
+		</if>
+		<if test="endDate != null and !endDate.equals('')">
+		<![CDATA[
+			AND ord_date < TO_DATE(#{endDate}) + 1
+		]]>
+		</if>
+	</select>
+	
+	<!-- romRow 부터 pageRows 만큼 발주 select -->
+	<select id="status_selectOrderFromRow" resultType="com.lec.yes25.purchase.OrderDTO">
+	SELECT
+		rnum,
+		ord_uid,
+		ord_date,
+		pub_uid,
+		pub_name,
+		book_uid,
+		book_subject,
+		ord_unit_cost,
+		ord_quantity,
+		ord_state
+	FROM
+		(SELECT
+			Rownum AS rnum, t.* 
+		FROM 
+			(SELECT * FROM v_Order
+		WHERE
+			LOWER(pub_name) LIKE LOWER ('%'||#{pub_name}||'%') AND
+			LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%')
+			<if test="startDate != null and !startDate.equals('')">
+			<![CDATA[
+				AND ord_date >= #{startDate}
+			]]>
+			</if>
+			<if test="endDate != null and !endDate.equals('')">
+			<![CDATA[
+				AND ord_date < TO_DATE(#{endDate}) + 1
+			]]>
+			</if>
+			ORDER BY TRUNC(ord_date) DESC, pub_name, pub_uid, book_subject, book_uid, ord_unit_cost, ord_quantity)
+		T)
+	<![CDATA[
+		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
+	]]>		
+	</select>
+</mapper>
