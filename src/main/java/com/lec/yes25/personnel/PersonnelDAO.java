@@ -54,7 +54,7 @@ public interface PersonnelDAO {
 	
 	// 퇴근시간에 따른 commute_state 값 update
 	// 퇴근시간 등록 삽입
-	public int outworkupdate(
+	public int outworkUpdate(
 			@Param("username") int username,
 			@Param("commute_end") Date outworkDate
 			);
@@ -65,15 +65,16 @@ public interface PersonnelDAO {
 			);
 	
 	// 초과근무시간 있는지 여부 select 
-	public String selectoverwork(
+	public String selectOverwork(
 			@Param("username") int username,
-			@Param("commute_end") String commute_end
+			@Param("commute_end") String outworkDate
 			);
 	
 	// 초과근무시간 update
-	public int overWork(
+	public int overWorkUpdate(
 			@Param("username") int username,
-			@Param("commute_overtime") int hours
+			@Param("commute_overtime") int hours,
+			@Param("commute_end") Date outworkDate
 			);
 	
 }
