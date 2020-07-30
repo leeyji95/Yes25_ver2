@@ -34,7 +34,7 @@
 		</button>
 		<div class="navbar-collapse collapse" id="collapsingNavbar">
 			<ul class="navbar-nav">
-				<li class="nav-item active"><a class="nav-link" href="#">Home<span class="sr-only">Home</span></a></li>
+				<li class="nav-item active"><a class="nav-link" href="${pageContext.request.contextPath }/personnel/main">Home<span class="sr-only">Home</span></a></li>
 <!-- 				<li class="nav-item"><a class="nav-link">Link</a></li> -->
 			</ul>
 			<ul class="navbar-nav ml-auto">

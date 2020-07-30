@@ -37,6 +37,7 @@
     
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/imcome.css"/>
       
 
     
@@ -53,45 +54,97 @@
 			
 			 <div class="col main pt-5 mt-3">
 <!-- 작업페이지 -->
+<h1 class="display-4 d-none d-sm-block" style="text-align: center; padding-top: 50px; padding-bottom: 10px;">손익계산서</h1>
 
-손익계산서
+<div style="text-align: right;">
+	<select style="padding: 10px 20px;">
+		<option selected="selected">2019년</option>
+		<option>2018년</option>
+	</select>
+</div>
+<!--
+	수익
+	* 영업수익 : 회사의 주된 영업과 관련 있음
+	* 영업외수익 : 회사의 주된 영업과 관련 없음
+	
+	비용
+	* 영업비용 : 회사의 주된 영업과 관련 있음
+		-> 매출원가 : 제품을 '생산 또는 구매'하는 데 들어간 비용
+		-> 판매비와 일반관리비 : 제품을 '판매 및 관리'에 소요된 판관비
+	* 영업외비용 : 회사의 주된 영업과 관련 없음
+	* 법인세비용 : 회사가 벌어들인 소득에 대해 국가에 내는 법인세
+-->
 
-<table >
-	<tr>
-		<th>과목</th>
-		<th>금액</th>
+<form method="post" action="excelDown.bn">
+
+<!-- 스프링 시큐리티시 post로 넘기고 싶으면 아래의 토큰을 반드시 보내줘야 가능 -->
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+<table style="width: 90%; text-align: center;">
+	<tr class="lineBotton">
+		<th style="width: 50%; text-align: center; border-right: 1px solid black;">과목</th>
+		<th style="width: 50%; text-align: center;">금액</th>
 	</tr>
 	
 	<tr>
-		<td>매출액</td>
+		<th class="lineRight">Ⅰ. 매출액</th>
+		<td><input name="netSales" value="100">100</td>
+	</tr>
+	<tr class="width100">
+		<th class="lineRight">Ⅱ. 매출원가</th>
+		<td><input name="costOfGoodsSold" value="200">200</td>
 	</tr>
 	<tr>
-		<td>매출원가</td>
+		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;판매비와관리비</td>
+		<td><input name="maintenanceSales" value="300">300</td>
+	</tr>
+	<tr class="width100">
+		<!-- 매출총이익 = 매출액 - 매출원가 -->
+		<th class="lineRight">Ⅲ. 매출총이익</th>
+		<td><input name="grossProfit" value="400">400</td>
+	</tr>
+	<!--------------------------------------------------->
+	<tr>
+		<!-- 영업이익 = 매출총이익 - 판관비 -->
+		<th class="lineRight">Ⅳ. 영업이익</th>
+		<td><input name="salesIcome" value="500">500</td>
+	</tr>
+	<tr class="width100">
+		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기타수익</td>
+		<td><input name="etcIncome" value="600">600</td>
+	</tr>
+	<tr class="width100">
+		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기타비용</td>
+		<td><input name="etcCost" value="700">700</td>
+	</tr>
+	<!--------------------------------------------------->
+	<tr>
+		<!-- 법인세비용차감전순이익 = 영업이익 + 영업외이익 - 영업외비용 -->
+		<th class="lineRight">Ⅴ. 법인세비용차감전순이익</th>
+		<td><input name="corporateTaxIncome" value="700">700</td>
+	</tr> 
+	<tr>
+		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;법인세비용</td>
+		<td><input name="corporateTax" value="800">800</td>
 	</tr>
 	<tr>
-		<td>매출총이익</td>
-	</tr>
-	<tr>
-		<td>일반관리비</td>
+		<!-- 당기순이익 = 법인세비용차감전순이익 - 법인세비용 -->	
+		<th class="lineRight">Ⅵ. 당기순이익</th>
+		<td><input name="currentIncome" value="900">900</td>
 	</tr>
 </table>
 
-
-
-
-
-
-
-
-
-
-
 <!-- 버튼 -->
-<button type="button" class="btnMyself info" style="float: right;"
-	onclick="location.href='financialMain.bn'">재무 메인</button>
+<div style="text-align: right;">
+	<button class="btnMyself info">출력</button>
+	<button type="button" class="btnMyself info" onclick="location.href='financialMain.bn'">재무 메인</button>
+</div>
+</form>
+
+	
 <br><br><br><br>
 
-
+<div id="result"></div>
 <!--------------------------- 공통 헤더, 공통 nav ---------------------------->
 </div>
 <!--/main col-->

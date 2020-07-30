@@ -57,8 +57,6 @@ public class OutworkCommand implements RCommand {
 				String cmmtEnd = dao.OutworkDateByusername(username);
 				if (cmmtEnd != null) {
 					if (cmmtEndFormatter.parse(paramDate).compareTo(cmmtEndFormatter.parse(cmmtEnd)) == 0) {
-						System.out.println("cmmtEndFormatter.parse(paramDate) ::: " + cmmtEndFormatter.parse(paramDate) + "\n");
-						System.out.println("cmmtEndFormatter.parse(cmmtEnd) ::: " + cmmtEndFormatter.parse(cmmtEnd) + "\n");
 						message.append("이미 퇴근 등록을 하셨습니다.");
 						status = "OK";
 						System.out.println("아까 퇴근 하셨어유!" + "\n");
@@ -82,7 +80,7 @@ public class OutworkCommand implements RCommand {
 					long stdGetTime18 = stdDate18.getTime();
 
 					// 퇴근시간 insert --> 이미 한 번 insert 했기 때문에 퇴근시간 삽입은 udpate 로 한다. 
-					cntInsert = dao.outworkupdate(username, outworkDate);
+					cntInsert = dao.outworkUpdate(username, outworkDate);
 
 					if (cntInsert == 0) {
 						message.append("[트랜잭션 실패: 0 insert");
@@ -105,14 +103,6 @@ public class OutworkCommand implements RCommand {
 						state = "퇴근";
 						cntUpdate = dao.outworkState(username, state);
 						message.append("퇴근 처리");
-						
-//						long overtime = outworkGetTime - stdGetTime18 ;
-//						int hours = (int) ((overtime / (1000 * 60 * 60)) % 24); 
-//						System.out.println("초과근무시간 overtime  :::  " + overtime + "ms\n" + "hours ::: " + hours);
-//						cntUpdate = dao.overWork(username, hours);
-						
-						
-						
 					}
 
 					System.out.println("cntUpdate ::: " + cntUpdate + "개 업데이트");
