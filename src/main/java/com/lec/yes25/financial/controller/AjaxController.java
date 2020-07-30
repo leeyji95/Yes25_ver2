@@ -14,6 +14,7 @@ import com.lec.yes25.financial.ajax.command.AjaxAccountNameCommand;
 import com.lec.yes25.financial.ajax.command.AjaxDeleteCommand;
 import com.lec.yes25.financial.ajax.command.AjaxDetailViewCommand;
 import com.lec.yes25.financial.ajax.command.AjaxFinancialDeptListCommand;
+import com.lec.yes25.financial.ajax.command.AjaxIncomeView;
 import com.lec.yes25.financial.ajax.command.AjaxProceedListCommand;
 import com.lec.yes25.financial.ajax.command.AjaxSearchCommand;
 import com.lec.yes25.financial.ajax.command.AjaxUpdateCommand;
@@ -110,8 +111,6 @@ public class AjaxController {
 	public AjaxWriteResult search(HttpServletRequest request, HttpServletResponse response) {
 		new AjaxSearchCommand().execute(request, response);
 		
-		System.out.println("들어오니??");
-		
 		List<AccountDTO> list = (List<AccountDTO>) request.getAttribute("list");
 		
 		AjaxAccountResult result = new AjaxAccountResult();
@@ -205,10 +204,25 @@ public class AjaxController {
 		
 		return result; 
 	} // end proceedList();
+	
+	// 손익계산서 로딩
+	@RequestMapping("/financial/incomeView.ajax")
+	public AjaxIcomeResult incomeView(HttpServletRequest request, HttpServletResponse response) {
+		new AjaxIncomeView().execute(request, response);
+		
+		AjaxIcomeResult result = new AjaxIcomeResult();
+		
+		result.setStatus((String)request.getAttribute("status")); 
+		result.setMessage((String)request.getAttribute("message"));
+		
+		result.setNetSales((Integer)request.getAttribute("netSales"));
+		result.setCostOfGoodsSold((Integer)request.getAttribute("costOfGoodsSold"));
+		result.setMaintenanceSales((Integer)request.getAttribute("maintenanceSales"));
+		result.setEtcIncome((Integer)request.getAttribute("etcIncome"));
+		result.setEtcCost((Integer)request.getAttribute("etcCost"));
+		result.setCorporateTax((Integer)request.getAttribute("corporateTax"));
+		
+		return result;
+	} // end deleteOk()
 
-	
-	
-	
-
-	
 } // end Controller

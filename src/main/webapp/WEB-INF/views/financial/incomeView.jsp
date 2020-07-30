@@ -26,13 +26,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     
     
-    
     <!-- jQuery 선언 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- 내 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/JS/financial/main.js"></script>
+    <script src="${pageContext.request.contextPath}/JS/financial/incomeView.js"></script>
     
     
     <!-- 내 CSS -->
@@ -40,10 +39,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/imcome.css"/>
       
 
-    
   </head>
-
-
 
 <body>
 <!-- 공통 헤더 -->
@@ -57,9 +53,9 @@
 <h1 class="display-4 d-none d-sm-block" style="text-align: center; padding-top: 50px; padding-bottom: 10px;">손익계산서</h1>
 
 <div style="text-align: right;">
-	<select style="padding: 10px 20px;">
-		<option selected="selected">2019년</option>
-		<option>2018년</option>
+	<select id="choiceYear" style="padding: 10px 20px;">
+		<option value="2019" selected="selected">2019년</option>
+		<option value="2018">2018년</option>
 	</select>
 </div>
 <!--
@@ -88,49 +84,83 @@
 	
 	<tr>
 		<th class="lineRight">Ⅰ. 매출액</th>
-		<td><input name="netSales" value="100">100</td>
+		<td>
+			<label class="netSales"></label>
+			<input name="netSales" hidden="true">
+		</td>
 	</tr>
 	<tr class="width100">
+		<!--
+			매출원가 : 수익을 얻기 위하여 발생한 비용, 고객에게 인도한 상품의 원가
+			매출원가 = 기초상품재고액 + 당기상품매입액 - 기말상품재고액이나 상품 금액으로 대체
+		-->
 		<th class="lineRight">Ⅱ. 매출원가</th>
-		<td><input name="costOfGoodsSold" value="200">200</td>
+		<td>
+			<label class="costOfGoodsSold"></label>
+			<input name="costOfGoodsSold" hidden="true">
+		</td>
 	</tr>
 	<tr>
 		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;판매비와관리비</td>
-		<td><input name="maintenanceSales" value="300">300</td>
+		<td>
+			<label class="maintenanceSales"></label>
+			<input name="maintenanceSales" hidden="true">
+		</td>
 	</tr>
 	<tr class="width100">
 		<!-- 매출총이익 = 매출액 - 매출원가 -->
 		<th class="lineRight">Ⅲ. 매출총이익</th>
-		<td><input name="grossProfit" value="400">400</td>
+		<td>
+			<label class="grossProfit"></label>
+			<input name="grossProfit" hidden="true">
+			</td>
 	</tr>
 	<!--------------------------------------------------->
 	<tr>
 		<!-- 영업이익 = 매출총이익 - 판관비 -->
 		<th class="lineRight">Ⅳ. 영업이익</th>
-		<td><input name="salesIcome" value="500">500</td>
+		<td>
+			<label class="salesIcome"></label>
+			<input name="salesIcome" hidden="true">
+		</td>
 	</tr>
 	<tr class="width100">
 		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기타수익</td>
-		<td><input name="etcIncome" value="600">600</td>
+		<td>
+			<label class="etcIncome"></label>
+			<input name="etcIncome" hidden="true">
+		</td>
 	</tr>
 	<tr class="width100">
 		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기타비용</td>
-		<td><input name="etcCost" value="700">700</td>
+		<td>
+			<label class="etcCost"></label>
+			<input name="etcCost" hidden="ture">
+		</td>
 	</tr>
 	<!--------------------------------------------------->
 	<tr>
 		<!-- 법인세비용차감전순이익 = 영업이익 + 영업외이익 - 영업외비용 -->
 		<th class="lineRight">Ⅴ. 법인세비용차감전순이익</th>
-		<td><input name="corporateTaxIncome" value="700">700</td>
+		<td>
+			<label class="corporateTaxIncome"></label>
+			<input name="corporateTaxIncome" hidden="true">
+		</td>
 	</tr> 
 	<tr>
 		<td class="lineRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;법인세비용</td>
-		<td><input name="corporateTax" value="800">800</td>
+		<td>
+			<label class="corporateTax"></label>
+			<input name="corporateTax" hidden="true">
+		</td>
 	</tr>
 	<tr>
 		<!-- 당기순이익 = 법인세비용차감전순이익 - 법인세비용 -->	
 		<th class="lineRight">Ⅵ. 당기순이익</th>
-		<td><input name="currentIncome" value="900">900</td>
+		<td>
+			<label class="currentIncome"></label>
+			<input name="currentIncome" hidden="true">
+		</td>
 	</tr>
 </table>
 
