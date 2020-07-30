@@ -107,7 +107,7 @@
 			TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(commute_end , 'yyyy-mm-dd')
 	</select>
 
-	<update id="outworkupdate" flushCache="true">
+	<update id="outworkUpdate" flushCache="true">
 		UPDATE 
 			tb_commute
 		SET 
@@ -129,7 +129,7 @@
 	</update>
 	
 	<!-- 초과근무시간 select -->
-	<select id="selectoverwork" resultType="java.lang.String">
+	<select id="selectOverwork" resultType="java.lang.String">
 		SELECT TO_CHAR(commute_overtime, 'yyyy-mm-dd')
 		FROM tb_commute
 		WHERE username = #{username}
@@ -137,14 +137,14 @@
 	</select>
 	
 	<!-- 초과근무시간 update-->
-	<update id="overWork" flushCache="true">
+	<update id="overWorkUpdate" flushCache="true">
 		UPDATE tb_commute
 		SET
 			commute_overtime = #{commute_overtime}
 		WHERE 
 			username = #{username}
 		AND
-			TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(commute_end, 'yyyy-mm-dd')
+			TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(#{commute_end}, 'yyyy-mm-dd')
 	</update>
 
 

@@ -170,8 +170,11 @@ $(".outWork").on("click", function () {
 		success : function(data, status) {
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
+					
+					// 총근무시간 DB에 넣어주기 위한 ajax function 실행 
+					totalWorkTime();
 					alert(data.message + "\n " + outworkTime);
-//					다시 loadPage... 함수 실행.. 
+					
 				} else {
 					alert("다시 처리해주세요.");
 				}
@@ -185,7 +188,13 @@ $(".outWork").on("click", function () {
 });
 
 
-
+function totalWorkTime(){
+	
+	// 총근무시간 넣어줘야 하니까 --> 파라메타로 무엇을 넘겨줘야 할까?
+	// 쿼리 생각해보면, 퇴근시간에서 출근시간을 뺀 시간을 hours 로 변환해서  총근무시간 
+	
+	
+}
 
 
 
