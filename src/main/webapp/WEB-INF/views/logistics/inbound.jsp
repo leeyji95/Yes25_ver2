@@ -20,6 +20,7 @@
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/CSS/styles.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/logistics/basic.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
@@ -31,54 +32,68 @@
 
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
-				<h1 class="display-4 d-none d-sm-block">YES25 입고관리</h1>
-				
-				<%--버튼 --%>
-				<div class="container text-right">
-					<button type="button" id="btnQuery" class="btn btn-primary">조회</button>
-					<button type="button" id="btnUpdate" class="btn btn-primary">입고</button>
+				<div class="div_title">
+					<h1 class="display-4 d-none d-sm-block" id="title">입고관리</h1>
 				</div>
 				
-				<hr>
+				<%--버튼 --%>
+				<div class="container div_btn">
+					<div class="pull-right">
+					<button type="button" id="btnQuery" class="btn btn-primary">조회</button>
+					<button type="button" id="btnUpdate" class="btn btn-primary">입고</button>
+					</div>
+				</div>
+				
 				
 				<form id="query">
 				  	<div class="form-group">
-				  	<label for="exampleFormControlTextarea1">입고상태</label>
-				  	<select name='order_state'>
-				  		<option value='1'selected>입고대기</option>
-				  		<option value='2'>입고완료</option>
-				  	</select> 
-				  	<br>
-    				<label for="exampleFormControlTextarea1">ISBN</label>
-  					<textarea style='width:300px; height:200px' name='book_isbn' class="form-control"
-							placeholder="ISBN을 입력하세요"></textarea>
+				  	<table class="table table-cols">
+				  		<tbody>
+				  			<tr>
+				  				<th>입고상태</th>
+				  				<td>
+				  					<select name='order_state'>
+				  						<option value='1'selected>입고대기</option>
+				  						<option value='2'>입고완료</option>
+				  					</select> 
+				  				</td>
+				  			</tr>
+							<tr>
+				  				<th>ISBN</th>
+				  				<td>
+				  					<textarea style='width:300px; height:200px' name='book_isbn' class="form-control" placeholder="ISBN을 입력하세요"></textarea>
+				  				</td>
+				  			</tr>
+				  		</tbody>
+				  	</table>
   					</div>
 				</form>
 
 				<div class="row my-4">
-					<div class="col-lg-10 col-md-9">
+					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
-							<form id="frmList" name="frmList">
-								<table class="table table-striped">
-									<thead class="thead-inverse">
-										<tr>
-											<th>번호선택</th>
-											<th>입고번호</th>
-											<th>주문번호</th>
-											<th>도서제목</th>
-											<th>ISBN</th>
-											<th>매입원가</th>
-											<th>입고수량</th>
-											<th>발주일자</th>
-											<th>입고상태</th>
-											<th>입고일자</th>
-										</tr>
-									</thead>
-									<tbody>
-
-									</tbody>
-								</table>
-							</form>
+								<div class="table-background"></div>
+									<form id="frmList" name="frmList">
+									<table class="table table-striped">
+										<thead class="thead-inverse">
+											<tr>
+												<th>번호선택</th>
+												<th>입고번호</th>
+												<th>주문번호</th>
+												<th>도서제목</th>
+												<th>ISBN</th>
+												<th>매입원가</th>
+												<th>입고수량</th>
+												<th>발주일자</th>
+												<th>입고상태</th>
+												<th>입고일자</th>
+											</tr>
+										</thead>
+										<tbody>
+	
+										</tbody>
+									</table>
+								</form>
 						</div>
 					</div>
 				</div>

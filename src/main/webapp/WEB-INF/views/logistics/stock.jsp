@@ -32,16 +32,16 @@
 
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
-				<h1 class="display-4 d-none d-sm-block" id="title">재고관리</h1>
-
+				<div class="div_title">
+					<h1 class="display-4 d-none d-sm-block" id="title">재고관리</h1>
+				</div>
 				<%--버튼 --%>
-				<div class="container">
+				<div class="container div_btn">
 					<div class="pull-right">
 					<button type="button" id="btnQuery" class="btn btn-primary">조회</button>
 					<button type="button" id="btnExcel" class="btn btn-primary">엑셀</button>
 					</div>
 				</div>
-
 
 
 				<form id="query">

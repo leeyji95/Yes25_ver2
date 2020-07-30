@@ -122,7 +122,7 @@ ALTER TABLE tb_stock_test
 CREATE TABLE tb_inbound_test
 (
     inbound_uid         NUMBER    NOT NULL, 
-    order_uid           NUMBER    UNIQUE NOT NULL,
+    order_uid           NUMBER    NOT NULL,
 /*  book_uid            NUMBER    NOT NULL,
     inbound_quantity    NUMBER    NOT NULL, */
     inbound_date        DATE      DEFAULT SYSDATE NOT NULL,

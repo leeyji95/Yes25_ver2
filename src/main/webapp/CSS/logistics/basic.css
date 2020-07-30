@@ -7,8 +7,19 @@
 	color: #FFFFFF;
 	border-color: #666666;
 	font-size: 12px;
+	padding: 5px 10px 5px;
+	font-size: 11px;
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
-	
+
+.div_btn{
+	margin-right: 0px;
+}
+
+.div_title{
+	border-bottom: 2px solid #888888;
+}	
 
 #title{
 	font-size: 22px;
@@ -17,6 +28,7 @@
 
 .table-cols{
 	border-top: 1px solid #888888;
+	margin-top: 20px;
 }
 
 .table{
@@ -24,9 +36,7 @@
 	margin-bottom: 20px;
 }
 
-.table-cols > tbody > tr > th{
-	background-color: #F6F6F6;
-}
+
 
 .table-cols > tbody > tr > th, .table-cols > tbody > tr > td{
 	padding: 8px 15px;
@@ -36,6 +46,13 @@
 	border-bottom: 1px solid #E6E6E6;
 	vertical-align: middle;
 }
+
+.table-cols > tbody > tr > th{
+	background-color: #F6F6F6;
+	width: 120px;
+}
+
+
 
 .table-background{
 	height: 46px;
