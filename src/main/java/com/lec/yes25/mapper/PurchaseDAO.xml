@@ -102,9 +102,11 @@
 	</select>
 	
 	<insert id="insertOrder" parameterType="java.util.Map" flushCache="true">
-		<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INSERT ALL
+		<foreach collection="list" item="item">
 		INTO tb_order (
 			order_uid, 
+			order_set_uid,
 		    book_uid,
 		    publisher_uid,
 		    order_unit_cost, 
@@ -113,7 +115,8 @@
 		    order_state
 			)
 		VALUES (
-			order_seq.nextval,
+			get_seq('order_seq'),
+			order_set_seq.nextval,
 			#{item.book_uid},
 			#{item.pub_uid},
 			#{item.ord_unit_cost},
@@ -122,6 +125,7 @@
 			0
 			)
 		</foreach>
+	SELECT * FROM DUAL
 	</insert>
 	
 <!-- vendor 페이징 -->

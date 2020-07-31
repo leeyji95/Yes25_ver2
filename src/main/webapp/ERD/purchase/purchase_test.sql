@@ -26,14 +26,15 @@ FROM
 
 CREATE TABLE tb_order
 (
-    order_uid          NUMBER    NOT NULL, 
+    order_uid          NUMBER    NOT NULL UNIQUE,
+    order_set_uid	   NUMBER 	 NOT NULL,
     book_uid           NUMBER    NOT NULL, 
     publisher_uid      NUMBER    NOT NULL, 
     order_unit_cost    INT       NOT NULL, 
     order_quantity     INT       NOT NULL, 
     order_date         DATE      DEFAULT SYSDATE NOT NULL, 
     order_state        INT       DEFAULT 0 NOT NULL, 
-    CONSTRAINT tb_order_pk PRIMARY KEY (order_uid, book_uid, publisher_uid)
+    CONSTRAINT tb_order_pk PRIMARY KEY (order_set_uid, book_uid, publisher_uid)
 );
 
 DROP TABLE tb_order CASCADE CONSTRAINT purge;
@@ -83,8 +84,16 @@ BEGIN
   END LOOP;
 END;
 
-INTO tb_order (
-	order_uid, 
+SELECT * FROM TB_ORDER;
+
+DROP SEQUENCE order_seq;
+DROP SEQUENCE order_set_seq;
+CREATE SEQUENCE order_seq;
+CREATE SEQUENCE order_set_seq;
+
+INSERT ALL INTO tb_order (
+	order_uid,
+	order_set_uid,
     book_uid,
     publisher_uid,
     order_unit_cost, 
@@ -94,10 +103,25 @@ INTO tb_order (
 	)
 VALUES (
 	order_seq.nextval,
-	#{item.book_uid},
-	#{item.pub_uid},
-	#{item.ord_unit_cost},
-	#{item.ord_quantity},
+	get_seq('order_set_seq'),
+	1,
+	2,
+	3,
+	3,
 	SYSDATE,
 	0
-	);
+	)
+SELECT * FROM dual;
+
+SELECT * FROM TB_ORDER;	
+
+CREATE OR REPLACE FUNCTION get_seq(seq_name IN VARCHAR2) 
+RETURN NUMBER 
+IS
+  v_num NUMBER;
+  sql_stmt VARCHAR2(64);
+BEGIN
+  sql_stmt := 'select '||seq_name||'.nextval from dual';
+  EXECUTE IMMEDIATE sql_stmt INTO v_num;
+  RETURN v_num;
+END;

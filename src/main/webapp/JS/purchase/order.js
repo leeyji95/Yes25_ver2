@@ -202,7 +202,7 @@ $(document).ready(function(){
 		rules : {
 			pub_name : {validateAcountUid : true},
 			book_subject : {validateBookUid : true},
-			ord_unit_cost : {required : true, min : 1, validateunitCost : true},
+			ord_unit_cost : {required : true, min : 1, validateUnitCost : true},
 			ord_quantity : {required : true, min : 1, validateQuantity : true}
 		},
 		messages : {
