@@ -185,7 +185,7 @@
                                             <div class="col_half">
                                                 <!-- 관리자여부 -->
                                                 <div class="input_field select_option"> <span><i aria-hidden="true" class="fa fa-address-card"></i></span>
-                                                    <select name="admin">
+                                                    <select name="admin" required>
                                                         <option>---선택하세요---</option>
                                                         <option value="ROLE_MEMBER" selected>일반</option>
                                                         <option value="ROLE_ADMIN">관리자</option>

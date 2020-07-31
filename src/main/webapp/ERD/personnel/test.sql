@@ -154,8 +154,6 @@ INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, comm
 VALUES (cmmt_seq.nextval, 20070001, TO_DATE('2020-07-31', 'yyyy-mm-dd'), TO_DATE('2020-07-31 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
 
 
---SELECT TO_CHAR(commute_date, 'yyyy-mm-dd') FROM TB_COMMUTE ORDER BY COMMUTE_DATE ;
-
 SELECT u.USERNAME 사원번호, c.commute_start 출근시간, c.COMMUTE_STATE 근무상태
 FROM USERS u JOIN TB_COMMUTE c
 ON u.USERNAME = c.username
@@ -170,19 +168,19 @@ WHERE username = 20070002;
 UPDATE tb_commute 
 SET commute_state = '지각' 
 WHERE username = 20070001
-AND TO_DATE(SYSDATE , 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd') ;
-
+AND TRUNC(SYSDATE ) = TRUNC(commute_start) ;
 
 -- test
-SELECT TO_CHAR(c.COMMUTE_START, 'yyyy-mm-dd') 출근시간 
+SELECT TO_CHAR(COMMUTE_START , 'yyyy-mm-dd') 출근시간 
 FROM TB_COMMUTE c
 WHERE USERNAME = 20070001;
 
+
 -- test
-SELECT TO_CHAR(commute_end, 'yyyy-mm-dd') 
+SELECT TO_CHAR(commute_end, 'yyyy-mm-dd') "퇴근날짜" 
 FROM tb_commute
 WHERE username = 20070002
-AND TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
+AND TRUNC(SYSDATE ) = TRUNC(COMMUTE_START )
 
 -- 20070002 의 오늘날짜 출퇴근 지우기
 DELETE FROM tb_commute
@@ -191,3 +189,60 @@ AND TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
 
 
 SELECT * FROM tb_commute ORDER BY  COMMUTE_DATE ASC ;
+
+
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
+VALUES (cmmt_seq.nextval, 20070001, TRUNC(SYSDATE), TO_DATE('2020-07-31 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+
+
+SELECT commute_uid cmmtUid, username, commute_date cmmtDate, commute_start cmmtStart,
+		commute_end cmmtEnd, commute_overtime cmmtOver, commute_total cmmtTotal, 
+		commute_state cmmtState, commute_is_apply cmmtIsApply
+FROM tb_commute 
+WHERE USERNAME = 20070002
+AND commute_date BETWEEN TO_DATE('2020-07-24') AND TO_DATE('2020-07-31')
+ORDER BY COMMUTE_DATE DESC;
+
+
+
+
+SELECT 
+	commute_date cmmtDate, 
+	commute_start cmmtStart,
+	commute_end cmmtEnd, 
+	commute_overtime cmmtOver, 
+	commute_total cmmtTotal, 
+	commute_state cmmtState, 
+	commute_is_apply cmmtIsApply
+FROM 
+	(
+	SELECT 
+		ROWNUM AS RNUM, T.* 
+	FROM 
+		(SELECT * FROM tb_commute 
+		WHERE 
+			USERNAME = 20070002
+		AND 
+			commute_date BETWEEN TO_DATE('2020-07-24') AND TO_DATE('2020-07-31')
+		ORDER BY commute_date DESC) T) 
+WHERE 
+	RNUM >= 1 AND RNUM < (1 + 10)
+	 ;
+
+			
+			
+SELECT 	ROWNUM AS RNUM, T.* FROM 
+(SELECT * FROM tb_commute 
+WHERE 
+	USERNAME = 20070002
+AND 
+	commute_date BETWEEN TO_DATE('2020-07-24') AND TO_DATE('2020-07-31')
+ORDER BY commute_date DESC) T;
+
+
+
+
+
+
+
+

@@ -87,19 +87,6 @@ $(document).ready(function() {
 
 
 //  //////////////////////////////////////////_____버_____튼______//////////////////////////////// 
-//$(".to-signin").on("click", function () {
-//  $(this)
-//    .addClass("top-active-button")
-//    .siblings()
-//    .removeClass("top-active-button");
-//});
-//
-//$(".to-signup").on("click", function () {
-//  $(this)
-//    .addClass("top-active-button")
-//    .siblings()
-//    .removeClass("top-active-button");
-//});
 
 // 날짜 담기,  변수 선언
 var date2 = new Date(),
@@ -112,13 +99,12 @@ var h = addZero(date2.getHours());
 var m = addZero(date2.getMinutes());
 var s = addZero(date2.getSeconds());
 
+var paramDate = year + "-" + months[month] + "-" + day + " " + h + ":" + m + ":" + s;
+
 // [출근버튼을 누르면 ]
 $(".goWork").on("click", function () {
 
-	var paramDate = year + "-" + months[month] + "-" + day + " " + h + ":" + m + ":" + s;
 	var goworkTime = year + "년 " + months[month] + "월 " + day + "일 " + h + "시 " + m + "분";
-	//alert(paramDate);
-	//alert(goworkTime);
 	
 	 $.ajaxSetup({
 	     beforeSend: function(xhr) {
@@ -136,7 +122,7 @@ $(".goWork").on("click", function () {
 			//alert("goworkDate :::: " + goworkDate);
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
-					alert(data.message + " " + goworkTime);
+					alert(data.message);
 				} else {
 					alert("다시 처리해주세요.");
 				}
@@ -145,14 +131,14 @@ $(".goWork").on("click", function () {
 	});
 	$(this).removeClass("top-active-button").siblings().addClass("top-active-button");
 	//$(this).attr('disabled', true);
-	$('#changetext').text('출근시간  :  ' + goworkTime);
+	$('#changetext').text('출근시간  :  \n' + goworkTime);
 	return false;
 });
 
 // [퇴근버튼 누르면]
 $(".outWork").on("click", function () {
 	
-	var paramDate = year + "-" + months[month] + "-" + day + " " + h + ":" + m + ":" + s;
+	
 	var outworkTime = year + "년 " + months[month] + "월 " + day + "일 " + h + "시 " + m + "분";
 	
 	 $.ajaxSetup({
@@ -172,18 +158,18 @@ $(".outWork").on("click", function () {
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
 					
 					// 총근무시간 DB에 넣어주기 위한 ajax function 실행 
+					alert(data.message);
 					totalWorkTime();
-					alert(data.message + "\n " + outworkTime);
 					
 				} else {
-					alert("다시 처리해주세요.");
+					alert("출근을 먼저 등록해주세요");
 				}
 			}
 		}
 	});
 	$(this).removeClass("top-active-button").siblings().addClass("top-active-button");
 	//$(this).attr('disabled', true);
-	$('#changetext').text('퇴근시간  :  ' + outworkTime);
+	$('#changetext').text('퇴근시간  :  \n' + outworkTime);
 	return false;
 });
 
@@ -193,7 +179,33 @@ function totalWorkTime(){
 	// 총근무시간 넣어줘야 하니까 --> 파라메타로 무엇을 넘겨줘야 할까?
 	// 쿼리 생각해보면, 퇴근시간에서 출근시간을 뺀 시간을 hours 로 변환해서  총근무시간 
 	
+	// 쿼리에서 퇴근시간 과 출근시간을 가져온다. 
+	// 시간 차를 hours 로 바꾼다.
+	// update 로 해당 username 의 total 업데이트한다. where 오늘날짜와 퇴근날짜가 같아야함.
 	
+	 $.ajaxSetup({
+	     beforeSend: function(xhr) {
+	        xhr.setRequestHeader(header, token);
+	      }
+	 });
+	  
+	$.ajax({
+		url : "totalwork.ajax?paramDate=" + paramDate,
+		type : "post",
+		dataType : 'json',
+		cache : false,
+		data : paramDate, // 퇴근시간을 ---> 파라메타로 보내주기
+		success : function(data, status) {
+			if (status == "success") { // 여기서의 success 는 코드 200
+				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
+					alert("/totalwork.ajax 도 성공성공성공성공성공");
+				} else {
+					alert("/totalwork.ajax 실패......");
+				}
+			}
+		}
+	});
+	return false;
 }
 
 
