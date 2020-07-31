@@ -15,6 +15,7 @@ import com.lec.yes25.financial.ajax.command.AjaxDeleteCommand;
 import com.lec.yes25.financial.ajax.command.AjaxDetailViewCommand;
 import com.lec.yes25.financial.ajax.command.AjaxFinancialDeptListCommand;
 import com.lec.yes25.financial.ajax.command.AjaxIncomeView;
+import com.lec.yes25.financial.ajax.command.AjaxMonthSalesCommand;
 import com.lec.yes25.financial.ajax.command.AjaxProceedListCommand;
 import com.lec.yes25.financial.ajax.command.AjaxSearchCommand;
 import com.lec.yes25.financial.ajax.command.AjaxUpdateCommand;
@@ -225,4 +226,18 @@ public class AjaxController {
 		return result;
 	} // end deleteOk()
 
+	// 차트 월별 매출액
+	@RequestMapping("/financial/monthSales.ajax")
+	public AjaxWriteResult monthSales(HttpServletRequest request, HttpServletResponse response) {
+		new AjaxMonthSalesCommand().execute(request, response);
+		
+		AjaxWriteResult result = new AjaxWriteResult();
+		
+		result.setStatus((String)request.getAttribute("status")); 
+		result.setMessage((String)request.getAttribute("message"));
+		result.setCount((Integer)request.getAttribute("netSales"));
+		
+		return result;
+	} // end deleteOk()
+	
 } // end Controller
