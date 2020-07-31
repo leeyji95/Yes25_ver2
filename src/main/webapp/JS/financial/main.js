@@ -332,7 +332,7 @@ function chkWrite() {
 		, async: false
 		, success : function(data, status){
 			if(status == "success"){
-				if(data.status = "OK") {
+				if(data.status == "OK") {
 					alert("전표가 생성되었습니다.");
 					$("#WriteModal").modal('toggle');		// 모달창 닫기
 					$('.modal-backdrop').remove(); 

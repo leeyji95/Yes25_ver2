@@ -66,4 +66,31 @@ public interface AjaxFinancialDAO {
 			@Param("endDate") String endDate
 			);
 	
+	// 손익계산서 값 추출
+	public int netSales(
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate
+			);
+	public int costOfGoodsSold(
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate
+			);
+	public int maintenanceSales (
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate
+			);
+	public int etcIncome (
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate
+			);
+	public int etcCost (
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate
+			);
+	public int corporateTax (
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate
+			);
+	
+	
 }
