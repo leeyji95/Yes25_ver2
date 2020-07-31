@@ -33,9 +33,13 @@ CREATE TABLE tb_order
     order_quantity     INT       NOT NULL, 
     order_date         DATE      DEFAULT SYSDATE NOT NULL, 
     order_state        INT       DEFAULT 0 NOT NULL, 
-    CONSTRAINT TB_ORDER_PK PRIMARY KEY (order_uid, book_uid, publisher_uid)
+    CONSTRAINT tb_order_pk PRIMARY KEY (order_uid, book_uid, publisher_uid)
 );
 
+DROP TABLE tb_order CASCADE CONSTRAINT purge;
+INSERT INTO tb_order VALUES (order_seq.nextval, 297, 11, 1, 1, sysdate, 0);
+INSERT INTO tb_order VALUES (order_seq.nextval, 296, 13, 1, 1, sysdate, 0);
+SELECT * FROM tb_order;
 -------------------------------
 
 CREATE OR REPLACE VIEW v_Order
@@ -78,3 +82,22 @@ BEGIN
     num := num + 1;
   END LOOP;
 END;
+
+INTO tb_order (
+	order_uid, 
+    book_uid,
+    publisher_uid,
+    order_unit_cost, 
+    order_quantity,
+    order_date,
+    order_state
+	)
+VALUES (
+	order_seq.nextval,
+	#{item.book_uid},
+	#{item.pub_uid},
+	#{item.ord_unit_cost},
+	#{item.ord_quantity},
+	SYSDATE,
+	0
+	);

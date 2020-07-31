@@ -35,6 +35,11 @@
    	#order-paper-table th:nth-of-type(n+1):nth-of-type(-n+2),
    	#order-paper-table td:nth-of-type(n+1):nth-of-type(-n+2)
    	{display : none;}
+   	
+   	[contenteditable="true"] {
+   	border : 1px solid #CED4DA;
+   	border-radius : 0.25rem;
+   	}
 </style>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
@@ -136,11 +141,11 @@
 							</div>
 							<div class="form-group">
 								<label for="add-order-order-unit-cost">단가</label>
-								<input type="number" class="form-control" name="ord_unit_cost" id="add-order-order-unit-cost" min="1" placeholder="단가">
+								<input type="number" class="form-control" name="ord_unit_cost" id="add-order-order-unit-cost" placeholder="단가">
 							</div>
 							<div class="form-group">
 								<label for="add-order-order-quantity">수량</label>
-								<input type="number" class="form-control" name="ord_quantity" id="add-order-order-quantity" min="1" placeholder="수량">
+								<input type="number" class="form-control" name="ord_quantity" id="add-order-order-quantity" placeholder="수량">
 							</div>
 
 							<div class="form-group text-right">

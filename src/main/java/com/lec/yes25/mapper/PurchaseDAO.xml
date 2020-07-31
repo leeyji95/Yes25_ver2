@@ -330,7 +330,7 @@
 				AND ord_date < TO_DATE(#{endDate}) + 1
 			]]>
 			</if>
-			ORDER BY TRUNC(ord_date) DESC, pub_name, pub_uid, book_subject, book_uid, ord_unit_cost, ord_quantity)
+			ORDER BY ord_date DESC)
 		T)
 	<![CDATA[
 		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}

@@ -18,7 +18,7 @@ $(document).ready(function(){
 	addViewEvent();
 	
 	$('form input').attr("autocomplete","off");
-	
+
 	// 거래처 검색
 	function autoSearchPub(){
 		pubName = $('#add-order-pub-name').val().trim();
@@ -109,7 +109,7 @@ $(document).ready(function(){
 		
 		closeModal($('#pub-info'));
 		
-		showPubInfo(pub_uid);
+		$('#add-order-pub-name').focus();
 		$('#search-result').addClass('none');
 		$('#detail-info').removeClass('none');
 	});
@@ -126,7 +126,7 @@ $(document).ready(function(){
 		
 		closeModal($('#book-info'));
 		
-		showBookInfo(book_uid);
+		$('#add-order-book-subject').focus();
 		$('#search-result').addClass('none');
 		$('#detail-info').removeClass('none');
 	});
@@ -171,7 +171,7 @@ $(document).ready(function(){
 		resetForm();
 	});
 	
-	$.validator.addMethod('acountUidValidation', function(value){
+	$.validator.addMethod('validateAcountUid', function(value){
 		if(!$('#add-order-pub-uid').val()){
 			return false;
 		} else {
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		}
 	}, "거래처를 선택해 주세요!");
 	
-	$.validator.addMethod('bookUidValidation', function(value){
+	$.validator.addMethod('validateBookUid', function(value){
 		if(!$('#add-order-book-uid').val()){
 			return false;
 		} else {
@@ -187,11 +187,11 @@ $(document).ready(function(){
 		}
 	}, "도서를 선택해 주세요!");
 	
-	$.validator.addMethod('unitCostValidation', function(value){
+	$.validator.addMethod('validateUnitCost', function(value){
 		return /^[1-9]{1}[0-9]*$/.test(value);
 	}, "단가 형식이 잘못되었습니다.");
 	
-	$.validator.addMethod('quantityValidation', function(value){
+	$.validator.addMethod('validateQuantity', function(value){
 		return /^[1-9]{1}[0-9]*$/.test(value);
 	}, "수량 형식이 잘못되었습니다.");
 	
@@ -200,10 +200,10 @@ $(document).ready(function(){
 		e.preventDefault();
 	}).validate({
 		rules : {
-			pub_name : {acountUidValidation : true},
-			book_subject : {bookUidValidation : true},
-			ord_unit_cost : {required : true, unitCostValidation : true},
-			ord_quantity : {required : true, quantityValidation : true}
+			pub_name : {validateAcountUid : true},
+			book_subject : {validateBookUid : true},
+			ord_unit_cost : {required : true, min : 1, validateunitCost : true},
+			ord_quantity : {required : true, min : 1, validateQuantity : true}
 		},
 		messages : {
 			ord_unit_cost : {required : "단가를 입력해 주세요!", number : "단가 형식이 잘못되었습니다.", min : "1 이상의 숫자를 입력해 주세요!"},
@@ -217,31 +217,40 @@ $(document).ready(function(){
 			var ord_unit_cost = $('#add-order-order-unit-cost').val();
 			var ord_quantity = $('#add-order-order-quantity').val();
 			
+			var flag = 1;
 			var tdData = $('#order-list td:nth-child(2)');
 			if(tdData.length){
-				console.log('통과');
 				for(var i = tdData.length - 1; i > -1; i--){
-					console.log(i + " : " + tdData.text());
+					console.log(i + "번째 비교중");
+					if(book_uid == tdData.eq(i).text()){
+						alert('해당 도서는 목록에 이미 존재합니다!');
+						flag = 0;
+						break;
+					}
 				}
 			}
-				
+			
+			resetForm();
+			
+			if(flag != 1){
+				$(".nav-link[href='#order-paper-tab']").trigger("click");
+				return;
+			}
+			
+			$('#order-parer-title').text("거래처명 : " + pub_name);
+			
 			var result = '';
 			
-			result += "거래처명 : " + pub_name;
-			$('#order-parer-title').text(result);
-			
-			result = '';
 			result += "<tr>\n";
 			result += "<td>" + pub_uid + "</td>\n";
 			result += "<td>" + book_uid + "</td>\n";
 			result += "<td><input type='checkbox' name='chk'></td>\n";
 			result += "<td>" + book_subject + "</td>\n";
-			result += "<td>" + ord_unit_cost + "</td>\n";
-			result += "<td>" + ord_quantity + "</td>\n";
+			result += "<td><div class='editable-cell'>" + ord_unit_cost + "</div></td>\n";
+			result += "<td><div class='editable-cell'>" + ord_quantity + "</div></td>\n";
 			result += "</tr>\n";
 			
 			$('#order-list').append(result);
-			resetForm();
 			$(".nav-link[href='#order-paper-tab']").trigger("click");
 		},
     	invalidHandler : function(form, validator){ // 입력값이 잘못된 상태에서 submit 할때 호출
@@ -255,7 +264,7 @@ $(document).ready(function(){
     		}
     	}
 	});
-	
+
 	// 발주 목록 삭제
 	$('#delete-order').click(function(){
 	    var checkRows = $("#order-paper-table input[name='chk']:checked");
@@ -286,8 +295,8 @@ $(document).ready(function(){
 				});
 				testTable.push({pub_uid : rowData[0],
 								book_uid : rowData[1],
-								ord_unit_cost : rowData[5],
-								ord_quantity : rowData[6]});
+								ord_unit_cost : rowData[4],
+								ord_quantity : rowData[5]});
 			}
 		});
 		console.log(testTable);
@@ -316,6 +325,43 @@ $(document).ready(function(){
             }
         });
 	});
+	
+//	$.validator.addMethod("validateNumberOnly", function(value, element){
+//		return validateNumberOnly(value, element);
+//	}, "숫자만 넣어라!!!!");
+//	
+//	$.validator.addClassRules({
+//		numberOnly : {
+//			required : true,
+//			validateNumberOnly : true
+//		}
+//	});
+//	
+//	function validateNumberOnly(value, element){
+//		var numberOnly = $('.numberOnly');
+//		var tdArray = new Array();
+//		var arrayIndex = 0;
+//		var currentElementIndex = 0;
+//		var isValid = true;
+//		
+//		$(numberOnly).each(function(){
+//			var currentElementVal = $(this).val();
+//			tdArray[arrayIndex] = currentElementVal;
+//			
+//			if(currentElementVal == $())
+//		})
+//	}
+});
+
+$(document).on('click', '.editable-cell', function(){
+	$(this).attr('contenteditable', 'true');
+	$(this).css('padding', '2px');
+	$(this).focus();
+});
+
+$(document).on('blur', '.editable-cell', function(){
+	$(this).removeAttr('contenteditable');
+	$(this).css('padding', '0');
 });
 
 function addViewEvent(){

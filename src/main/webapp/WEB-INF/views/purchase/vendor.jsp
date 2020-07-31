@@ -32,12 +32,15 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 </head>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/i18n/defaults-ko_KR.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/JS/purchase/vendor.js"></script>
 
@@ -120,18 +123,16 @@
 		                <div class="card-body">
 		                	<form role="form" id="pub-search" method="POST">
 								<div class="form-group row justify-content-center">
-									<div style="padding-right: 10px">
-										<select class="form-control" name="searchType" id="searchType">
+									<div class="input-group col-sm-10">
+										<select class="form-control selectpicker col-sm-3" name="searchType" title="검색옵션">
 											<option value="pub_name">거래처명</option>
 											<option value="pub_rep">대표자명</option>
 											<option value="all">전체</option>
 										</select>
-									</div>
-									<div style="padding-right: 10px">
-										<input type="text" class="form-control" name="keyword" id="keyword">
-									</div>
-									<div>
-										<button class="btn btn-primary" id="search">검색</button>
+										<input type="text" class="form-control" name="keyword">
+										<div class="input-group-append">
+											<button class="btn btn-primary" id="search"><i class="fa fa-search"></i></button>
+										</div>
 									</div>
 								</div>
 							</form>
