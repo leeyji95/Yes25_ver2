@@ -12,9 +12,13 @@ public interface LogisticsDAO {
 	public List<OrderDTO> selectFromOrder();
 	public List<OrderDTO> searchByIsbnFromOrder(String book_isbn);
 	public List<InboundDTO> searchByIsbnFromInbound(String book_isbn);
-	public int insertIntoInbound( int order_uid);
+	public int insertIntoInbound(int order_uid);
 	public int updateByUidInStockFromInbound(int order_uid);
 	public int updateByUidIntoOrder(int order_uid);
+
+	public int insertIntoInbound2(int [] order_uids);
+	public int updateByUidInStockFromInbound2(int [] order_uids);
+	public int updateByUidIntoOrder2(int [] order_uids);
 
 	public List<BookDTO> selectFromBook();
 	public List<BookDTO> searchByIsbnFromBook(String book_isbn);

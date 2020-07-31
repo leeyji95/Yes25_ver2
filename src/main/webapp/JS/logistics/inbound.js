@@ -12,7 +12,7 @@ $(document).ready(function() {
 	});
 
 	$("#btnUpdate").click(function() {
-		update();
+		update2();
 	}); 
 
 	
@@ -161,6 +161,53 @@ function update() {
 	return true;
 }
 
+function update2() {
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(header, token);
+		}
+	});
+	
+	var order_uids = [];
+	
+	$("#list tbody input[name=order_uid]").each(function(){
+		if($(this).is(":checked")){
+			order_uids.push($(this).val());
+		}
+	});
+	
+	
+	alert(order_uids);
+	
+	if (order_uids.length == 0) {
+		alert('입고할 주문번호를 체크해주세요');
+	} else {
+		if (!confirm(order_uids.length + "건의 발주를 입고 처리합니다"))
+			return false;
+		var data = $("#frmList").serialize();
+		alert(data);
+		
+		$.ajax({
+			url : "inboundUpdate.ajax",
+			type : "POST",
+			data : data,
+			cache : false,
+			success : function(data, status) {
+				if (status == "success") {
+					if (data.status == "OK") {
+						alert("입고 완료" + data.count + "건");
+						loadPage();
+						
+					} else {
+						alert("입고 처리 실패" + data.message);
+					}
+				}
+			}
+		});
+	}
+	return true;
+}
+
 
 function listUp1(jsonObj) {
 	result = "";
@@ -173,9 +220,9 @@ function listUp1(jsonObj) {
 		for (i = 0; i < count; i++) {
 			result += "<tr>\n";
 			if(i == 0) {
-				result += "<td><input type='radio' name='order_uid' value='" + items[i].order_uid + "' checked></td>\n";
+				result += "<td><input type='checkbox' name='order_uid' value='" + items[i].order_uid + "' checked></td>\n";
 			} else {
-				result += "<td><input type='radio' name='order_uid' value='" + items[i].order_uid + "'></td>\n";
+				result += "<td><input type='checkbox' name='order_uid' value='" + items[i].order_uid + "'></td>\n";
 			}
 			result += "<td>-</td>\n";
 			result += "<td>" + items[i].order_uid + "</td>\n";

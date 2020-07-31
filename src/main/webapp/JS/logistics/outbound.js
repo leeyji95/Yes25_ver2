@@ -57,9 +57,7 @@ function query1() {
 	var book_isbn = param.trim().replace(/[^0-9]/g, " ").replace(/ +/g, "|");
 	if(book_isbn == null || book_isbn== 0 || book_isbn.length == 0) book_isbn = '[0-9]';
 	
-	alert(book_isbn);
-	
-	
+	/*alert(book_isbn);*/
 
 		$.ajax({
 			url : "outboundQuery1.ajax",
@@ -96,7 +94,7 @@ function query2() {
 	var book_isbn = param.trim().replace(/[^0-9]/g, " ").replace(/ +/g, "|");
 	if(book_isbn == null || book_isbn== 0 || book_isbn.length == 0) book_isbn = '[0-9]';
 	
-	alert(book_isbn);
+	/*alert(book_isbn);*/
 
 		$.ajax({
 			url : "outboundQuery2.ajax",
@@ -133,9 +131,9 @@ function update() {
    var price = param2;
    var stock_quantity = param3;
 	   
-	   alert(book_isbn);
+	  /* alert(book_isbn);
 	   alert(price);
-	   alert(stock_quantity);
+	   alert(stock_quantity);*/
    
 
 		if (!confirm("출고 처리"))
@@ -188,8 +186,7 @@ function listUp1(jsonObj) {
 			result += "<td><input style='width:80px' type='number' name='price' value='" + items[i].price + "' min='1'>원</td>\n";
 			result += "<td><input style='width:50px' type='number' name='stock_quantity' value='" + items[i].stock_quantity + "' min='1' max='"+items[i].stock_quantity+"'>권</td>\n";
 			result += "<td>-</td>\n";
-			result += "<td>출고대기</td>\n";
-			result += "<td>-<td>\n";
+			result += "<td>-</td>\n";
 			result += "<tr>\n";
 		} // end for
 		$("#list tbody").html(result);
@@ -218,10 +215,9 @@ function listUp2(jsonObj) {
 			result += "<td>" + items[i].outbound_uid + "</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
 			result += "<td>" + items[i].book_isbn + "</td>\n";
-			result += "<td>" + items[i].outbound_unit_price + "</td>\n";
-			result += "<td>" + items[i].outbound_quantitiy + "</td>\n";
-			result += "<td>" + (items[i].outbound_unit_price * items[i].outbound_quantitiy) + "</td>\n";
-			result += "<td>" + items[i].outbound_state + "</td>\n";
+			result += "<td>" + numberWithCommas(items[i].outbound_unit_price) + "원</td>\n";
+			result += "<td>" + items[i].outbound_quantitiy + "권</td>\n";
+			result += "<td>" + numberWithCommas(items[i].outbound_unit_price * items[i].outbound_quantitiy) + "원</td>\n";
 			result += "<td>" + items[i].outbound_date + "</td>\n";
 			result += "<tr>\n";
 		} // end for
@@ -236,5 +232,7 @@ function listUp2(jsonObj) {
 	return false;
 } // end outboundListUp2()
 
-
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 

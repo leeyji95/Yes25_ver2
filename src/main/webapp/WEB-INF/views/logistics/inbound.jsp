@@ -71,7 +71,7 @@
 				<div class="row my-4">
 					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
-								<div class="table-background"></div>
+								<div class="table-background1"></div>
 									<form id="frmList" name="frmList">
 									<table class="table table-striped table-main">
 										<thead class="thead-inverse">
@@ -92,7 +92,7 @@
 										</tbody>
 									</table>
 								</form>
-							<div class="table-background"></div>
+							<div class="table-background2"></div>
 						</div>
 					</div>
 				</div>

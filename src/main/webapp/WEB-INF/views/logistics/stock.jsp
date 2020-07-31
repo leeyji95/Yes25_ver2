@@ -81,7 +81,7 @@
 									<th>출간일자</th>
 									<td>
 									<div>
-										<input type="text" id="datepicker1" name="datepicker1"><i class="far fa-calendar-alt"></i> ~ <input type="text" id="datepicker2" name="datepicker2"><i class="far fa-calendar-alt"></i>
+										<input type="text" id="datepicker1" name="datepicker1"><i class="far fa-calendar-alt fa-1x calendar"></i> ~ <input type="text" id="datepicker2" name="datepicker2"><i class="far fa-calendar-alt fa-1x calendar"></i>
 									</div>
 									</td>	
 								</tr>
@@ -94,7 +94,7 @@
 				<div class="row my-4">
 					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
-							<div class="table-background"></div>
+							<div class="table-background1"></div>
 								<form id="frmList" name="frmList">
 									<table class="table table-striped table-main">
 										<thead class="thead-inverse">
@@ -114,7 +114,7 @@
 										</tbody>
 									</table>
 								</form>
-							<div class="table-background"></div>
+							<div class="table-background2"></div>
 						</div>
 					</div>
 				</div>

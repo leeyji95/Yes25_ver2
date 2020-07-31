@@ -57,13 +57,52 @@
 		VALUES
 		(inbound_test_seq.NEXTVAL, #{param1})
 	</insert>
+	
+<!-- 	<insert id="insertIntoInbound2" flushCache="true" parameterType="java.util.ArrayList">
+		<foreach collection="array" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO 
+		tb_inbound_test (inbound_uid, order_uid)
+		VALUES
+		(inbound_test_seq.NEXTVAL, #{item})
+		</foreach>
+	</insert> -->
+	
+	<insert id="insertIntoInbound2" flushCache="true" parameterType="java.util.ArrayList">
+		INSERT INTO tb_inbound_test (inbound_uid, order_uid)
+		SELECT inbound_test_seq.NEXTVAL, A.* FROM (
+		<foreach collection="array" item="item" index="index" separator="UNION ALL ">
+		SELECT ${item} 
+		FROM DUAL
+		</foreach>) A
+	</insert>
 
 	<update id="updateByUidInStockFromInbound" flushCache="true">
 		MERGE INTO
 		tb_stock_test A
 		USING
-		(SELECT * FROM v_inbound_test WHERE order_uid =
-		#{param1}) B
+		(SELECT * FROM v_inbound_test WHERE order_uid =#{param1}) B
+		ON
+		(A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity + B.order_quantity
+		WHEN NOT MATCHED
+		THEN
+		INSERT
+		(stock_uid, book_uid, A.stock_quantity)
+		VALUES
+		(stock_test_seq.NEXTVAL, B.book_uid, B.order_quantity)
+	</update>
+	
+	<update id="updateByUidInStockFromInbound2" flushCache="true">
+		MERGE INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_inbound_test WHERE order_uid IN (
+		<foreach collection="array" item="item" index="index" separator=",">
+		${item}
+		</foreach>
+		)) B
 		ON
 		(A.book_uid = B.book_uid)
 		WHEN MATCHED THEN
@@ -86,6 +125,20 @@
 		WHERE
 		order_uid =
 		#{param1}
+	</update>
+	
+	<update id="updateByUidIntoOrder2" flushCache="true"
+		parameterType="int">
+		UPDATE
+		tb_order_test
+		SET
+		order_state = 1
+		WHERE
+		order_uid IN (
+		<foreach collection="array" item="item" index="index" separator=",">
+		${item}
+		</foreach>
+		)
 	</update>
 
 

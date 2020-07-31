@@ -90,7 +90,7 @@ ALTER TABLE tb_book_test
 CREATE TABLE tb_order_test
 (
     order_uid          NUMBER    NOT NULL, 
-    book_uid           NUMBER    NOT NULL, 
+    book_uid           NUMBER    UNIQUE NOT NULL, 
     account_uid        NUMBER    NOT NULL, 
     order_unit_cost    INT       NOT NULL, 
     order_quantity     INT       NOT NULL, 
@@ -267,10 +267,21 @@ INSERT INTO tb_order_test (order_uid, book_uid, account_uid, order_unit_cost, or
 	VALUES (order_test_seq.NEXTVAL, 4, 1, 30040, 60, SYSDATE, 0);
 INSERT INTO tb_order_test (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
 	VALUES (order_test_seq.NEXTVAL, 5, 1, 30040, 70, SYSDATE, 0);
-INSERT INTO tb_order_test (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_test_seq.NEXTVAL, 1, 1, 30000, 70, SYSDATE, 0);
 
 
+
+
+/*	SELECT
+		*
+		FROM
+		v_book_stock_test
+		WHERE
+		REGEXP_LIKE(book_isbn,
+		REGEXP_REPLACE('|9788970840636|9788970840659', ' ', ''))
+		AND
+		stock_quantity > 0
+		ORDER BY
+		book_isbn DESC*/
 
 /*INSERT INTO tb_stock_test (stock_uid, book_uid)
 	VALUES (stock_test_seq.NEXTVAL, 1);
@@ -281,7 +292,8 @@ INSERT INTO tb_stock_test (stock_uid, book_uid)
 INSERT INTO tb_stock_test (stock_uid, book_uid)
 	VALUES (stock_test_seq.NEXTVAL, 4);*/
 
-
+/*INSERT INTO tb_outbound_test (outbound_uid, book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
+VALUES (outbound_test_seq.NEXTVAL, 1, 3000, 2, 1);*/
 
 /*INSERT INTO tb_outbound_test (outbound_uid, book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
 VALUES (outbound_test_seq.NEXTVAL, 
@@ -352,4 +364,9 @@ SELECT order_uid, book_uid, order_quantity FROM tb_order_test WHERE order_uid IN
 
 /*INSERT INTO tb_inbound_test (order_uid)
 SELECT order_uid FROM tb_order_test WHERE order_uid IN (1,2,3);*/
+
+/*INSERT ALL INTO tb_inbound_test (inbound_uid, order_uid)
+VALUES (inbound_test_seq.NEXTVAL, 3)
+SELECT * FROM DUAL;*/
+
 

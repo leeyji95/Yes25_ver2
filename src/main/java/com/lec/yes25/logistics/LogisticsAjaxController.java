@@ -38,7 +38,7 @@ public class LogisticsAjaxController {
 	
 	@RequestMapping("/logistics/inboundUpdate.ajax")
 	public LogisticAjaxWriteResult update(HttpServletRequest request, HttpServletResponse response) {
-		new InboundUpdateCommand().execute(request, response);
+		new InboundUpdateCommand2().execute(request, response);
 		return buildResult(request);
 	}
 	
@@ -93,13 +93,14 @@ public class LogisticsAjaxController {
 		result.setStatus((String)request.getAttribute("status"));
 		result.setMessage((String)request.getAttribute("message"));
 		result.setCount((Integer)request.getAttribute("result"));
+
 		
 		return result;
 	} // end buildResult
 	
 	@SuppressWarnings("unchecked")
 	public LogisticsAjaxWriteList bulidList(HttpServletRequest request) {
-		List<InboundDTO> data = (List<InboundDTO>)request.getAttribute("data");
+		List<?> data = (List<?>)request.getAttribute("data");
 		LogisticsAjaxWriteList result = new LogisticsAjaxWriteList();
 		result.setStatus((String)request.getAttribute("status"));
 		result.setMessage((String)request.getAttribute("message"));
