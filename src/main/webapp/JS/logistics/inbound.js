@@ -61,7 +61,7 @@ function query1() {
 	var book_isbn = param.trim().replace(/[^0-9]/g, " ").replace(/ +/g, "|");
 	if(book_isbn == null || book_isbn== 0|| book_isbn.length == 0) book_isbn = '[0-9]';
 	
-	alert(book_isbn);
+	/*alert(book_isbn);*/
 
 		$.ajax({
 			url : "inboundQuery1.ajax",
@@ -99,7 +99,7 @@ function query2() {
 	var book_isbn = param.trim().replace(/[^0-9]/g, " ").replace(/ +/g, "|");
 	if(book_isbn == null || book_isbn== 0|| book_isbn.length == 0) book_isbn = '[0-9]';
 	
-	alert(book_isbn);
+	/*alert(book_isbn);*/
 
 	
 		$.ajax({
@@ -129,7 +129,7 @@ function update() {
 	
 	var order_uid = $("#list tbody input[name=order_uid]:checked").val();
 
-	alert(order_uid);
+	/*alert(order_uid);*/
 
 	if (order_uid.length == 0) {
 		alert('입고할 주문번호를 체크해주세요');
@@ -181,10 +181,10 @@ function listUp1(jsonObj) {
 			result += "<td>" + items[i].order_uid + "</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
 			result += "<td>" + items[i].book_isbn + "</td>\n";
-			result += "<td>" + items[i].order_unit_cost + "</td>\n";
-			result += "<td>" + items[i].order_quantity + "</td>\n";
+			result += "<td>" + numberWithCommas(items[i].order_unit_cost) + "원</td>\n";
+			result += "<td>" + items[i].order_quantity + "권</td>\n";
 			result += "<td>" + items[i].order_date + "</td>\n";
-			result += "<td>" + items[i].order_state + "</td>\n";
+			/*result += "<td>" + items[i].order_state + "</td>\n";*/
 			result += "<td>-</td>\n";
 			result += "<tr>\n";
 		} // end for
@@ -214,10 +214,10 @@ function listUp2(jsonObj) {
 			result += "<td>" + items[i].order_uid + "</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
 			result += "<td>" + items[i].book_isbn + "</td>\n";
-			result += "<td>" + items[i].order_unit_cost + "</td>\n";
-			result += "<td>" + items[i].order_quantity + "</td>\n";
+			result += "<td>" + numberWithCommas(items[i].order_unit_cost) + "원</td>\n";
+			result += "<td>" + items[i].order_quantity + "권</td>\n";
 			result += "<td>" + items[i].order_date + "</td>\n";
-			result += "<td>" + items[i].order_state + "</td>\n";
+			/*result += "<td>" + items[i].order_state + "</td>\n";*/
 			if(items[i].inbound_date == '1111-11-11') items[i].inbound_date = '-'
 				result += "<td>" + items[i].inbound_date + "</td>\n";
 			result += "<tr>\n";
@@ -231,4 +231,10 @@ function listUp2(jsonObj) {
 	} // end if
 	return false;
 } // end listUp2()
+
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 

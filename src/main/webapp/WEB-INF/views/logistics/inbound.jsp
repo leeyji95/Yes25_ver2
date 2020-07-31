@@ -44,7 +44,6 @@
 					</div>
 				</div>
 				
-				
 				<form id="query">
 				  	<div class="form-group">
 				  	<table class="table table-cols">
@@ -74,7 +73,7 @@
 						<div id="list" class="table-responsive">
 								<div class="table-background"></div>
 									<form id="frmList" name="frmList">
-									<table class="table table-striped">
+									<table class="table table-striped table-main">
 										<thead class="thead-inverse">
 											<tr>
 												<th>번호선택</th>
@@ -85,7 +84,6 @@
 												<th>매입원가</th>
 												<th>입고수량</th>
 												<th>발주일자</th>
-												<th>입고상태</th>
 												<th>입고일자</th>
 											</tr>
 										</thead>
@@ -94,6 +92,7 @@
 										</tbody>
 									</table>
 								</form>
+							<div class="table-background"></div>
 						</div>
 					</div>
 				</div>

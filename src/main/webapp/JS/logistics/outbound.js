@@ -185,8 +185,8 @@ function listUp1(jsonObj) {
 			result += "<td>-</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
 			result += "<td>" + items[i].book_isbn + "</td>\n";
-			result += "<td><input style='width:80px' type='number' name='price' value='" + items[i].price + "' min='1'></td>\n";
-			result += "<td><input style='width:50px' type='number' name='stock_quantity' value='" + items[i].stock_quantity + "' min='1' max='"+items[i].stock_quantity+"'></td>\n";
+			result += "<td><input style='width:80px' type='number' name='price' value='" + items[i].price + "' min='1'>원</td>\n";
+			result += "<td><input style='width:50px' type='number' name='stock_quantity' value='" + items[i].stock_quantity + "' min='1' max='"+items[i].stock_quantity+"'>권</td>\n";
 			result += "<td>-</td>\n";
 			result += "<td>출고대기</td>\n";
 			result += "<td>-<td>\n";
