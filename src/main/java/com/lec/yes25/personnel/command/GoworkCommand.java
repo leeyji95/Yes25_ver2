@@ -18,7 +18,7 @@ import com.lec.yes25.personnel.PersonnelDAO;
 public class GoworkCommand implements RCommand {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public void execute(HttpServletRequest request, Model model) {
 		int cntInsert = 0;
 		int cntUpdate = 0;
 
@@ -55,21 +55,21 @@ public class GoworkCommand implements RCommand {
 				message.append("[유효하지 않은 parameter : paramDate 없다누]");
 			} else {
 
-				// 이미 출근시간이 있는데 조회...    해당 사원번호의 출근 시간 (yyyy-mm-dd) 로 뽑기
+				// 이미 출근시간이 있는데 조회... 해당 사원번호의 출근 시간 (yyyy-mm-dd) 로 뽑기
 				String cmmtStart = dao.GoworkDateByusername(username);
+				Date realDate = dao.selectGowork(username);
 				if (cmmtStart != null) {
 					if (cmmtStartFormatter.parse(paramDate).compareTo(cmmtStartFormatter.parse(cmmtStart)) == 0) {
-						message.append("이미 출근 등록을 하셨습니다.");
+						message.append("이미  처리되었습니다.\n" + format1.format(realDate));
 						status = "OK";
 						System.out.println("이미 출근 했는데....");
 					} else {
 						message.append("이도저도 아님.. 어떻게 여기까지 왔노?");
 						status = "OK";
-					
+
 					}
 				} else if (cmmtStart == null) {
-					
-					
+
 					// String 타입 출근시간(paramDate) -> Date 타입으로 파싱
 					goworkDate = format1.parse(paramDate);
 					// 출근시간에서 -> 시간 뽑기 (getTime)
@@ -92,36 +92,34 @@ public class GoworkCommand implements RCommand {
 					if (cntInsert == 0) {
 						message.append("[트랜잭션 실패: 0 insert");
 					} else {
-						status = "OK";
-					}
+						String state = "";
 
-					String state = "";
+						// 출근시간이 9시 이전 : 출근시간 < 9시_기준시간 (출근)
+						if (goworkGetTime <= stdGetTime9) {
+							System.out.println("출근");
+							state = "출근";
+							message.append("정상 출근\n" + paramDate);
+							// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
+							cntUpdate = dao.goworkState(username, state);
+						} else if (stdGetTime9 < goworkGetTime && goworkGetTime <= stdGetTime12) {
+							System.out.println("지각");
+							state = "지각";
+							cntUpdate = dao.goworkState(username, state);
+							message.append("지각처리\n" + paramDate);
+						} else if (goworkGetTime > stdGetTime12) {
+							System.out.println("결근");
+							state = "결근";
+							cntUpdate = dao.goworkState(username, state);
+							message.append(cmmtStartFormatter.format(cmmtStartFormatter.parse(paramDate)) + "\n결근 처리");
+						}
 
-					// 출근시간이 9시 이전 : 출근시간 < 9시_기준시간 (출근)
-					if (goworkGetTime <= stdGetTime9) {
-						System.out.println("출근");
-						state = "출근";
-						message.append("정상 출근");
-						// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
-						cntUpdate = dao.goworkState(username, state);
-					} else if (stdGetTime9 < goworkGetTime && goworkGetTime <= stdGetTime12) {
-						System.out.println("지각");
-						state = "지각";
-						cntUpdate = dao.goworkState(username, state);
-						message.append("지각처리");
-					} else if (goworkGetTime > stdGetTime12) {
-						System.out.println("결근");
-						state = "결근";
-						cntUpdate = dao.goworkState(username, state);
-						message.append("결근 처리");
-					}
+						System.out.println("cntUpdate ::: " + cntUpdate + "개 업데이트");
 
-					System.out.println("cntUpdate ::: " + cntUpdate + "개 업데이트");
-
-					if (cntUpdate == 0) {
-						message.append("[트랜잭션 실패: 0 update");
-					} else {
-						status = "OK";// 얘가 최종적 성공
+						if (cntUpdate == 0) {
+							message.append("[트랜잭션 실패: 0 update");
+						} else {
+							status = "OK";// 얘가 최종적 성공
+						}
 					}
 				}
 			}

@@ -18,7 +18,7 @@ import com.lec.yes25.personnel.PersonnelDAO;
 public class OverworkCommand implements RCommand {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public void execute(HttpServletRequest request, Model model) {
 		int cntUpdate = 0;
 
 		PersonnelDAO dao = C.sqlSession.getMapper(PersonnelDAO.class);

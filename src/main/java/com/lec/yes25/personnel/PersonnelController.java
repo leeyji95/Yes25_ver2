@@ -17,14 +17,12 @@ import com.lec.yes25.personnel.command.EmpListCommand;
 
 @Controller
 @RequestMapping("/personnel")
-public class PersonnelController {
+public class PersonnelController implements Username{
 
 	// 컨트롤러는 서버가 가동될 때 생성되며, 스프링 컨테이너에 생성이 된다 .
 	//MyBatis  -> setter 만들어서 autowired 하기 
-		private SqlSession sqlSession;
+	private SqlSession sqlSession;
 		
-	// MyBabatis
-
 	public PersonnelController() {
 		super();
 		System.out.println("PersonnelController() 생성");
@@ -35,21 +33,14 @@ public class PersonnelController {
 		this.sqlSession = sqlSession;
 		C.sqlSession = sqlSession;
 	}
-	// ----------------------------------------
 
 	@GetMapping("/main")
 	public void personnelMain(HttpServletRequest request, Model model) {
-
-		// 현재 인증된(로그인한) 사용자의 정보 가져오기
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = (UserDetails) principal;
-		String username = userDetails.getUsername();
-		System.out.println("----------------   PersonnelController 입니다  " + username + " -----------------------");
+		System.out.println("----------------   PersonnelController 입니다  " + username + " -----------------------\n" 
+					+ "personnel/main 경로로...");
 
 		model.addAttribute("username", username);
 		new EmpListCommand().execute(model);
-
-		System.out.println("personnel/main 경로로...");
 	}
 
 	@GetMapping("/commutelist")
@@ -74,17 +65,8 @@ public class PersonnelController {
 	}
 
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
-//	@GetMapping("/logout")
 	public void logoutGet() {
 		System.out.println("logouttttttt");
-	}
-	// ---------------------------------- main commutelist login logout
-	// ----------------------------------------
-
-	// REST
-	@RequestMapping(value = "/rest")
-	public void rest() {
-		System.out.println("personnel/rest 경로로...");
 	}
 
 }
