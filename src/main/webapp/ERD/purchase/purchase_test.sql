@@ -37,28 +37,42 @@ CREATE TABLE tb_order
     CONSTRAINT tb_order_pk PRIMARY KEY (order_set_uid, book_uid, publisher_uid)
 );
 
-DROP TABLE tb_order CASCADE CONSTRAINT purge;
-INSERT INTO tb_order VALUES (order_seq.nextval, 297, 11, 1, 1, sysdate, 0);
-INSERT INTO tb_order VALUES (order_seq.nextval, 296, 13, 1, 1, sysdate, 0);
-SELECT * FROM tb_order;
 -------------------------------
 
 CREATE OR REPLACE VIEW v_Order
 AS SELECT
-	o.order_uid ord_uid,
-	o.order_date ord_date,
-	o.publisher_uid pub_uid,
-	p.publisher_name pub_name,
-	b.book_uid,
-	b.book_subject,
-	o.order_unit_cost ord_unit_cost,
-	o.order_quantity ord_quantity,
-	o.order_state ord_state
+	O.order_uid ord_uid,
+	O.order_set_uid ord_set_uid,
+	O.order_date ord_date,
+	O.publisher_uid pub_uid,
+	P.publisher_name pub_name,
+	P.publisher_rep pub_rep,
+	P.publisher_contact pub_contact,
+	P.publisher_address pub_address,
+	B.book_uid,
+	B.book_subject,
+	O.order_unit_cost ord_unit_cost,
+	O.order_quantity ord_quantity,
+	O.order_state ord_state
 FROM
-	tb_publisher p INNER JOIN tb_book b
-	ON p.publisher_uid = b.publisher_uid
-	INNER JOIN tb_order o
-	ON b.publisher_uid = o.publisher_uid AND b.book_uid = o.book_uid;
+	tb_publisher P INNER JOIN tb_book B
+	ON P.publisher_uid = B.publisher_uid
+	INNER JOIN tb_order O
+	ON B.publisher_uid = O.publisher_uid AND B.book_uid = O.book_uid;
+
+SELECT * FROM v_order;
+------------------------------
+
+CREATE OR REPLACE FUNCTION get_seq(seq_name IN VARCHAR2) 
+RETURN NUMBER 
+IS
+  v_num NUMBER;
+  sql_stmt VARCHAR2(64);
+BEGIN
+  sql_stmt := 'select '||seq_name||'.nextval from dual';
+  EXECUTE IMMEDIATE sql_stmt INTO v_num;
+  RETURN v_num;
+END;
 
 ------------------------------
 
@@ -84,44 +98,68 @@ BEGIN
   END LOOP;
 END;
 
+SELECT
+	COUNT(*)
+FROM 
+	v_Order
+WHERE
+	LOWER(pub_name) LIKE LOWER ('%'||''||'%') AND
+	LOWER(book_subject) LIKE LOWER('%'||''||'%') 
+	AND ord_date >= '2020-07-01'
+	AND ord_date < '2020-08-02'
+GROUP BY ord_set_uid;
+
+DELETE FROM TB_ORDER;
 SELECT * FROM TB_ORDER;
 
-DROP SEQUENCE order_seq;
-DROP SEQUENCE order_set_seq;
-CREATE SEQUENCE order_seq;
-CREATE SEQUENCE order_set_seq;
+SELECT COUNT(DISTINCT ORD_SET_UID) FROM V_ORDER;
+SELECT
+	rnum,
+	ord_set_uid,
+	ord_date,
+	pub_uid,
+	pub_name
+FROM
+	(SELECT
+		Rownum AS rnum, T.* 
+	FROM 
+		(SELECT DISTINCT
+			ord_set_uid,
+			ord_date,
+			pub_uid,
+			pub_name
+		FROM v_Order
+		WHERE
+			LOWER(pub_name) LIKE LOWER ('%'||''||'%') 
+			AND LOWER(book_subject) LIKE LOWER('%'||''||'%')
+			AND ord_date >= '2020-08-01'
+			AND ord_date < '2020-08-31'
+		ORDER BY ord_date DESC) T)
+WHERE RNUM >= 1 AND RNUM < 11; 
 
-INSERT ALL INTO tb_order (
-	order_uid,
-	order_set_uid,
-    book_uid,
-    publisher_uid,
-    order_unit_cost, 
-    order_quantity,
-    order_date,
-    order_state
-	)
-VALUES (
-	order_seq.nextval,
-	get_seq('order_set_seq'),
-	1,
-	2,
-	3,
-	3,
-	SYSDATE,
-	0
-	)
-SELECT * FROM dual;
+SELECT
+	rnum,
+	ord_uid,
+	ord_set_uid,
+	ord_date,
+	pub_uid,
+	pub_name,
+	book_uid,
+	book_subject,
+	ord_unit_cost,
+	ord_quantity,
+	ord_state
+FROM
+	(SELECT
+		Rownum AS rnum, t.* 
+	FROM 
+		(SELECT * FROM v_Order
+	WHERE
+		LOWER(pub_name) LIKE LOWER ('%'||''||'%') AND
+		LOWER(book_subject) LIKE LOWER('%'||''||'%')
+		AND ord_date >= '2020-08-01'
+		AND ord_date < '2020-08-02'
+		ORDER BY ord_date DESC) T)
+WHERE RNUM >= 1 AND RNUM < 11;
 
-SELECT * FROM TB_ORDER;	
 
-CREATE OR REPLACE FUNCTION get_seq(seq_name IN VARCHAR2) 
-RETURN NUMBER 
-IS
-  v_num NUMBER;
-  sql_stmt VARCHAR2(64);
-BEGIN
-  sql_stmt := 'select '||seq_name||'.nextval from dual';
-  EXECUTE IMMEDIATE sql_stmt INTO v_num;
-  RETURN v_num;
-END;

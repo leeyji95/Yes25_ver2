@@ -67,14 +67,14 @@ $(document).ready(function(){
 });
 
 function addViewEvent(){
-	$('#pub-info').on('show.bs.modal', function(e) {   
+	$.ajaxSetup({
+		beforeSend: function(xhr){
+			xhr.setRequestHeader(header, token);
+		}
+	});
+	
+	$('#pub-info').on('show.bs.modal', function(e){   
 		var pub_uid = $(e.relatedTarget).data('pub_uid');
-		
-		$.ajaxSetup({
-			beforeSend: function(xhr){
-				xhr.setRequestHeader(header, token);
-			}
-		});
 		
 		$.ajax({
 			type : 'GET',
@@ -95,14 +95,8 @@ function addViewEvent(){
 		});
     });
 	
-	$('#book-info').on('show.bs.modal', function(e) {   
+	$('#book-info').on('show.bs.modal', function(e){   
 		var book_uid = $(e.relatedTarget).data('book_uid');
-		
-		$.ajaxSetup({
-			beforeSend: function(xhr){
-				xhr.setRequestHeader(header, token);
-			}
-		});
 		
 		$.ajax({
 			type : 'GET',
@@ -122,6 +116,27 @@ function addViewEvent(){
 			}
 		});
     });
+	
+	$('#purchase-order').on('show.bs.modal', function(e){
+		var ord_set_uid = $(e.relatedTarget).data('ord_set_uid');
+		
+		$.ajax({
+			type : 'GET',
+			url : 'status/viewPO.ajax',
+			data : {ord_set_uid : ord_set_uid},
+			cache : false,
+			success : function(data, status){
+				if(status == "success"){
+					if(data.status == "OK"){
+						openPOModal(data);
+						
+ 					} else {
+ 						alert("에러발생 " + data.message);
+ 					}
+				}
+			}
+		});
+	});
 } // end addViewEvent()
 
 // page번째 페이지 로딩
@@ -151,27 +166,21 @@ function loadPage(page){
 	});
 } // end loadPage()
 
-// 거래처 목록 업데이트
+// 발주현황 업데이트
 function updateOrderList(data){
-	result = ""; 
-	
 	if(data.status == "OK"){
-		
 		var count = data.count;
+		var items = data.data; // 배열
+		var result = ""; 
 		
 		// 전역변수 업데이트!
 		window.page = data.page;
 		window.pageRows = data.pagerows;
 		
-		var i;
-		var items = data.data; // 배열
-		for(i = 0; i < count; i++){
-			result += "<tr data-ord_uid='" + items[i].ord_uid + "'>\n";
+		for(var i = 0; i < count; i++){
+			result += "<tr data-toggle='modal' data-target='#purchase-order' data-ord_set_uid='" + items[i].ord_set_uid + "'>\n";
 			result += "<td>" + items[i].ord_date + "</td>\n";
-			result += "<td data-toggle='modal' data-target='#pub-info' data-pub_uid='" + items[i].pub_uid + "'>" + items[i].pub_name + "</td>\n";
-			result += "<td data-toggle='modal' data-target='#book-info' data-book_uid='" + items[i].book_uid + "'>" + items[i].book_subject + "</td>\n";
-			result += "<td>" + items[i].ord_unit_cost + "</td>\n";
-			result += "<td>" + items[i].ord_quantity + "</td>\n";
+			result += "<td>" + items[i].pub_name + "</td>\n";
 			result += "</tr>\n";
 		}
 		$("#order-list").html(result);
@@ -259,3 +268,34 @@ function openBookModal(){
 	$("#book-info input[name='ctg_name']").val(viewItem.ctg_name);
 	$("#book-info input[name='book_content']").val(viewItem.book_content);
 } // end openBookModal()
+
+function openPOModal(data){
+	var items = data.data; // 배열
+	var result = "";
+	
+	$("#purchase-order .pub-name").text(items[0].pub_name);
+	$("#purchase-order .pub-rep").text(items[0].pub_rep);
+	$("#purchase-order .pub-contact").text(items[0].pub_contact);
+	$("#purchase-order .pub-address").text(items[0].pub_address);
+	$("#purchase-order .ord-date").text(items[0].ord_date);
+	
+	result += "<tr class='text-center'>\n";
+	result += "<th>NO.</th>\n";
+	result += "<th>도서명</th>\n";
+	result += "<th>단가</th>\n";
+	result += "<th>수량</th>\n";
+	result += "<th>합계</th>\n";
+	result += "</tr>\n";
+	
+	for(var i = 0; i < items.length; i++){
+		result += "<tr>\n";
+		result += "<td class='text-center'>" + (i + 1) + "</td>\n";
+		result += "<td>" + items[i].book_subject + "</td>\n";
+		result += "<td class='text-right'>" + items[i].ord_unit_cost + "</td>\n";
+		result += "<td class='text-right'>" + items[i].ord_quantity + "</td>\n";
+		result += "<td class='text-right'>" + (items[i].ord_unit_cost * items[i].ord_quantity) + "</td>\n";
+		result += "</tr>\n";
+	}
+	
+	$("#purchase-order-list").html(result);
+}
