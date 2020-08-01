@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lec.yes25.common.C;
+import com.lec.yes25.financial.command.FSelectLoginDeptCommand;
 import com.lec.yes25.financial.command.FUpdateCommand;
 import com.lec.yes25.financial.command.FViewCommand;
+import com.lec.yes25.financial.command.MemberSelectCommand;
 
 @Controller
 @RequestMapping("/financial")
@@ -39,8 +41,10 @@ public class FinancialController {
 	
 	
 	// 메인 리스트는 Ajax에서 정보 로딩
+	// 목록보기 버튼은 재무부서만 보이게 설정
 	@RequestMapping("/financialMain.bn")
-	public String list() {
+	public String list(Model model) {
+		new FSelectLoginDeptCommand().execute(model);
 		return "financial/financialMain";
 	}
 	
@@ -175,5 +179,28 @@ public class FinancialController {
 	    wb.write(response.getOutputStream());
 	    wb.close();
 	} // end excelDown()
+	
+	// 담당자 선택 새 창보기
+	@RequestMapping("/writeManagerSelect.bn")
+	public String writeManagerSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/writeManagerSelect";
+	}
+	@RequestMapping("/writeApproverSelect.bn")
+	public String writeApproverSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/writeApproverSelect";
+	}
+	@RequestMapping("/updateManagerSelect.bn")
+	public String updateManagerSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/updateManagerSelect";
+	}
+	@RequestMapping("/updateApproverSelect.bn")
+	public String updateApproverSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/updateApproverSelect";
+	}
+	
 	
 } // end Controller

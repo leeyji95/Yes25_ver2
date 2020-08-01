@@ -37,7 +37,6 @@ $(document).ready(function() {
 		//$("#WriteModal").css('display', 'block');
 		$("#WriteModal").modal('show');
 	});
-	
 	// 글작성, 스페이스 누르면 계정과목 검색 시작
 	$("input[name=account_name]").keypress(function(event) {
 		if(event.which === 32) {
@@ -45,10 +44,20 @@ $(document).ready(function() {
 			search(word);
 		}
 	});
+	
 	// 취소 버튼 클릭시 현재 페이지 리로딩
 	$(".btn-dismiss").click(function(){
 		loadPage(window.page, window.choice);  			// 현재 페이지 리로딩
 	});
+	
+	
+	//$(".memberBtn").click();
+	
+	
+	
+	
+	
+	
 	
 	// 글 수정 버튼 누르면 정보 불러오기
 	$("#updateBtn").click(function(){
