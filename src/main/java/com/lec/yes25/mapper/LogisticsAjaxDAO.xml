@@ -51,12 +51,12 @@
 		inbound_uid DESC
 	</select>
 
-	<insert id="insertIntoInbound" flushCache="true">
+<!-- 	<insert id="insertIntoInbound" flushCache="true">
 		INSERT INTO
 		tb_inbound_test (inbound_uid, order_uid)
 		VALUES
 		(inbound_test_seq.NEXTVAL, #{param1})
-	</insert>
+	</insert> -->
 	
 <!-- 	<insert id="insertIntoInbound2" flushCache="true" parameterType="java.util.ArrayList">
 		<foreach collection="array" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
@@ -76,7 +76,7 @@
 		</foreach>) A
 	</insert>
 
-	<update id="updateByUidInStockFromInbound" flushCache="true">
+<!-- 	<update id="updateByUidInStockFromInbound" flushCache="true">
 		MERGE INTO
 		tb_stock_test A
 		USING
@@ -92,7 +92,7 @@
 		(stock_uid, book_uid, A.stock_quantity)
 		VALUES
 		(stock_test_seq.NEXTVAL, B.book_uid, B.order_quantity)
-	</update>
+	</update> -->
 	
 	<update id="updateByUidInStockFromInbound2" flushCache="true">
 		MERGE INTO
@@ -116,7 +116,7 @@
 		(stock_test_seq.NEXTVAL, B.book_uid, B.order_quantity)
 	</update>
 
-	<update id="updateByUidIntoOrder" flushCache="true"
+<!-- 	<update id="updateByUidIntoOrder" flushCache="true"
 		parameterType="int">
 		UPDATE
 		tb_order_test
@@ -125,7 +125,7 @@
 		WHERE
 		order_uid =
 		#{param1}
-	</update>
+	</update> -->
 	
 	<update id="updateByUidIntoOrder2" flushCache="true"
 		parameterType="int">
@@ -183,26 +183,31 @@
 		ORDER BY
 		outbound_uid DESC
 	</select>
-
+	
 	<insert id="insertIntoOutbound" flushCache="true">
 		INSERT INTO
-		tb_outbound_test (outbound_uid, book_uid, outbound_unit_price,
-		outbound_quantitiy, outbound_state)
+		tb_outbound_test (outbound_uid, book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
 		VALUES
-		(
-		outbound_test_seq.NEXTVAL
-		,
-		(SELECT book_uid FROM tb_book_test WHERE book_isbn = #{param1})
-		,
-		#{param2}
-		, (CASE WHEN #{param3} > (SELECT stock_quantity FROM
-		v_book_stock_test
-		WHERE book_isbn = #{param1}) THEN (SELECT
-		stock_quantity FROM
-		v_book_stock_test WHERE book_isbn = #{param1}) ELSE
-		#{param3} END)
+		(outbound_test_seq.NEXTVAL
+		, (SELECT book_uid FROM tb_book_test WHERE book_isbn = #{param1})
+		, #{param2}
+		, (CASE WHEN #{param3} > (SELECT stock_quantity FROM v_book_stock_test WHERE book_isbn = #{param1}) THEN (SELECT stock_quantity FROM v_book_stock_test WHERE book_isbn = #{param1}) ELSE #{param3} END)
 		, 1
 		)
+	</insert>
+	
+	<insert id="insertIntoOutbound2" flushCache="true" parameterType="java.util.Map">
+		<foreach collection="list" item="item" index="index" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+		INTO
+		tb_outbound_test (book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
+		VALUES
+		(
+		(SELECT book_uid FROM tb_book_test WHERE book_isbn = #{item.book_isbn})
+		, #{item.price}
+		, (CASE WHEN #{item.stock_quantity} > (SELECT stock_quantity FROM v_book_stock_test WHERE book_isbn = #{item.book_isbn}) THEN (SELECT stock_quantity FROM v_book_stock_test WHERE book_isbn = #{item.book_isbn}) ELSE #{item.stock_quantity} END)
+		, 1
+		)
+		</foreach>
 	</insert>
 
 	<update id="updateByUidInStockFromOutbound" flushCache="true">

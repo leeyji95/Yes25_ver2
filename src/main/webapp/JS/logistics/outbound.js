@@ -13,7 +13,7 @@ $(document).ready(function() {
 	});
 
 	$("#btnUpdate").click(function() {
-		update();
+		update2();
 	});
 
 });
@@ -165,6 +165,64 @@ function update() {
 	return true;
 }
 
+function update2() {
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(header, token);
+		}
+	});
+	
+	var params = [];
+	
+	$("#list tbody input[name=book_isbn]").each(function(){
+		if($(this).is(":checked")){
+			params.push({
+				book_isbn : $(this).val(),
+				price : $(this).parent().parent().find("input[name=price]").val(),
+				stock_quantity : $(this).parent().parent().find("input[name=stock_quantity]").val()
+			});
+		}
+	});
+	
+	alert(Object.values(params[0]));
+	
+	
+	
+	
+	if (params.length == 0) {
+		alert('입고할 주문번호를 체크해주세요');
+	} else {
+		if (!confirm(params.length + "건의 발주를 입고 처리합니다"))
+			return false;
+	
+	var jsonData = JSON.stringify(params);
+	
+	//alert(Object.keys(jsonData));
+	//jQuery.ajaxSettings.traditional = true;
+		
+		
+	$.ajax({
+		url : "outboundUpdate.ajax",
+		type : "POST",
+		data : {"jsonData" : jsonData},
+		dataType: 'json',
+		cache : false,
+		success : function(data, status) {
+			if (status == "success") {
+				if (data.status == "OK") {
+					alert("출고 완료" + data.count + "건");
+					loadPage();
+					
+				} else {
+					alert("출고 처리 실패" + data.message);
+				}
+			}
+		}
+	});
+	}
+	return true;
+}
+
 function listUp1(jsonObj) {
 	result = "";
 
@@ -176,9 +234,9 @@ function listUp1(jsonObj) {
 		for (i = 0; i < count; i++) {
 			result += "<tr>\n";
 			if(i == 0) {
-				result += "<td><input type='radio' name='book_isbn' value='" + items[i].book_isbn + "' checked></td>\n";
+				result += "<td><input type='checkbox' name='book_isbn' value='" + items[i].book_isbn + "' checked></td>\n";
 			} else {
-				result += "<td><input type='radio' name='book_isbn' value='" + items[i].book_isbn + "'></td>\n";
+				result += "<td><input type='checkbox' name='book_isbn' value='" + items[i].book_isbn + "'></td>\n";
 			}
 			result += "<td>-</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";

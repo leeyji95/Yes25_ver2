@@ -42,10 +42,11 @@ public class InboundUpdateCommand implements Command {
 			order_uid = Integer.parseInt(param);
 			try {
 				
-						dao.insertIntoInbound(order_uid);
-						dao.updateByUidInStockFromInbound(order_uid);
-						cnt = dao.updateByUidIntoOrder(order_uid);
-				
+				/*
+				 * dao.insertIntoInbound(order_uid);
+				 * dao.updateByUidInStockFromInbound(order_uid); cnt =
+				 * dao.updateByUidIntoOrder(order_uid);
+				 */
 				if(cnt==0) {
 					message.append("[0 update]");
 				} else {

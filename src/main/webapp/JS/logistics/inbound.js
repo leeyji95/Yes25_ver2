@@ -120,7 +120,7 @@ function query2() {
 	return true;
 } // end query()
 
-function update() {
+/*function update() {
 	 $.ajaxSetup({
 	        beforeSend: function(xhr) {
 	           xhr.setRequestHeader(header, token);
@@ -129,7 +129,7 @@ function update() {
 	
 	var order_uid = $("#list tbody input[name=order_uid]:checked").val();
 
-	/*alert(order_uid);*/
+	alert(order_uid);
 
 	if (order_uid.length == 0) {
 		alert('입고할 주문번호를 체크해주세요');
@@ -159,7 +159,7 @@ function update() {
 		});
 	}
 	return true;
-}
+}*/
 
 function update2() {
 	$.ajaxSetup({
@@ -255,7 +255,7 @@ function listUp2(jsonObj) {
 		var items = jsonObj.data;
 		for (i = 0; i < count; i++) {
 			result += "<tr>\n";
-			result += "<td><input type='radio' name='order_uid' value='"
+			result += "<td><input type='checkbox' name='order_uid' value='"
 				+ items[i].order_uid + "' disabled></td>\n";
 			result += "<td>" + items[i].inbound_uid + "</td>\n";
 			result += "<td>" + items[i].order_uid + "</td>\n";

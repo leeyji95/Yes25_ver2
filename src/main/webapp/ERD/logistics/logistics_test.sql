@@ -163,6 +163,14 @@ ALTER TABLE tb_outbound_test
     ADD CONSTRAINT FK_tb_outbound_book_uid FOREIGN KEY (book_uid)
         REFERENCES tb_book_test (book_uid);
 
+CREATE OR REPLACE TRIGGER tb_outbound_test_AI_TRG
+BEFORE INSERT ON tb_outbound_test 
+REFERENCING NEW AS NEW FOR EACH ROW 
+BEGIN 
+    SELECT outbound_test_seq.NEXTVAL
+    INTO :NEW.outbound_uid 
+    FROM DUAL;
+END;
 
 CREATE OR REPLACE VIEW v_inbound_test
 AS SELECT C.inbound_uid
@@ -292,8 +300,8 @@ INSERT INTO tb_stock_test (stock_uid, book_uid)
 INSERT INTO tb_stock_test (stock_uid, book_uid)
 	VALUES (stock_test_seq.NEXTVAL, 4);*/
 
-/*INSERT INTO tb_outbound_test (outbound_uid, book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
-VALUES (outbound_test_seq.NEXTVAL, 1, 3000, 2, 1);*/
+/*INSERT INTO tb_outbound_test (book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
+VALUES (1, 3000, 2, 1);*/
 
 /*INSERT INTO tb_outbound_test (outbound_uid, book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
 VALUES (outbound_test_seq.NEXTVAL, 

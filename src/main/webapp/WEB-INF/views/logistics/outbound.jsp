@@ -33,7 +33,7 @@
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
 				<div class="div_title">
-					<h1 class="display-4 d-none d-sm-block" id="title">YES25 출고관리</h1>
+					<h1 class="display-4 d-none d-sm-block" id="title">출고관리</h1>
 				</div>
 				
 				<%--버튼 --%>
