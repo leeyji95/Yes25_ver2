@@ -31,5 +31,33 @@
 	WHERE
 		stmt_uid=#{stmt_uid}
 </update>
+
+<!-- 결제라인 담당자, 결재자 선택을 위한 사원 전체 조회 -->
+<select id="memberSelectAll" resultType="com.lec.yes25.personnel.UserDTO">
+	SELECT
+		username,
+		password,
+	    emp_name name,
+	    emp_email email,
+	    dept_uid deptno,
+	    position_uid positionno,
+	    emp_phone phone,
+	    emp_hiredate hiredate,
+	    emp_admin admin
+	FROM 
+		users
+</select>
+ 
+<!-- 현재 로그인한 정보 추출 -->
+<select id="selectLoginDept" resultType="int">
+	SELECT
+	    dept_uid deptno
+	FROM 
+		users
+	WHERE 
+		username=#{username}
+</select>
+ 
+ 
  
 </mapper>
