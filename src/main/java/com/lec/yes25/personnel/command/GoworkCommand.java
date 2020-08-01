@@ -60,7 +60,7 @@ public class GoworkCommand implements RCommand {
 				Date realDate = dao.selectGowork(username);
 				if (cmmtStart != null) {
 					if (cmmtStartFormatter.parse(paramDate).compareTo(cmmtStartFormatter.parse(cmmtStart)) == 0) {
-						message.append("이미 출근 등록을 하셨습니다." + realDate);
+						message.append("이미  처리되었습니다.\n" + format1.format(realDate));
 						status = "OK";
 						System.out.println("이미 출근 했는데....");
 					} else {

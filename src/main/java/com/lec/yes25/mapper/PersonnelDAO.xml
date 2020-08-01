@@ -83,7 +83,7 @@
 	
 	<!-- 해당 username 이 해당 날짜에 출근등록했는지 여부 알아보기 위해 -->
 	<select id="GoworkDateByusername" resultType="java.lang.String" >
-		SELECT TO_CHAR(COMMUTE_START, 'yyyy-mm-dd')
+		SELECT TO_CHAR(COMMUTE_START, 'yyyy-MM-dd')
 		FROM 
 			tb_commute	
 		WHERE
@@ -138,6 +138,17 @@
 			TRUNC(SYSDATE) = TRUNC(commute_end)
 	</update>
 	
+	<!-- 퇴근시각 날짜 시 분 초 모두 가져오기 -->
+	<select id="selectOutwork" resultType="java.util.Date">
+		SELECT commute_end
+		FROM 
+			tb_commute
+		WHERE 
+			username = #{username}
+		AND 
+			TRUNC(SYSDATE) = TRUNC(commute_start)
+	</select>
+	
 	<!--  /////////////////////  초과근무   ///////////////////  -->
 	<!-- 초과근무시간 select -->
 	<select id="selectOverwork" resultType="java.lang.String">
@@ -181,7 +192,7 @@
 		WHERE
 			username = #{username}
 		AND 
-			TRUNC(SYSDATE) = TRUNC(commute_end)
+			TRUNC(SYSDATE) = TRUNC(commute_start)
 	</select>
 	
 	<!--  /////////////////////  tb_commute 조회   ///////////////////  -->
@@ -210,9 +221,9 @@
 		resultType="com.lec.yes25.personnel.CmmtDTO">
 		<![CDATA[
 		SELECT 
-			commute_date cmmtDate, 
-			commute_start cmmtStart,
-			commute_end cmmtEnd, 
+			TO_CHAR(commute_date, 'yyyy-MM-dd') cmmtDate, 
+			TO_CHAR(commute_start, 'yyyy-MM-dd hh24:mi:ss') cmmtStart,
+			TO_CHAR(commute_end, 'yyyy-MM-dd hh24:mi:ss') cmmtEnd, 
 			commute_overtime cmmtOver, 
 			commute_total cmmtTotal, 
 			commute_state cmmtState, 
@@ -233,8 +244,8 @@
 			) ]]>
 	</select>
 	
-	<select id="countAll" resultType="int"> 
-		SELECT count(*) FROM tb_commute
+	<select id="countAllByusername" resultType="int"> 
+		SELECT count(*) FROM tb_commute WHERE username = #{username}
 	</select>
 	
 	

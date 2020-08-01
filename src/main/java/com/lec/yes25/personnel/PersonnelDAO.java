@@ -63,6 +63,8 @@ public interface PersonnelDAO {
 			@Param("username") int username,
 			@Param("commute_state") String state
 			);
+	
+	public Date selectOutwork(@Param("username") int username);
 //-------------------- 초과근무 관련 --------------------------
 	// 초과근무시간 있는지 여부 select 
 	public String selectOverwork(
@@ -111,7 +113,7 @@ public interface PersonnelDAO {
 			);
 
 	// 전체글의 개수
-	public int countAll();
+	public int countAllByusername(@Param("username") int username);
 	
 	
 	

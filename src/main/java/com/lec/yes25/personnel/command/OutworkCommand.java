@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.transaction.interceptor.RollbackRuleAttribute;
 import org.springframework.ui.Model;
 
 import com.lec.yes25.common.C;
@@ -54,10 +55,12 @@ public class OutworkCommand implements RCommand {
 			} else {
 				// 이미 퇴근시간이 있는지 조회... 해당 사원번호의 퇴근 시간 (yyyy-mm-dd) 로 뽑기
 				String cmmtEnd = dao.OutworkDateByusername(username);
+				Date realOut = dao.selectOutwork(username);
 				if (cmmtEnd != null) {
 					if (cmmtEndFormatter.parse(paramDate).compareTo(cmmtEndFormatter.parse(cmmtEnd)) == 0) {
-						message.append("이미 퇴근 등록을 하셨습니다." + cmmtEnd);
+						message.append("이미 퇴근 등록을 하셨습니다.\n" + stdFormat.format(realOut));
 						status = "OK";
+						cntUpdate = 99;
 						System.out.println("아까 퇴근 하셨어유!" + "\n");
 					} else {
 						message.append("[err: try again");
@@ -75,55 +78,51 @@ public class OutworkCommand implements RCommand {
 					Date stdDate18 = stdFormat.parse(dateConcat18);
 					long stdGetTime18 = stdDate18.getTime();
 
-					// 퇴근시간 insert --> 이미 한 번 insert 했기 때문에 퇴근시간 삽입은 udpate 로 한다.
-					cntUpdate = dao.outworkUpdate(username, outworkDate);
+					status = "OK";
+
+					String state = "";
+
+					Date goworkDate = dao.selectGowork(username);
+					String selectState = dao.selectState(username, goworkDate);
+					if (selectState.equalsIgnoreCase("출근") || selectState.equalsIgnoreCase("지각") ) {
+
+						// 퇴근시간 insert --> 이미 한 번 insert 했기 때문에 퇴근시간 삽입은 udpate 로 한다.
+						cntUpdate = dao.outworkUpdate(username, outworkDate);
+
+						// 퇴근시간이 18시 이전 : 퇴근시간 < 18시_기준시간 (조퇴)
+						if (outworkGetTime < stdGetTime18) {
+							System.out.println("조퇴");
+							state = "조퇴";
+							// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
+							cntUpdate = dao.outworkState(username, state);
+							message.append("조퇴\n" + paramDate);
+
+						} else if (outworkGetTime >= stdGetTime18) {
+							System.out.println("정상퇴근");
+							state = "퇴근";
+							cntUpdate = dao.outworkState(username, state);
+							message.append("퇴근 처리\n" + paramDate);
+						}
+					} else if (selectState.equalsIgnoreCase("결근")) {
+						if (outworkGetTime < stdGetTime18 || outworkGetTime >= stdGetTime18) {
+							state = "결근";
+							cntUpdate = 99;
+							// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
+							// cntUpdate = dao.outworkState(username, state); // 이미 "결근" 으로 찍혔으므로 update 할
+							// 필요없쥐
+							message.append(
+									cmmtEndFormatter.format(cmmtEndFormatter.parse(paramDate)) + "\n이미 결근처리 되었습니다.");
+						}
+					}
 
 					if (cntUpdate == 0) {
-						message.append("[트랜잭션 실패: 0 insert");
+						message.append("[트랜잭션 실패: 0 update");
 					} else {
-						status = "OK";
-						
-						String state = "";
-
-						Date goworkDate = dao.selectGowork(username);
-						String selectState = dao.selectState(username, goworkDate);
-						if (selectState.equalsIgnoreCase("출근") || selectState.equalsIgnoreCase("지각")) {
-
-							// 퇴근시간이 18시 이전 : 퇴근시간 < 18시_기준시간 (조퇴)
-							if (outworkGetTime < stdGetTime18) {
-								System.out.println("조퇴");
-								state = "조퇴";
-								// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
-								cntUpdate = dao.outworkState(username, state);
-								message.append("조퇴\n" + paramDate);
-
-							} else if (outworkGetTime >= stdGetTime18) {
-								System.out.println("정상퇴근");
-								state = "퇴근";
-								cntUpdate = dao.outworkState(username, state);
-								message.append("퇴근 처리\n" + paramDate);
-							}
-						} else if (selectState.equalsIgnoreCase("결근")) {
-							if (outworkGetTime < stdGetTime18 || outworkGetTime >= stdGetTime18) {
-								state = "결근";
-								// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
-								// cntUpdate = dao.outworkState(username, state); // 이미 "결근" 으로 찍혔으므로 update 할
-								// 필요없쥐
-								message.append(cmmtEndFormatter.format(cmmtEndFormatter.parse(paramDate))
-										+ "\n이미 결근처리 되었습니다.");
-							}
-						}
-
-						System.out.println("cntUpdate ::: " + cntUpdate + "개 업데이트");
-
-						if (cntUpdate == 0) {
-							message.append("[트랜잭션 실패: 0 update");
-						} else {
-							status = "OK";// 얘가 최종적 성공
-						}
+						status = "OK";// 얘가 최종적 성공
 					}
 				}
 			}
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 			message.append("[트랜잭션 에러:" + e.getMessage() + "]");

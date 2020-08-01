@@ -409,8 +409,8 @@ $('.btn').on("click", function(){
 	// div 의 text  뽑기
 	var date1Text = $('div.date1').text();	
 	var date2Text = $('div.date2').text();	
-	alert("date1Text : " + date1Text);
-	alert("date2Text : " + date2Text);
+//	alert("date1Text : " + date1Text);
+//	alert("date2Text : " + date2Text);
 	
 	$('#startDate').val(date1Text);
 	$('#endDate').val(date2Text);
@@ -418,16 +418,8 @@ $('.btn').on("click", function(){
 	inputStart = $('#startDate').val();
 	inputEnd = $('#endDate').val();
 	
-	
-	
-//	// input value 값 넣어줄 변수 선언
-//	inputStart = $('input[type=hidden][name=startDate]').val() ;
-//	inputEnd = $('input[type=hidden][name=endDate]').val() ;
-//	// input value 값에 div text 대입하기 
-//	inputStart = date1Text;
-//	inputEnd = date2Text;
-		
 	sendParam();
+	
 	return false;
 });
 
@@ -452,8 +444,6 @@ function sendParam(){
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
 					
-					alert(data.message);
-					
 					updateList(data);
 					
 				} else {
@@ -470,7 +460,7 @@ function updateList(jsonObj){
 	result = "";  
 	
 	if(jsonObj.status == "OK"){
-		
+		alert(jsonObj.message);
 		var count = jsonObj.count;
 		
 		// 전역변수를 여기서 업데이트합니다.(분명 내가 서버단에 디폴트로 한 값과 다름)
@@ -486,16 +476,16 @@ function updateList(jsonObj){
 			result += "<td>" + items[i].cmmtDate + "</td>\n"; /* 어떤 엘리먼트에도 원하는 값을 꽂아 넣을 수 있다. data-(원하는 이름)*/
 			result += "<td>" + items[i].cmmtStart + "</td>\n";
 			result += "<td>" + items[i].cmmtEnd + "</td>\n";
-			result += "<td>" + items[i].cmmtOver + "</td>\n";
-			result += "<td>" + items[i].cmmtTotal + "</td>\n";
+			result += "<td>" + items[i].cmmtOver + "시간</td>\n";
 			result += "<td>" + items[i].cmmtState + "</td>\n";
+			result += "<td>" + items[i].cmmtTotal + "시간</td>\n";
 			result += "<td>" + items[i].cmmtIsApply + "</td>\n";
 			result += "</tr>\n";
 		} // end for
 		$("#list tbody").html(result); // 테이블 업데이트 ! 
 		
 		// 페이지 정보 업데이트 
-		$('#pageinfo').text(jsonObj.page + "/" + jsonObj.totalpage + "페이지, " + jsonObj.totalcnt + "개의 근태");
+		$('#pageinfo').text( jsonObj.count + "개 근태현황");
 		
 		// pageRows
 		var txt = "<select id='rows' onchange='changePageRows()'>\n";
@@ -572,8 +562,28 @@ function changePageRows(){
 	loadPage(window.page);
 }
 
-
-
+//page 번째 페이지 로딩 
+function loadPage(page){
+	
+	$.ajax({
+		url : "cmmtlist.ajax?page=" + page + "&pageRows=" + pageRows
+		, type : "get"
+		, cache : false
+		, success : function(data, status){
+			if(status == "success"){
+				
+				//alert("AJAX 성공 : request 성공"); // 최초 로딩 시 뜸 
+				if(updateList(data)){
+					
+					// 업데이트된 list 에 필요한 이벤트 가동
+					// ★만약 위 코드를 $(document).ready() 에 두면 동작 안할 것이다. 
+					// 뭐가 완료된 시점에서 뭐가 실행되어야 하는지 정확히 알아야 함. =======>   //클릭하는 리스너는 페이지 로딩이 끝난 시점에 동작하도록 해야 실행된다. 
+				} // end if
+			}
+		}
+	});
+	
+} // end loadPage()
 
 
 

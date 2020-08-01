@@ -47,6 +47,10 @@ public class TotalworkCommand implements RCommand {
 				status = "OK";
 			} else { // 출퇴근 시각 모두 있을 경우에만 아래 수행된다.
 
+				// 근데 근무상태가 "출근"일 경우 와 "지각"일 경우 총근무시간 뽑아내는 것이 달라야한다.
+				// 출근인 경우 오전 9시부터 근무시간 시작으로 정한다.
+				// 지각인 경우 해당 시간부터 근무시간 시작으로 정한다. 
+				
 				outworkDate = format.parse(paramDate); // Date 타입 퇴근시간
 				System.out.println("outworkDate 퇴근시간  ::: " + outworkDate);
 

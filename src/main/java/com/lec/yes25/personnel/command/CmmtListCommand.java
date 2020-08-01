@@ -27,7 +27,7 @@ public class CmmtListCommand implements RCommand {
 		String endParam = (String) map.get("end");
 		Date start, end;
 
-		System.out.println("startParam :::: " + startParam + "\n\nendParam  :::::  " + endParam);
+		//System.out.println("startParam :::: " + startParam + "\n\nendParam  :::::  " + endParam);
 		
 		// ajax response 에 필요한 값들
 		StringBuffer message = new StringBuffer();
@@ -70,35 +70,14 @@ public class CmmtListCommand implements RCommand {
 			}
 		}
 		
-//		try {
-//			Date test = fomatter.parse("2020년07월31일");
-//			System.out.println("test  ;;;;;;  " + test);
-//		} catch (ParseException e1) {
-//			status = "OK";
-//			message.append("에러.." + e1.getMessage());
-//		}
-//		
-
 		try {
 			SimpleDateFormat fomatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA); // 날짜값들 date벼환
 			start = fomatter.parse(startParam);
 			end = fomatter.parse(endParam);
 
-			System.out.println("Date start :::: " + start + "\nDate end ::: " + end);
+			//System.out.println("Date start :::: " + start + "\nDate end ::: " + end);
 			
 			PersonnelDAO dao = C.sqlSession.getMapper(PersonnelDAO.class);
-
-//			List<CmmtDTO> list = dao.selectCmmt(username, start, end);
-			
-//			model.addAttribute("view", list); // CmmtDTO 친구들을 -> model 바구니에 담는다
-//			System.out.println(list + " <---- model에 담긴 CmmtDTO");
-
-			// tb_commute 테이블 전체 개수 구하기
-			totalCnt = dao.countAll();
-			
-			// 총 몇 페이지 분량인가?
-			totalPage = (int) Math.ceil(totalCnt / (double) pageRows);
-			System.out.println("전체 근무 일수  ::  " + totalCnt + "\n총 몇 페이지? :: " + totalPage);
 
 			// 몇 번째 row 부터?
 			int fromRow = (page - 1) * pageRows + 1; // ORACLE 은 1부터 ROWNUM 시작
@@ -106,9 +85,16 @@ public class CmmtListCommand implements RCommand {
 			arr = dao.selectFromRowBetweenDate(fromRow, pageRows, username, start, end);
 			
 			if (arr == null) {
-				message.append("[리스트할 데이터가 없습니다]");
-			} else {
+				message.append("[조회할 데이터가 없습니다]");
+			} else if(arr.size() == 0){
 				status = "OK";
+				//page = 0;
+				message.append("[조회할 데이터가 없습니다]");
+			} else{
+				// 총 몇 페이지 분량인가?
+				totalPage = (int) Math.ceil(arr.size() / (double) pageRows);
+				status = "OK";
+				message.append(arr.size() + "개의 근태를 조회합니다.");
 			}
 		} catch (Exception e) {
 			message.append("[트랜젝션 에러: " + e.getMessage() + " ]");

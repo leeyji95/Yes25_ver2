@@ -34,7 +34,7 @@
                             <!-- date 선택  -->
                             <div id="date-picker-dates">
                                 <!-- 근태조회 text -->
-                                <span style="display: block; padding: 20px;">근태조회</span>
+                                <span style="display: block; padding: 20px; letter-spacing: 4px;">근태조회</span>
 								
 								<!-- selected  날짜 들어가는 곳 -->
 								<form id="frm">
@@ -43,9 +43,7 @@
 									 <input type=hidden name="startDate" id="startDate" />
 									 <input type=hidden name="endDate" id="endDate" />
 	                                <!-- 조회 버튼 -->
-	                                <div class="btn_container">
-	                                    <input type="submit" class="btn btn-info"/>조회
-	                                </div>
+	                                    <input type="submit" class="btn btn-info" value="조회"/>
 								</form>
 								
                             </div>
@@ -96,7 +94,7 @@
 
 							<div class="clear"></div>
 							
-                            <form id="frmList" name="frmList">
+                            <form id="frmList" name="frmList" style="text-align: center;">
                                 <table class="table table-striped">
                                     <thead class="thead-inverse table-class" id="table-id">
                                         <tr>
@@ -109,7 +107,7 @@
                                             <th>신청상태</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody >
                                         <!-- JS <tr></tr> 들어갈 곳  -->
                                     </tbody>
                                 </table>

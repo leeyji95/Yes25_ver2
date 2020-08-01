@@ -157,9 +157,13 @@ $(".outWork").on("click", function () {
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
 					
-					// 총근무시간 DB에 넣어주기 위한 ajax function 실행 
-					alert(data.message);
-					totalWorkTime();
+					if(data.countUpdate == 99){
+						// 총근무시간 DB에 넣어주기 위한 ajax function 실행 
+						alert(data.message);
+					} else{
+						alert(data.message);
+						totalWorkTime();
+					}
 					
 				} else {
 					alert("출근을 먼저 등록해주세요");

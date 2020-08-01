@@ -5,9 +5,9 @@ import java.util.Date;
 public class CmmtDTO {
 	private int cmmtUid; // commute_uid
 	private int username; // username
-	private Date cmmtDate; // commute_date
-	private Date cmmtStart; // commute_start
-	private Date cmmtEnd; // commute_end
+	private String cmmtDate; // commute_date
+	private String cmmtStart; // commute_start
+	private String cmmtEnd; // commute_end
 	private int cmmtOver; // commute_overtime
 	private int cmmtTotal; // commute_total
 	private String cmmtState; // commute_state
@@ -17,7 +17,7 @@ public class CmmtDTO {
 		super();
 	}
 	
-	public CmmtDTO(int cmmtUid, int username, Date cmmtDate, Date cmmtStart, Date cmmtEnd, int cmmtOver, int cmmtTotal,
+	public CmmtDTO(int cmmtUid, int username, String cmmtDate, String cmmtStart, String cmmtEnd, int cmmtOver, int cmmtTotal,
 			String cmmtState, int cmmtIsApply) {
 		super();
 		this.cmmtUid = cmmtUid;
@@ -43,22 +43,22 @@ public class CmmtDTO {
 	public void setUsername(int username) {
 		this.username = username;
 	}
-	public Date getCmmtDate() {
+	public String getCmmtDate() {
 		return cmmtDate;
 	}
-	public void setCmmtDate(Date cmmtDate) {
+	public void setCmmtDate(String cmmtDate) {
 		this.cmmtDate = cmmtDate;
 	}
-	public Date getCmmtStart() {
+	public String getCmmtStart() {
 		return cmmtStart;
 	}
-	public void setCmmtStart(Date cmmtStart) {
+	public void setCmmtStart(String cmmtStart) {
 		this.cmmtStart = cmmtStart;
 	}
-	public Date getCmmtEnd() {
+	public String getCmmtEnd() {
 		return cmmtEnd;
 	}
-	public void setCmmtEnd(Date cmmtEnd) {
+	public void setCmmtEnd(String cmmtEnd) {
 		this.cmmtEnd = cmmtEnd;
 	}
 	public int getCmmtOver() {
