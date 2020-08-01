@@ -13,7 +13,7 @@ $(document).ready(function() {
 	});
 
 	$("#btnUpdate").click(function() {
-		update2();
+		update();
 	});
 
 });
@@ -115,58 +115,8 @@ function query2() {
 	return true;
 } // end query2()
 
+
 function update() {
-	 $.ajaxSetup({
-	        beforeSend: function(xhr) {
-	           xhr.setRequestHeader(header, token);
-	         }
-	    });
-	
-   var radio = $("#list tbody input[name=book_isbn]:checked"); 
-   
-   var param1 = radio.parent().parent().find("input[name=book_isbn]").val();
-   var param2 = radio.parent().parent().find("input[name=price]").val();
-   var param3 = radio.parent().parent().find("input[name=stock_quantity]").val();
-
-   var book_isbn = param1;
-   var price = param2;
-   var stock_quantity = param3;
-	   
-	  /* alert(book_isbn);
-	   alert(price);
-	   alert(stock_quantity);*/
-   
-
-		if (!confirm("출고 처리"))
-			return false;
-
-
-		$.ajax({
-			url : "outboundUpdate.ajax",
-			type : "POST",
-			data : {
-				'book_isbn' : book_isbn,
-				'price' : price,
-				'stock_quantity' : stock_quantity
-			},
-			cache : false,
-			success : function(data, status) {
-				if (status == "success") {
-					if (data.status == "OK") {
-						alert("출고 완료" + data.count + "건");
-						loadPage();
-
-					} else {
-						alert("출고 처리 실패" + data.message);
-					}
-				}
-			}
-		});
-	
-	return true;
-}
-
-function update2() {
 	$.ajaxSetup({
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader(header, token);
@@ -185,10 +135,7 @@ function update2() {
 		}
 	});
 	
-	alert(Object.values(params[0].price));
-	
-	
-	
+	//alert(Object.values(params[0].price));
 	
 	if (params.length == 0) {
 		alert('입고할 주문번호를 체크해주세요');
@@ -197,8 +144,6 @@ function update2() {
 			return false;
 	
 	var jsonData = JSON.stringify(params);
-	
-	//alert(Object.keys(jsonData));
 	//jQuery.ajaxSettings.traditional = true;
 		
 		
@@ -249,6 +194,8 @@ function listUp1(jsonObj) {
 			result += "<tr>\n";
 		} // end for
 		$("#list tbody").html(result);
+		
+		$(".table-background1 span").html(jsonObj.count);
 
 		return true;
 		
@@ -269,7 +216,7 @@ function listUp2(jsonObj) {
 		var items = jsonObj.data;
 		for (i = 0; i < count; i++) {
 			result += "<tr>\n";
-			result += "<td><input type='radio' name='book_isbn' value='"
+			result += "<td><input type='checkbox' name='book_isbn' value='"
 					+ items[i].book_isbn + "' disabled></td>\n";
 			result += "<td>" + items[i].outbound_uid + "</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
@@ -281,6 +228,8 @@ function listUp2(jsonObj) {
 			result += "<tr>\n";
 		} // end for
 		$("#list tbody").html(result);
+		
+		$(".table-background1 span").html(jsonObj.count);
 
 		return true;
 		
@@ -294,5 +243,4 @@ function listUp2(jsonObj) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 

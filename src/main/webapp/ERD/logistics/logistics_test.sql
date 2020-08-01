@@ -378,14 +378,34 @@ VALUES (inbound_test_seq.NEXTVAL, 3)
 SELECT * FROM DUAL;*/
 
 
-/*MERGE INTO
+/*		MERGE INTO
 		tb_stock_test A
 		USING
-		(SELECT * FROM v_book_stock_test WHERE
-		book_isbn = 9788970840657) B
-		ON
-		(A.book_uid = B.book_uid)
+		(SELECT * FROM v_book_stock_test WHERE book_isbn = 9788970840657) B
+		ON (A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity - 1
+		UNION ALL
+		MERGE INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_book_stock_test WHERE book_isbn = 9788970840656) B
+		ON (A.book_uid = B.book_uid)
 		WHEN MATCHED THEN
 		UPDATE SET
 		A.stock_quantity = A.stock_quantity - 2;*/
+	
+/*DECLARE BEGIN
+UPDATE tb_stock_test
+SET stock_quantity = stock_quantity - 2
+WHERE book_uid = (SELECT book_uid FROM v_book_stock_test WHERE book_isbn = 9788970840657);
+UPDATE tb_stock_test
+SET stock_quantity = stock_quantity - 1
+WHERE book_uid = (SELECT book_uid FROM v_book_stock_test WHERE book_isbn = 9788970840656); END;*/
+
+SELECT COUNT(*)
+FROM v_book_stock_test
+WHERE stock_quantity > 0;
+
 

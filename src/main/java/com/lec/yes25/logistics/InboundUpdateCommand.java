@@ -33,20 +33,24 @@ public class InboundUpdateCommand implements Command {
 		StringBuffer message = new StringBuffer();
 		String status = "FAIL";
 		
-		String param = request.getParameter("order_uid");
-		int order_uid = 0;
+		String [] params = request.getParameterValues("order_uid");
+		int [] order_uids = null;
 		
-		if(param == null || param.length() == 0) {
+		if(params == null || params.length == 0) {
 			message.append("[유효하지 않은 parameter 0 or null]");
 		} else {
-			order_uid = Integer.parseInt(param);
+			order_uids = new int[params.length];
+			
 			try {
 				
-				/*
-				 * dao.insertIntoInbound(order_uid);
-				 * dao.updateByUidInStockFromInbound(order_uid); cnt =
-				 * dao.updateByUidIntoOrder(order_uid);
-				 */
+				for (int i = 0; i < params.length; i++) {
+					order_uids[i]= Integer.parseInt(params[i]);
+				}
+				
+				dao.insertIntoInbound(order_uids);
+				dao.updateByUidInStockFromInbound(order_uids);
+				cnt = dao.updateByUidIntoOrder(order_uids);
+				
 				if(cnt==0) {
 					message.append("[0 update]");
 				} else {
@@ -54,7 +58,7 @@ public class InboundUpdateCommand implements Command {
 				}
 	
 			} catch (NumberFormatException e) {
-				message.append("[유효하지 않은 parameter]"+ param);
+				message.append("[유효하지 않은 parameter]"+ params);
 			} catch (Exception e) {
 				message.append("[트렌잭션 에러:"+ e.getMessage() + "]");
 			}

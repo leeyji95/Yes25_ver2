@@ -40,7 +40,7 @@ public class LogisticsAjaxController {
 	
 	@RequestMapping("/logistics/inboundUpdate.ajax")
 	public LogisticAjaxWriteResult update(HttpServletRequest request, HttpServletResponse response) {
-		new InboundUpdateCommand2().execute(request, response);
+		new InboundUpdateCommand().execute(request, response);
 		return buildResult(request);
 	}
 	
@@ -64,7 +64,7 @@ public class LogisticsAjaxController {
 
 	@RequestMapping("/logistics/outboundUpdate.ajax")
 	public LogisticAjaxWriteResult outboundUpdate(HttpServletRequest request, HttpServletResponse response) {
-		new OutboundUpdateCommand2().execute(request, response);
+		new OutboundUpdateCommand().execute(request, response);
 		return buildResult(request);
 	}
 	

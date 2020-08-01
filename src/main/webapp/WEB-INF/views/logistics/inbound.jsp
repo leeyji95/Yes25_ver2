@@ -71,7 +71,9 @@
 				<div class="row my-4">
 					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
-								<div class="table-background1"></div>
+								<div class="table-background1">
+									<p>총 <span></span>건 검색</p>
+								</div>
 									<form id="frmList" name="frmList">
 									<table class="table table-striped table-main">
 										<thead class="thead-inverse">

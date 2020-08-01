@@ -58,9 +58,10 @@
 	height: 46px;
 	width: 100%;
 	overflow: hidden;
-	padding: 8px 0;
+	padding: 10px 0;
 	background: #F6F6F6;
 	border-top: 1px solid #E6E6E6;
+
 	
 }
 
@@ -88,7 +89,6 @@
 }	
 
 
-
 .table-main > thead > tr > th{
 	letter-spacing: -1px;
 	background-color: #BCBCBC !important;
@@ -101,4 +101,16 @@
 
 #datepicker1, #datepicker2{
 	margin-right: 10px;
+}
+
+.table-background1 p{
+	font-size: 12px;
+	margin-left: 25px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
+.table-background1 span{
+	color: blue;
+	font-weight: bold;
 }

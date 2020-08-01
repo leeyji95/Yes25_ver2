@@ -12,7 +12,7 @@ $(document).ready(function() {
 	});
 
 	$("#btnUpdate").click(function() {
-		update2();
+		update();
 	}); 
 
 	
@@ -120,48 +120,9 @@ function query2() {
 	return true;
 } // end query()
 
-/*function update() {
-	 $.ajaxSetup({
-	        beforeSend: function(xhr) {
-	           xhr.setRequestHeader(header, token);
-	         }
-	    });
-	
-	var order_uid = $("#list tbody input[name=order_uid]:checked").val();
 
-	alert(order_uid);
 
-	if (order_uid.length == 0) {
-		alert('입고할 주문번호를 체크해주세요');
-	} else {
-		if (!confirm("주문번호:"+order_uid + "번 발주를 입고합니다"))
-			return false;
-		
-
-		$.ajax({
-			url : "inboundUpdate.ajax",
-			type : "POST",
-			data : {
-				'order_uid' : order_uid
-			},
-			cache : false,
-			success : function(data, status) {
-				if (status == "success") {
-					if (data.status == "OK") {
-						alert("입고 완료" + data.count + "건");
-						loadPage();
-
-					} else {
-						alert("입고 처리 실패" + data.message);
-					}
-				}
-			}
-		});
-	}
-	return true;
-}*/
-
-function update2() {
+function update() {
 	$.ajaxSetup({
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader(header, token);
@@ -177,7 +138,7 @@ function update2() {
 	});
 	
 	
-	alert(order_uids);
+	//alert(order_uids);
 	
 	if (order_uids.length == 0) {
 		alert('입고할 주문번호를 체크해주세요');
@@ -185,7 +146,7 @@ function update2() {
 		if (!confirm(order_uids.length + "건의 발주를 입고 처리합니다"))
 			return false;
 		var data = $("#frmList").serialize();
-		alert(data);
+		//alert(data);
 		
 		$.ajax({
 			url : "inboundUpdate.ajax",
@@ -236,6 +197,8 @@ function listUp1(jsonObj) {
 			result += "<tr>\n";
 		} // end for
 		$("#list tbody").html(result);
+		
+		$(".table-background1 span").html(jsonObj.count);
 
 		return true;
 	} else {
@@ -271,6 +234,8 @@ function listUp2(jsonObj) {
 		} // end for
 		$("#list tbody").html(result);
 		
+		$(".table-background1 span").html(jsonObj.count);
+		
 		return true;
 	} else {
 		alert(jsonObj.message);
@@ -283,5 +248,4 @@ function listUp2(jsonObj) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 
