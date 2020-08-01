@@ -25,6 +25,7 @@ function loadPage() {
 	           xhr.setRequestHeader(header, token);
 	         }
 	    });
+	 
 	
 	$.ajax({
 		url : "outboundList.ajax",
@@ -184,7 +185,7 @@ function update2() {
 		}
 	});
 	
-	alert(Object.values(params[0]));
+	alert(Object.values(params[0].price));
 	
 	
 	
@@ -293,4 +294,5 @@ function listUp2(jsonObj) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
 

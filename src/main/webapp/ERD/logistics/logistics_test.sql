@@ -378,3 +378,14 @@ VALUES (inbound_test_seq.NEXTVAL, 3)
 SELECT * FROM DUAL;*/
 
 
+/*MERGE INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_book_stock_test WHERE
+		book_isbn = 9788970840657) B
+		ON
+		(A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity - 2;*/
+

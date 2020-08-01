@@ -28,7 +28,7 @@ public interface LogisticsDAO {
 	public int updateByUidInStockFromOutbound(long book_isbn, int outbound_quantitiy);
 	
 	public int insertIntoOutbound2(List<Map<String, Object>> list);
-	public int updateByUidInStockFromOutbound2(Map<String, Object> map);
+	public int updateByUidInStockFromOutbound2(List<Map<String, Object>> list);
 	
 	public List<BookDTO> selectByFilter(int classification, String keyword, int category_uid, String fromDate, String toDate);
 }

@@ -39,7 +39,7 @@ public class OutboundUpdateCommand2 implements Command {
 		
 		JSONArray arr = JSONArray.fromObject(params);
 		
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		
 		if(arr == null || arr.size() == 0) {
@@ -52,9 +52,9 @@ public class OutboundUpdateCommand2 implements Command {
 					JSONObject obj = (JSONObject) arr.get(i);
 					
 					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("book_isbn", obj.get("book_isbn"));
-					map.put("price", obj.get("price"));
-					map.put("stock_quantity", obj.get("stock_quantity"));
+					map.put("book_isbn", Long.valueOf(String.valueOf(obj.get("book_isbn"))));
+					map.put("price", Integer.valueOf(String.valueOf(obj.get("price"))));
+					map.put("stock_quantity", Integer.valueOf(String.valueOf(obj.get("stock_quantity"))));
 					
 					list.add(map);
 				}
@@ -65,7 +65,7 @@ public class OutboundUpdateCommand2 implements Command {
 				
 				
 				cnt = dao.insertIntoOutbound2(list);
-				//dao.updateByUidInStockFromOutbound2(data);
+				dao.updateByUidInStockFromOutbound2(list);
 				
 				if(cnt == 0) {
 					message.append("[0 inserted]");
