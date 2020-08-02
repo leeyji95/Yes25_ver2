@@ -3,6 +3,7 @@ var header = $("meta[name='_csrf_header']").attr("content");
 var xhr = new XMLHttpRequest();
 
 
+
 $(document).ready(function() {
 	loadPage();
 
@@ -14,7 +15,7 @@ $(document).ready(function() {
 		excel();
 	});
 	
-	$("#datepicker1, #datepicker2").datepicker({
+/*	$("#datepicker1, #datepicker2").datepicker({
 		dateFormat: 'yy-mm-dd',
 	    prevText: '이전 달',
 	    nextText: '다음 달',
@@ -28,7 +29,7 @@ $(document).ready(function() {
 	    changeYear: true,
 	    yearSuffix: '년',
         yearRange: "-100:+0"
-	});
+	});*/
 
 });
 
@@ -38,18 +39,18 @@ function loadPage() {
 	           xhr.setRequestHeader(header, token);
 	         }
 	    });
-	
-	$.ajax({
-		url : "stockList.ajax",
-		type : "GET",
-		cache : false,
-		dataType : "json",
-		success : function(data, status) {
-			if (status == "success") {
-				listUp1(data);
+	 
+		$.ajax({
+			url : "kpi.ajax",
+			type : "POST",
+			cache : false,
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp1(data);
+				}
 			}
-		}
-	});
+		});
 }
 
 function query1() {
@@ -74,11 +75,11 @@ function query1() {
 	
 	var category_uid = $("#query select[name=category_uid]").val();
 	
-	var fromDate = $("#query input[name=datepicker1]").val();
+	/*var fromDate = $("#query input[name=datepicker1]").val();
 	if(fromDate == null || fromDate == 0 || fromDate.length == 0) fromDate = 0;
 	
 	var toDate = $("#query input[name=datepicker2]").val();
-	if(toDate == null || toDate== 0 || toDate.length == 0) toDate = 0;
+	if(toDate == null || toDate== 0 || toDate.length == 0) toDate = 0;*/
 	
 /*	alert(classification);
 	alert(keyword);
@@ -134,6 +135,45 @@ function listUp1(jsonObj) {
 		$("#list tbody").html(result);
 		
 		$(".table-background1 span").html(jsonObj.count);
+		
+		 var ctx = document.getElementById('myChart');
+		 var myChart = new Chart(ctx, {
+			 type: 'line',
+			 data: {
+				 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				 datasets: [{
+					 	label: '# of Votes',
+					 	data: [12, 19, 3, 5, 2, 3],
+					 	backgroundColor: [
+					 		'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+					 	],
+					 	borderColor: [
+					 		'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+					 	],
+					 	borderWidth: 1
+				 }]
+			 },
+			 options: {
+				 	responsive: false,
+				 	scales: {
+				 			yAxes: [{
+				 					ticks: {
+				 							beginAtZero: true
+				 					}
+				 			}]
+				 	},
+			 }
+		 });
 		
 		return true;
 		

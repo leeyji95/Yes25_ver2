@@ -87,6 +87,7 @@ public class LogisticsAjaxController {
 		return returnURL;
 	}
 	
+	
 
 	
 	public LogisticAjaxWriteResult buildResult(HttpServletRequest request) {
