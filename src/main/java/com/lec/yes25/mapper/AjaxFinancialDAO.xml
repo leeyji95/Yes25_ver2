@@ -90,15 +90,13 @@
 
 
 <!-- 계정과목 검색, 사용자 검색용 -->
-<select id="searchAccount"
-	resultType="com.lec.yes25.financial.bean.AccountDTO">
+<select id="searchAccount" resultType="com.lec.yes25.financial.bean.AccountDTO">
 	SELECT *
 	FROM tb_account
 	WHERE account_name LIKE '%'||#{word}||'%'
 </select>
 <!-- 계정과목 검색, 보여주기용 -->
-<select id="searchAccountName"
-	resultType="com.lec.yes25.financial.bean.AccountDTO">
+<select id="searchAccountName" resultType="com.lec.yes25.financial.bean.AccountDTO">
 	SELECT *
 	FROM tb_account
 	WHERE account_uid = #{account_uid}
@@ -136,6 +134,25 @@
 	WHERE
 		stmt_uid = #{stmt_uid}
 </update>
+
+<!-- 수정 View 값 끌어올때 부서, 이름 조회용  -->
+<select id="userInfo" resultType="com.lec.yes25.personnel.UserDTO">
+	SELECT
+		username,
+		password,
+		enabled,
+	    emp_name name,
+	    emp_email email,
+	    dept_uid deptno,
+	    position_uid positionno,
+	    emp_phone,
+	    emp_hiredate,
+	    emp_admin
+	FROM 
+		users
+	WHERE
+		username=#{username}
+</select>
 
 <!-- 글 삭제 -->
 <delete id="delete" flushCache="true">

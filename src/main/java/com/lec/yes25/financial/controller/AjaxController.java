@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lec.yes25.financial.ajax.*;
 import com.lec.yes25.financial.ajax.command.AjaxAccountNameCommand;
 import com.lec.yes25.financial.ajax.command.AjaxDeleteCommand;
+import com.lec.yes25.financial.ajax.command.UserInfoCommand;
 import com.lec.yes25.financial.ajax.command.AjaxDetailViewCommand;
 import com.lec.yes25.financial.ajax.command.AjaxFinancialDeptListCommand;
-import com.lec.yes25.financial.ajax.command.AjaxIncomeView;
+import com.lec.yes25.financial.ajax.command.AjaxIncomeViewCommand;
 import com.lec.yes25.financial.ajax.command.AjaxMonthSalesCommand;
 import com.lec.yes25.financial.ajax.command.AjaxProceedListCommand;
 import com.lec.yes25.financial.ajax.command.AjaxSearchCommand;
@@ -23,6 +24,7 @@ import com.lec.yes25.financial.ajax.command.AjaxWriteCommand;
 import com.lec.yes25.financial.ajax.command.AjaxWriteListCommand;
 import com.lec.yes25.financial.bean.AccountDTO;
 import com.lec.yes25.financial.bean.FinancialDTO;
+import com.lec.yes25.personnel.UserDTO;
 
 @RestController
 @RequestMapping("/financial/*.ajax")
@@ -209,7 +211,7 @@ public class AjaxController {
 	// 손익계산서 로딩
 	@RequestMapping("/financial/incomeView.ajax")
 	public AjaxIcomeResult incomeView(HttpServletRequest request, HttpServletResponse response) {
-		new AjaxIncomeView().execute(request, response);
+		new AjaxIncomeViewCommand().execute(request, response);
 		
 		AjaxIcomeResult result = new AjaxIcomeResult();
 		
@@ -239,5 +241,19 @@ public class AjaxController {
 		
 		return result;
 	} // end deleteOk()
+	
+	// 수정 View 값 끌어올때 부서, 이름 조회용
+	@RequestMapping("/financial/userInfo.ajax")
+	public AjaxDeptResult userInfo(HttpServletRequest request, HttpServletResponse response) {
+		new UserInfoCommand().execute(request, response);
+		
+		AjaxDeptResult result = new AjaxDeptResult();
+		
+		result.setStatus((String)request.getAttribute("status")); 
+		result.setMessage((String)request.getAttribute("message"));
+		result.setList((UserDTO)request.getAttribute("list"));
+		
+		return result;
+	}
 	
 } // end Controller

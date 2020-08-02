@@ -9,7 +9,7 @@ import com.lec.yes25.common.C;
 import com.lec.yes25.common.Command;
 import com.lec.yes25.financial.bean.AjaxFinancialDAO;
 
-public class AjaxIncomeView implements Command{
+public class AjaxIncomeViewCommand implements Command{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ParseException {

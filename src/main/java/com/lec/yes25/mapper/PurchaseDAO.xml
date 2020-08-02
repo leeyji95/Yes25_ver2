@@ -93,18 +93,23 @@
 		    book_regdate,
 		    book_isbn
 		FROM
-			(SELECT Rownum AS rnum, t.* FROM (SELECT * FROM v_PubAndBook
-			WHERE pub_uid = #{pub_uid}
-			ORDER BY book_uid DESC) T)
+			(SELECT Rownum AS rnum, T.* 
+			FROM 
+				(SELECT * FROM v_PubAndBook
+				WHERE pub_uid = #{pub_uid}
+				ORDER BY book_uid DESC)
+			T)
 	<![CDATA[
 		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
 	]]>	
 	</select>
 	
 	<insert id="insertOrder" parameterType="java.util.Map" flushCache="true">
-		<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INSERT ALL
+		<foreach collection="list" item="item">
 		INTO tb_order (
 			order_uid, 
+			order_set_uid,
 		    book_uid,
 		    publisher_uid,
 		    order_unit_cost, 
@@ -113,7 +118,8 @@
 		    order_state
 			)
 		VALUES (
-			order_seq.nextval,
+			get_seq('order_seq'),
+			order_set_seq.nextval,
 			#{item.book_uid},
 			#{item.pub_uid},
 			#{item.ord_unit_cost},
@@ -122,6 +128,7 @@
 			0
 			)
 		</foreach>
+	SELECT * FROM DUAL
 	</insert>
 	
 <!-- vendor 페이징 -->
@@ -281,7 +288,7 @@
 	<!-- 발주 목록 전체 개수 가져오기 -->
 	<select id="status_countOrder" resultType="java.lang.Integer">
 	SELECT
-		COUNT(ord_uid)
+		COUNT(DISTINCT ord_set_uid)
 	FROM 
 		v_Order
 	WHERE
@@ -303,37 +310,55 @@
 	<select id="status_selectOrderFromRow" resultType="com.lec.yes25.purchase.OrderDTO">
 	SELECT
 		rnum,
-		ord_uid,
+		ord_set_uid,
 		ord_date,
 		pub_uid,
-		pub_name,
-		book_uid,
-		book_subject,
-		ord_unit_cost,
-		ord_quantity,
-		ord_state
+		pub_name
 	FROM
 		(SELECT
-			Rownum AS rnum, t.* 
+			Rownum AS rnum, T.* 
 		FROM 
-			(SELECT * FROM v_Order
-		WHERE
-			LOWER(pub_name) LIKE LOWER ('%'||#{pub_name}||'%') AND
-			LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%')
-			<if test="startDate != null and !startDate.equals('')">
-			<![CDATA[
+			(SELECT DISTINCT
+				ord_set_uid,
+				ord_date,
+				pub_uid,
+				pub_name
+			FROM v_Order
+			WHERE
+				LOWER(pub_name) LIKE LOWER ('%'||#{pub_name}||'%')
+				AND LOWER(book_subject) LIKE LOWER('%'||#{book_subject}||'%')
+				<if test="startDate != null and !startDate.equals('')">
+				<![CDATA[
 				AND ord_date >= #{startDate}
-			]]>
-			</if>
-			<if test="endDate != null and !endDate.equals('')">
-			<![CDATA[
+				]]>
+				</if>
+				<if test="endDate != null and !endDate.equals('')">
+				<![CDATA[
 				AND ord_date < TO_DATE(#{endDate}) + 1
-			]]>
-			</if>
-			ORDER BY TRUNC(ord_date) DESC, pub_name, pub_uid, book_subject, book_uid, ord_unit_cost, ord_quantity)
-		T)
+				]]>
+				</if>
+			ORDER BY ord_date DESC) T)
 	<![CDATA[
-		WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
+	WHERE RNUM >= #{fromRow} AND RNUM < #{pageRows} + #{fromRow}
 	]]>		
+	</select>
+	
+	<select id="selectPO" resultType="com.lec.yes25.purchase.OrderDTO">
+	SELECT
+		ord_uid,
+		ord_date,
+		pub_name,
+		pub_num,
+		pub_rep,
+		pub_contact,
+		pub_address,
+		book_subject,
+		book_author,
+		ord_unit_cost,
+		ord_quantity
+	FROM
+		v_Order
+	WHERE
+		ord_set_uid = #{ord_set_uid}
 	</select>
 </mapper>
