@@ -4,6 +4,8 @@
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <title>도서관리</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
@@ -20,7 +22,7 @@
  			
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
-				<h1 class="display-4 d-none d-sm-block">YES25 근태관리</h1>  
+				<h1 class="display-4 d-none d-sm-block">사원님 근태현황</h1>  
 				
 				 <hr>
                 <div class="lead mt-5 d-none d-sm-block">
@@ -32,25 +34,23 @@
                             <!-- date 선택  -->
                             <div id="date-picker-dates">
                                 <!-- 근태조회 text -->
-                                <span style="display: block; padding: 20px;">근태조회</span>
-
-                                <div id="date-picker-date-first" class="date-picker-date">
-                                    24/12/2017
-                                </div>
-                                <div class="date-picker-date">
-                                    28/12/2017
-                                </div>
-
-                                <!-- 조회 버튼 -->
-                                <div class="btn_container">
-                                    <button type="button" class="btn btn-info">조회</button>
-                                </div>
-                               
+                                <span style="display: block; padding: 20px; letter-spacing: 4px;">근태조회</span>
+								
+								<!-- selected  날짜 들어가는 곳 -->
+								<form id="frm">
+                                	<div id="date-picker-date-first" class="date-picker-date date1"></div>
+                                 	<div class="date-picker-date date2"></div>
+									 <input type=hidden name="startDate" id="startDate" />
+									 <input type=hidden name="endDate" id="endDate" />
+	                                <!-- 조회 버튼 -->
+	                                    <input type="submit" class="btn btn-info" value="조회"/>
+								</form>
+								
                             </div>
-
                             <div id="date-picker-display-container">
                             </div>
                             <!-- /date 선택 -->
+                            
 
                             <!-- 캘린더 모달창 -->
                             <div id="date-picker-modal" class="hidden-2">
@@ -87,8 +87,14 @@
                 <div class="row my-4">
                     <div class="col-lg-12 col-md-8">
                         <div id="list" class="table-responsive">
+							<div class="d01">
+								<div class="left" id="pageinfo"></div>
+								<div class="right" id="pageRows"></div>
+							</div>
 
-                            <form id="frmList" name="frmList">
+							<div class="clear"></div>
+							
+                            <form id="frmList" name="frmList" style="text-align: center;">
                                 <table class="table table-striped">
                                     <thead class="thead-inverse table-class" id="table-id">
                                         <tr>
@@ -101,7 +107,7 @@
                                             <th>신청상태</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody >
                                         <!-- JS <tr></tr> 들어갈 곳  -->
                                     </tbody>
                                 </table>
@@ -127,120 +133,6 @@
 
     </div>
     
-     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">신규사원등록</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form_wrapper">
-                        <div class="form_container">
-                            <!-- <div class="title_container">
-                            <h2>신규사원등록</h2>
-                        </div> -->
-                            <div class="row clearfix">
-                                <div class="">
-                                    <form>
-                                        <!-- 이름/전화번호 -->
-                                        <div class="row clearfix">
-                                            <div class="col_half">
-                                                <!-- 이름 -->
-                                                <div class="input_field"> <span><i aria-hidden="true"
-                                                            class="fa fa-user"></i></span>
-                                                    <input type="text" name="name" placeholder="Name" />
-                                                </div>
-                                            </div>
-                                            <div class="col_half">
-                                                <!-- 전화번호 -->
-                                                <div class="input_field"> <span><i aria-hidden="true"
-                                                            class="fa fa-phone"></i></span>
-                                                    <input type="text" name="phone" placeholder="PhoneNumber"
-                                                        required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- 부서코드 / 이메일 -->
-                                        <div class="row clearfix">
-                                            <div class="col_half">
-                                                <!-- 부서코드 -->
-                                                <div class="input_field select_option"> <span><i aria-hidden="true"
-                                                            class="fa fa-sitemap"></i></span>
-                                                    <select>
-                                                        <option>부서코드</option>
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                    </select>
-                                                    <div class="select_arrow"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col_half">
-                                                <!-- 이메일 -->
-                                                <div class="input_field"> <span><i aria-hidden="true"
-                                                            class="fa fa-envelope"></i></span>
-                                                    <input type="email" name="email" placeholder="Email" required />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 직급코드 / 입사일 -->
-                                        <div class="row clearfix">
-                                            <div class="col_half">
-                                                <!-- 직급코드 -->
-                                                <div class="input_field select_option"> <span><i aria-hidden="true"
-                                                            class="fa fa-address-card"></i></span>
-                                                    <select>
-                                                        <option>직급코드</option>
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                    </select>
-                                                    <div class="select_arrow"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col_half">
-                                                <!-- 입사일 -->
-                                                <div class="input_field"> <span class="reg">입사일</span>
-                                                    <input type="date" id="datepicker" name="hiredate"
-                                                        style="letter-spacing: 3px; text-align: center;" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 관리자여부 -->
-                                        <div class="row clearfix">
-                                            <div class="col_half">
-                                                <!-- 관리자여부 -->
-                                                <div class="input_field select_option"> <span><i aria-hidden="true"
-                                                            class="fa fa-address-card"></i></span>
-                                                    <select>
-                                                        <option>Y/N</option>
-                                                        <option>Y</option>
-                                                        <option>N</option>
-                                                    </select>
-                                                    <div class="select_arrow"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 등록 완료 제출 버튼 -->
-                                        <input class="button" type="submit" value="Register" />
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
     
     
     
@@ -251,8 +143,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   
-    <script src="${pageContext.request.contextPath}/JS/personnel/commutelist.js"></script>
-    <script	src="${pageContext.request.contextPath}/JS/personnel/register.js"></script>
+    <script src="${pageContext.request.contextPath}/JS/personnel/commutelistDatepicker.js"></script>
 </body>
 
 </html>

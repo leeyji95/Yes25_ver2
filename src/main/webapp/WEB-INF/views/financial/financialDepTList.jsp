@@ -59,10 +59,10 @@
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
 
 <!-- 제목 -->
-<h1 class="display-4 d-none d-sm-block">전표 목록</h1>
+<h1 class="display-4 d-none d-sm-block" style="padding-top: 50px; text-align: center;">전표 목록</h1>
 
 <!-- 검색 기능 -->
-<div id="searchBlock" style="text-align: right;">
+<div id="searchBlock" style="text-align: right; float: right;">
 	
 	<select id="choiceYearMonth">
 		<option value="today" selected="selected">금일</option>

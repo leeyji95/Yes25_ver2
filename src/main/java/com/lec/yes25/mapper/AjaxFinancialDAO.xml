@@ -179,6 +179,74 @@
 	]]>
 </select>
 
+<!-- 손익계산서 금액 계산 -->
+<select id="maintenanceSales" resultType="int">
+	<![CDATA[
+	SELECT 
+		SUM(stmt_sum)
+	FROM 
+		(SELECT * FROM tb_statement
+		WHERE account_uid IN(802, 811, 812, 813, 814, 815, 816, 817))
+	WHERE 
+		stmt_date>=#{startDate} AND stmt_date<=#{endDate}
+	]]>
+</select>
+<select id="etcIncome" resultType="int">
+	<![CDATA[
+	SELECT 
+		SUM(stmt_sum)
+	FROM 
+		(SELECT * FROM tb_statement
+		WHERE account_uid IN(901, 930))
+	WHERE 
+		stmt_date>=#{startDate} AND stmt_date<=#{endDate}
+	]]>
+</select>
+<select id="etcCost" resultType="int">
+	<![CDATA[
+	SELECT 
+		SUM(stmt_sum)
+	FROM 
+		(SELECT * FROM tb_statement
+		WHERE account_uid IN(931, 933, 960))
+	WHERE 
+		stmt_date>=#{startDate} AND stmt_date<=#{endDate}
+	]]>
+</select>
+<select id="corporateTax" resultType="int">
+	<![CDATA[
+	SELECT 
+		SUM(stmt_sum)
+	FROM 
+		(SELECT * FROM tb_statement
+		WHERE account_uid IN(998))
+	WHERE 
+		stmt_date>=#{startDate} AND stmt_date<=#{endDate}
+	]]>
+</select>
+<!-- 손익계산서, 매출액 -->
+<select id="netSales" resultType="int">
+	<![CDATA[
+	SELECT 
+		SUM(outbound_quantitiy * outbound_unit_price) 
+	FROM 
+		tb_outbound_test
+	WHERE
+		outbound_date>=#{startDate} AND outbound_date<=#{endDate}
+	]]>
+</select>
+<!-- 손익계산서, 매입액 -->
+<select id="costOfGoodsSold" resultType="int">
+	<![CDATA[
+	SELECT
+		SUM(order_unit_cost * order_quantity)
+	FROM 
+		tb_order_test
+	WHERE
+		order_date>=#{startDate} AND order_date<=#{endDate}
+	]]>
+</select>
+
 
 
 </mapper>

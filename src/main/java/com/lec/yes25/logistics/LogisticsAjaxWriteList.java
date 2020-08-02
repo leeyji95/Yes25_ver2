@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class LogisticsAjaxWriteList extends LogisticAjaxWriteResult {
-	private List<InboundDTO> data;
+	private List<?> data;
 
 }

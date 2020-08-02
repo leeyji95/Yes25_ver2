@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -85,6 +87,7 @@ public class LogisticsAjaxController {
 		return returnURL;
 	}
 	
+	
 
 	
 	public LogisticAjaxWriteResult buildResult(HttpServletRequest request) {
@@ -93,13 +96,14 @@ public class LogisticsAjaxController {
 		result.setStatus((String)request.getAttribute("status"));
 		result.setMessage((String)request.getAttribute("message"));
 		result.setCount((Integer)request.getAttribute("result"));
+
 		
 		return result;
 	} // end buildResult
 	
 	@SuppressWarnings("unchecked")
 	public LogisticsAjaxWriteList bulidList(HttpServletRequest request) {
-		List<InboundDTO> data = (List<InboundDTO>)request.getAttribute("data");
+		List<?> data = (List<?>)request.getAttribute("data");
 		LogisticsAjaxWriteList result = new LogisticsAjaxWriteList();
 		result.setStatus((String)request.getAttribute("status"));
 		result.setMessage((String)request.getAttribute("message"));

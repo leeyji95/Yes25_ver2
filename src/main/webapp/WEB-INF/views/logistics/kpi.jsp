@@ -24,7 +24,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
-	src="${pageContext.request.contextPath }/JS/logistics/stock.js"></script>
+	src="${pageContext.request.contextPath }/JS/logistics/stock2.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 </head>
 <body>
 	<div class="container-fluid" id="main">
@@ -121,7 +123,9 @@
 					</div>
 				</div>
 				
-
+			<div>
+				<canvas id="myChart" width="400" height="400"></canvas>
+			</div>
 
 
 			</div>

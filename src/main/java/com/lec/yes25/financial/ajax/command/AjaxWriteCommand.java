@@ -63,10 +63,10 @@ public class AjaxWriteCommand implements Command {
 		} else {
 		
 			try {
-				System.out.println("regDate : " + regDate + ", accountuid : " + account_uid
-						+ ", summary : " +  summary + ", money : " + money
-						+ ", writer : " + writer + ", manager : " + manager 
-						+ ", approber : " + approver);
+//				System.out.println("regDate : " + regDate + ", accountuid : " + account_uid
+//						+ ", summary : " +  summary + ", money : " + money
+//						+ ", writer : " + writer + ", manager : " + manager 
+//						+ ", approber : " + approver);
 				// 글 삽입 트랜잭션 수행
 				cnt = dao.insert(regDate, account_uid, summary,
 						money, writer, manager, approver);

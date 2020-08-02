@@ -37,7 +37,6 @@ $(document).ready(function() {
 		//$("#WriteModal").css('display', 'block');
 		$("#WriteModal").modal('show');
 	});
-	
 	// 글작성, 스페이스 누르면 계정과목 검색 시작
 	$("input[name=account_name]").keypress(function(event) {
 		if(event.which === 32) {
@@ -45,10 +44,20 @@ $(document).ready(function() {
 			search(word);
 		}
 	});
+	
 	// 취소 버튼 클릭시 현재 페이지 리로딩
 	$(".btn-dismiss").click(function(){
 		loadPage(window.page, window.choice);  			// 현재 페이지 리로딩
 	});
+	
+	
+	//$(".memberBtn").click();
+	
+	
+	
+	
+	
+	
 	
 	// 글 수정 버튼 누르면 정보 불러오기
 	$("#updateBtn").click(function(){
@@ -84,15 +93,97 @@ $(document).ready(function() {
 		} else {
 			alert('삭제할 전표를 선택하지 않았습니다.\n전표를 선택해주세요.');
 		}
-		
 	});
 	
+	// 월별 매출 차트
+	// 컨텍스트를 가져옵니다. 
+	var ctx = document.getElementById("monthSales").getContext('2d');
+	// 사용자에게 보여지는 차트
+	var monthSales = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+	        datasets: [{
+	        	// 월별 데이터
+	            data: [monthSalesValue('2020-01-01', '2020-01-31')
+	            	, monthSalesValue('2020-02-01', '2020-02-29')
+	            	, monthSalesValue('2020-03-01', '2020-03-31')
+	            	, monthSalesValue('2020-04-01', '2020-04-30')
+	            	, monthSalesValue('2020-05-01', '2020-05-31')
+	            	, monthSalesValue('2020-06-01', '2020-06-30')
+	            	, monthSalesValue('2020-07-01', '2020-07-31')
+	            	, monthSalesValue('2020-08-01', '2020-08-31')
+	            	, monthSalesValue('2020-09-01', '2020-09-30')
+	            	, monthSalesValue('2020-10-01', '2020-10-31')
+	            	, monthSalesValue('2020-11-01', '2020-11-30')
+	            	, monthSalesValue('2020-12-01', '2020-12-31')]
+	        	// 막대 채우기 색 지정
+	            , backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)'
+	            	, 'rgba(255, 159, 64, 0.2)'
+	            	, 'rgba(255, 206, 86, 0.2)'
+	            	, 'rgba(75, 192, 192, 0.2)'
+	                , 'rgba(54, 162, 235, 0.2)'
+	                , 'rgba(153, 102, 255, 0.2)'
+	                , 'rgba(255, 99, 132, 0.2)'
+	            	, 'rgba(255, 159, 64, 0.2)'
+	            	, 'rgba(255, 206, 86, 0.2)'
+	            	, 'rgba(75, 192, 192, 0.2)'
+	                , 'rgba(54, 162, 235, 0.2)'
+	                , 'rgba(153, 102, 255, 0.2)'
+	            ],
+	            // 막대 선 색 지증
+	            borderColor: [
+	                'rgba(255, 99, 132, 0.2)'
+	            	, 'rgba(255, 159, 64, 0.2)'
+	            	, 'rgba(255, 206, 86, 0.2)'
+	            	, 'rgba(75, 192, 192, 0.2)'
+	                , 'rgba(54, 162, 235, 0.2)'
+	                , 'rgba(153, 102, 255, 0.2)'
+	                , 'rgba(255, 99, 132, 0.2)'
+	            	, 'rgba(255, 159, 64, 0.2)'
+	            	, 'rgba(255, 206, 86, 0.2)'
+	            	, 'rgba(75, 192, 192, 0.2)'
+	                , 'rgba(54, 162, 235, 0.2)'
+	                , 'rgba(153, 102, 255, 0.2)'
+	            ],
+	            borderWidth: 2
+	        }]
+	    },
+	    options: {
+	    	// 레이블 안보이게 설정
+	    	legend: { display: false }
+	    	// default value, false일 경우 포함된 div의 크기에 맞춰서 그려짐
+	        , maintainAspectRatio: false
+	    }
+	});
 });
 
 
 
 
-
+// 월별 매출
+function monthSalesValue(start, end) {
+	var salesValue;
+	$.ajax({
+		url : "monthSales.ajax?startDate=" + start + "&endDate=" + end
+		, type : "GET"
+		, cache : false
+		, async: false
+		, success : function(data, status) {
+			if(status == "success") {
+				if(data.status == "OK") {
+					salesValue = data.count;
+				} else {
+					alert(start + " ~ " + end + "매출 정보 오류 " + data.status + " : " + data.message);
+				}
+			}
+		}
+	});
+	
+	return salesValue;
+	
+}
 
 // page번째 페이지 로딩
 function loadPage(page, choice) {
@@ -332,11 +423,10 @@ function chkWrite() {
 		, async: false
 		, success : function(data, status){
 			if(status == "success"){
-				if(data.status = "OK") {
+				if(data.status == "OK") {
 					alert("전표가 생성되었습니다.");
 					$("#WriteModal").modal('toggle');		// 모달창 닫기
 					$('.modal-backdrop').remove(); 
-					//$('.modal-backdrop').attr('class', 'modal-backdrop');
 					loadPage(window.page, window.choice);	// 현재 페이지 리로딩
 					$('.btn-dismiss').trigger('click');
 				} else {
@@ -540,6 +630,7 @@ function chkUpdate() {
 				if(data.status == "OK"){
 					alert("전표 수정 성공하였습니다.");
 					$("#UpdateModal").modal('toggle');		// 모달창 닫기
+					$('.modal-backdrop').remove(); 
 					loadPage(window.page, window.choice);	// 현재 페이지 리로딩
 				} else {
 					alert("전표 수정 실패 " + data.status + " : " + data.message);
@@ -551,6 +642,7 @@ function chkUpdate() {
 	
 	$("#frmUpdate")[0].reset();
 	
+	return false;
 } // end chkUpdate()
 
 // 글 삭제

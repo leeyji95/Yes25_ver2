@@ -23,11 +23,11 @@
 		<ul class="nav flex-column sticky-top pl-0 pt-5 mt-3">
 			<li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
 			<li class="nav-item"><a class="nav-link" href="#"
-				data-toggle="collapse" data-target="#submenu1">매출</a>
+				data-toggle="collapse" data-target="#submenu1">재무</a>
 				<ul class="list-unstyled flex-column pl-3 collapse" id="submenu1"
 					aria-expanded="false">
-					<li class="nav-item"><a class="nav-link" href="#">매출관리 1</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">매출관리 2</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath }/financial/financialMain.bn">재무메인</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">재무2</a></li>
 				</ul></li>
 			<li class="nav-item"><a class="nav-link" href="#">물류</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">상품</a></li>

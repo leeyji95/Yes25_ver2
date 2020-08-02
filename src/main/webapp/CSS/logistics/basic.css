@@ -7,8 +7,19 @@
 	color: #FFFFFF;
 	border-color: #666666;
 	font-size: 12px;
+	padding: 5px 10px 5px;
+	font-size: 11px;
+	margin-top: 40px;
+	margin-bottom: 10px;
 }
-	
+
+.div_btn{
+	margin-right: 0px;
+}
+
+.div_title{
+	border-bottom: 2px solid #888888;
+}	
 
 #title{
 	font-size: 22px;
@@ -17,6 +28,7 @@
 
 .table-cols{
 	border-top: 1px solid #888888;
+	margin-top: 20px;
 }
 
 .table{
@@ -24,9 +36,7 @@
 	margin-bottom: 20px;
 }
 
-.table-cols > tbody > tr > th{
-	background-color: #F6F6F6;
-}
+
 
 .table-cols > tbody > tr > th, .table-cols > tbody > tr > td{
 	padding: 8px 15px;
@@ -37,7 +47,25 @@
 	vertical-align: middle;
 }
 
-.table-background{
+.table-cols > tbody > tr > th{
+	background-color: #F6F6F6;
+	width: 120px;
+}
+
+
+
+.table-background1{
+	height: 46px;
+	width: 100%;
+	overflow: hidden;
+	padding: 10px 0;
+	background: #F6F6F6;
+	border-top: 1px solid #E6E6E6;
+
+	
+}
+
+.table-background2{
 	height: 46px;
 	width: 100%;
 	overflow: hidden;
@@ -61,7 +89,6 @@
 }	
 
 
-
 .table-main > thead > tr > th{
 	letter-spacing: -1px;
 	background-color: #BCBCBC !important;
@@ -70,4 +97,20 @@
 
 .table-main > tbody > tr > td{
 	background-color: white;
+}
+
+#datepicker1, #datepicker2{
+	margin-right: 10px;
+}
+
+.table-background1 p{
+	font-size: 12px;
+	margin-left: 25px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
+.table-background1 span{
+	color: blue;
+	font-weight: bold;
 }

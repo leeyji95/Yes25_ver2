@@ -85,7 +85,7 @@
 </div>
 
 
-<table id="viewTable" class="width100">
+<table id="viewTable" style="width: 80%; margin: 100px auto 10px auto;">
 <tr class="width100">
 	<th>날짜</th>
 	<th>계정과목</th>

@@ -26,9 +26,7 @@ public interface PersonnelDAO {
 	// 해당 username (사원번호) 에 대한 사원정보 꺼내기 
 	public List<UserDTO> selectByUid(@Param("username") final int username);
 	
-//------------------ ㅊ  ㄱ  --------------------------
-//-------------------ㅜ  ㅡ  --------------------------
-//-------------------ㄹ   ㄴ  --------------------------
+//------------------ 출근관련 --------------------------
 	
 	// 출근시간 등록 삽입 
 	public int goworkinsert(
@@ -46,6 +44,8 @@ public interface PersonnelDAO {
 	// 이를 위한 select 조회문 필요 
 	public String GoworkDateByusername(@Param("username") int username); 
 	
+	// DB에 있는 출근시각(날짜 시 분 초) 뽑기
+	public Date selectGowork(@Param("username") int username);
 	
 //-------------------- 퇴근 관련 --------------------------
 	
@@ -64,6 +64,8 @@ public interface PersonnelDAO {
 			@Param("commute_state") String state
 			);
 	
+	public Date selectOutwork(@Param("username") int username);
+//-------------------- 초과근무 관련 --------------------------
 	// 초과근무시간 있는지 여부 select 
 	public String selectOverwork(
 			@Param("username") int username,
@@ -76,5 +78,48 @@ public interface PersonnelDAO {
 			@Param("commute_overtime") int hours,
 			@Param("commute_end") Date outworkDate
 			);
+//-------------------- 총근무 관련 --------------------------
+	// 총근무시간 update
+	public int totalWorkUpdate(
+			@Param("username") int username,
+			@Param("commute_total") int totalHours
+			);
+	
+//-------------------- 근무상태 관련 --------------------------
+	// 근무상태 뽑기 
+	public String selectState(
+			@Param("username") int username,
+			@Param("commute_start") Date goworkDate
+			);
+	
+	
+//-------------------- 해당 사원의 근태현황 조회 --------------------------
+	public List<CmmtDTO> selectCmmt(
+			@Param("username") int username,
+			@Param("start") Date start,
+			@Param("end") Date end			
+			);
+	
+	
+	// 페이징용 SELECT
+	// from : 몇번재 row 부터
+	// pageRows : 몇개의 데이터(게시글)
+	public List<CmmtDTO> selectFromRowBetweenDate(
+			@Param("from") int from,
+			@Param("pageRows") int pageRows,
+			@Param("username") int username,
+			@Param("start") Date start,
+			@Param("end") Date end	
+			);
+
+	// 전체글의 개수
+	public int countAllByusername(@Param("username") int username);
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -14,7 +14,7 @@ import com.lec.yes25.personnel.PersonnelDAO;
 public class NewempCommand implements RCommand {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+	public void execute(HttpServletRequest request, Model model) throws ParseException {
 		int cnt = 0;
 		PersonnelDAO dao = C.sqlSession.getMapper(PersonnelDAO.class);		
 		// ajax response 에 필요한 값들 

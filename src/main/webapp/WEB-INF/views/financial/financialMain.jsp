@@ -34,6 +34,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/JS/financial/main.js"></script>
     
+    <!-- 월별 매출 그래프를 사용하기 위한 Chart.js 선언 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
@@ -52,10 +54,13 @@
 			 <div class="col main pt-5 mt-3">
 <!-- 작업페이지 -->
 <!-- 월별 매출 그래프 -->
-<h1 class="display-4 d-none d-sm-block">월별 매출 그래프</h1>
+<h1 class="display-4 d-none d-sm-block" style="padding-top: 50px; text-align: center;">월별 매출 그래프</h1>
 
-<!-- 연매출 그래프 -->
-<h1 class="display-4 d-none d-sm-block">연 매출 그래프</h1>
+<div style="width: 80%; margin: 50px auto 5px auto; height: 500px;">
+    <canvas id="monthSales"></canvas>
+</div>
+
+
 
 <!-- 현제 로그인된 아이디 정보 -->
 <input name="thisLogId" hidden="true"
@@ -120,8 +125,13 @@
 <div style="text-align:center; margin: 20px 0;">
 <button type="button" data-toggle="modal" data-target="#WriteModal"
 	class="btnMyself info btn-toggle" id="btnWrite">전표입력</button>
+
+<!-- 목록보기는 재무부서만 -->
+<c:if test="${curDept == 20}">
 <button type="button" class="btnMyself info" 
 	onclick="location.href='financialDeptList.bn'">목록보기</button>
+</c:if>
+
 <button type="button" class="btnMyself info"
 	onclick="location.href='incomeView.bn'">손익계산서 확인</button>
 <br><br><br><br>
@@ -159,9 +169,11 @@
 				<div class="statementBlock">
 					<span style="float: left; margin-left: 10px;">
 						<label for="manager">담당자</label>
-						<input type="number" name="manager" required>
+						<input id="writeManagerInputNumber" hidden="true" type="number" name="manager" required>
+						<input id="writeManagerInputText" type="text" name="manager" disabled required>
 						<button type="button" class="btn skyinfo"
-							style="color: white; border: 1px solid #4d7cc4!important;">담당자 선택</button>
+							style="color: white; border: 1px solid #4d7cc4!important;"
+							onclick="window.open('writeManagerSelect.bn', '사원검색', 'width=500, height=500')">담당자 선택</button>
 					</span>
 					
 					<span style="float: right; position: relative; left: -50%;">
@@ -170,9 +182,11 @@
 					
 					<span style="float: right;">
 						<label for="approver">결재자</label>
-						<input type="number" name="approver" required>
+						<input id="writeApproverInputNumber" type="number" name="approver" hidden="true" required>
+						<input id="writeApproverInputText" type="text" name="approver" disabled required>
 						<button type="button" class="btn skyinfo"
-							style="color: white; border: 1px solid #4d7cc4!important;">결재자 선택</button><br>
+							style="color: white; border: 1px solid #4d7cc4!important;"
+							onclick="window.open('writeApproverSelect.bn', '사원검색', 'width=500, height=500')">결재자 선택</button><br>
 					</span>
 				
 					<br><br><br><br><br>
@@ -242,9 +256,11 @@
 			<div class="statementBlock">
 				<span style="float: left; margin-left: 10px;">
 					<label for="Umanager">담당자</label>
-					<input type="number" name="Umanager" required>
+					<input id="updateManagerInputNumber" type="number" name="Umanager" required hidden="true">
+					<input id="updateManagerInputText" type="text" name="Umanager" disabled required>
 					<button type="button" class="btn skyinfo"
-							style="color: white; border: 1px solid #4d7cc4!important;">담당자 선택</button>
+							style="color: white; border: 1px solid #4d7cc4!important;"
+							onclick="window.open('updateManagerSelect.bn', '사원검색', 'width=500, height=500')">담당자 선택</button>
 				</span>
 				
 				<span style="float: right; position: relative; left: -50%;">
@@ -253,9 +269,11 @@
 				
 				<span style="float: right;">
 					<label for="Uapprover">결재자</label>
-					<input type="number" name="Uapprover" required>
+					<input id="updateApproverInputNumber" type="number" name="Uapprover" required hidden="true">
+					<input id="updateApproverInputText" type="text" name="Uapprover" disabled required>
 					<button type="button" class="btn skyinfo"
-							style="color: white; border: 1px solid #4d7cc4!important;">결재자 선택</button><br>
+							style="color: white; border: 1px solid #4d7cc4!important;"
+							onclick="window.open('updateApproverSelect.bn', '사원검색', 'width=500, height=500')">결재자 선택</button><br>
 				</span>
 	
 				<br><br><br><br><br>
@@ -293,8 +311,8 @@
 			<!-- 전표번호 -->
 			<input type="number" name="Ustmt_uid" hidden="true" required><br>
 			
-			<label for="Uwriter">작성자</label>
-			<input type="number" name="Uwriter" required><br>
+			<label for="Uwriter" hidden="ture">작성자</label>
+			<input type="number" name="Uwriter" required hidden="true"><br>
 		</div>
 		
 		<!-- Modal 푸터 -->
