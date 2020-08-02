@@ -29,6 +29,9 @@
    	.inline-block *
    	{display : inline-block !important;}
    	
+   	.modal-dialog
+   	{max-width : 90% !important;}
+   	
    	.spaceLeft
    	{padding-left : 0.5em;}
 </style>
