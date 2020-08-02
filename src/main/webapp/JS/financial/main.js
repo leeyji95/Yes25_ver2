@@ -402,7 +402,6 @@ function chkWrite() {
 	// 해당 폼 안의 name이 있는 것들을 끌어 들어옴, 리턴값은 Object
 	var data = $("#frmWrite").serialize();
 	
-	
 	// ajax reques
 	$.ajax({
 		url : "writeOk.ajax"
@@ -533,8 +532,6 @@ function loadView() {
 						$("input[name='Umoney']").val(viewItem.money);
 						$("input[name='Ustmt_uid']").val(viewItem.stmt_uid);
 						$("input[name='Uwriter']").val(viewItem.writer);
-						
-						alert(userInfo(viewItem.manager));
 						
 					} else {
 						alert('작성자와 로그인한 사번이 일치하지 않습니다.');
