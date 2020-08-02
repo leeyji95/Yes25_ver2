@@ -26,8 +26,8 @@
    	.error 
    	{color : red;}
    	
-   	.spaceLeft
-   	{padding-left : 0.5em;}
+   	.spaceRight
+   	{padding-right : 0.5em;}
 </style>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
@@ -105,10 +105,10 @@
 
 									<div class="form-group text-right">
 										<button type="reset" id="reset-reg-pub" class="btn btn-warning">
-											초기화<i class="fa fa-refresh spaceLeft"></i>
+											<i class="fa fa-refresh spaceRight"></i>초기화
 										</button>
 										<button class="btn btn-primary" id="insert-reg-pub">
-											등록<i class="fa fa-check spaceLeft"></i>
+											<i class="fa fa-check spaceRight"></i>등록
 										</button>
 									</div>
 								</form>

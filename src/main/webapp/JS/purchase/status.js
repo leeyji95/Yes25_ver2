@@ -64,6 +64,10 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$('#print-purchase-order').click(function(){
+		onPrint('#purchase-order .modal-body');
+	});
 });
 
 function addViewEvent(){
@@ -274,6 +278,7 @@ function openPOModal(data){
 	var result = "";
 	
 	$("#purchase-order .pub-name").text(items[0].pub_name);
+	$("#purchase-order .pub-num").text(items[0].pub_num);
 	$("#purchase-order .pub-rep").text(items[0].pub_rep);
 	$("#purchase-order .pub-contact").text(items[0].pub_contact);
 	$("#purchase-order .pub-address").text(items[0].pub_address);
@@ -282,6 +287,7 @@ function openPOModal(data){
 	result += "<tr class='text-center'>\n";
 	result += "<th>NO.</th>\n";
 	result += "<th>도서명</th>\n";
+	result += "<th>저자</th>\n";
 	result += "<th>단가</th>\n";
 	result += "<th>수량</th>\n";
 	result += "<th>합계</th>\n";
@@ -291,6 +297,7 @@ function openPOModal(data){
 		result += "<tr>\n";
 		result += "<td class='text-center'>" + (i + 1) + "</td>\n";
 		result += "<td>" + items[i].book_subject + "</td>\n";
+		result += "<td>" + items[i].book_author + "</td>\n";
 		result += "<td class='text-right'>" + items[i].ord_unit_cost + "</td>\n";
 		result += "<td class='text-right'>" + items[i].ord_quantity + "</td>\n";
 		result += "<td class='text-right'>" + (items[i].ord_unit_cost * items[i].ord_quantity) + "</td>\n";
@@ -298,4 +305,17 @@ function openPOModal(data){
 	}
 	
 	$("#purchase-order-list").html(result);
+}
+
+function onPrint(elementRef){
+	const html = $('html');
+	const printContents = $(elementRef).html();
+	const printDiv = $("<div class='print-div'></div>");
+	 
+	$(html).append(printDiv);
+	$(printDiv).html(printContents);
+	$('body').css('display', 'none');
+	window.print();
+	$('body').css('display', 'block');
+	$(printDiv).css('display', 'none');
 }

@@ -137,7 +137,7 @@ $(document).ready(function(){
 			var delConfirm = confirm('발주서에 데이터가 존재합니다.\n존재하는 데이터를 삭제하고 거래처를 다시 선택하시겠습니까?');
 
 			if(delConfirm){
-				$('#order-parer-title').text("거래처명");
+				$('#order-parer-title').text("수주처");
 				$('#order-list').empty();
 				
 			} else {
@@ -237,7 +237,7 @@ $(document).ready(function(){
 				return;
 			}
 			
-			$('#order-parer-title').text("거래처명 : " + pub_name);
+			$('#order-parer-title').text("수주처 : " + pub_name);
 			
 			var result = '';
 			

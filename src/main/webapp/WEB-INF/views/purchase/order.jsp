@@ -29,8 +29,8 @@
    	.error 
    	{color : red;}
    	
-   	.spaceLeft
-   	{padding-left : 0.5em;}
+   	.spaceRight
+   	{padding-right : 0.5em;}
    	
    	#order-paper-table th:nth-of-type(n+1):nth-of-type(-n+2),
    	#order-paper-table td:nth-of-type(n+1):nth-of-type(-n+2)
@@ -87,13 +87,13 @@
 							<div class="card-body">
 								<div style="padding-bottom : 16px; overflow : hidden;">
 									<button type="button" class="btn btn-danger pull-left" id="delete-order">
-										삭제
+										<i class="fa fa-trash spaceRight"></i>삭제
 									</button>
 									<button type="button" class="btn btn-primary pull-right" id="insert-order">
-										발주요청<i class="fa fa-check spaceLeft"></i>
+										<i class="fa fa-check spaceRight"></i>발주요청
 									</button>
 								</div>
-								<div class="card-header bg-dark text-white" id="order-parer-title">거래처명</div>
+								<div class="card-header bg-dark text-white" id="order-parer-title">수주처</div>
 								<table class="table" id="order-paper-table">
 									<thead class="thead-inverse">
 										<tr>
@@ -150,10 +150,10 @@
 
 							<div class="form-group text-right">
 								<button type="button" id="reset" class="btn btn-warning">
-									초기화<i class="fa fa-refresh spaceLeft"></i>
+									<i class="fa fa-refresh spaceRight"></i>초기화
 								</button>
 								<button class="btn btn-primary">
-									추가<i class="fa fa-check spaceLeft"></i>
+									<i class="fa fa-check spaceRight"></i>추가
 								</button>
 							</div>
 						</form>

@@ -32,8 +32,8 @@
    	.modal-dialog
    	{max-width : 90% !important;}
    	
-   	.spaceLeft
-   	{padding-left : 0.5em;}
+   	.spaceRight
+   	{padding-right : 0.5em;}
 </style>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
@@ -99,10 +99,10 @@
 						</div>
 						<div class="form-group text-right">
 							<button type="reset" class="btn btn-warning" id="reset">
-								초기화<i class="fa fa-refresh spaceLeft"></i>
+								<i class="fa fa-refresh spaceRight"></i>초기화
 							</button>
 							<button class="btn btn-primary" id="search">
-								검색<i class="fa fa-search spaceLeft"></i>
+								<i class="fa fa-search spaceRight"></i>검색
 							</button>
 						</div>
 					</form>
@@ -203,13 +203,15 @@
 		<div class="modal-content">
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title">발주서</h4>
+				<h4 class="modal-title spaceRight">발주서</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="col-sm-12">
+					<div class="text-center"><h1>발주서</h1></div>
+					<div class="text-right"><h5 class="ord-date"></h5></div>									
 					<div class="row">
 						<div class="col-sm-6">
 							<h3>수주처</h3>
@@ -217,6 +219,10 @@
 								<tr>
 									<td class="font-weight-bold">상호</td>
 									<td class="pub-name"></td>
+								</tr>
+								<tr>
+									<td class="font-weight-bold">사업자 등록번호</td>
+									<td class="pub-num"></td>
 								</tr>
 								<tr>
 									<td class="font-weight-bold">대표자</td>
@@ -233,18 +239,15 @@
 							</table>
 						</div>
 						<div class="col-sm-6">
-							<div class="row">
-								<div class="col-sm-6" style="padding-top : 0">
-									<h3>발주처</h3>
-								</div>
-								<div class="col-sm-6 text-right" style="padding-top : 0">
-									<h5 class="ord-date"></h5>
-								</div>
-							</div>
+							<h3>발주처</h3>
 							<table class="table">
 								<tr>
 									<td class="font-weight-bold">상호</td>
 									<td>YES25</td>
+								</tr>
+								<tr>
+									<td class="font-weight-bold">사업자 등록번호</td>
+									<td>000-00-00000</td>
 								</tr>
 								<tr>
 									<td class="font-weight-bold">대표자</td>
@@ -256,7 +259,7 @@
 								</tr>
 								<tr>
 									<td class="font-weight-bold">주소</td>
-									<td>서점</td>
+									<td>서울특별시 강남구 역삼동</td>
 								</tr>
 							</table>
 						</div>
@@ -266,6 +269,15 @@
 							<table class="table table-bordered" id="purchase-order-list"></table>
 						</div>
 					</div>
+				</div>
+			</div>
+			
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<div class="text-right">
+					<button type="button" class="btn btn-primary" id="print-purchase-order">
+						<i class="fa fa-print spaceRight"></i>인쇄
+					</button>
 				</div>
 			</div>
 		</div>

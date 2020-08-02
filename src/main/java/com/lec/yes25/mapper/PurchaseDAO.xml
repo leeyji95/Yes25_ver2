@@ -348,10 +348,12 @@
 		ord_uid,
 		ord_date,
 		pub_name,
+		pub_num,
 		pub_rep,
 		pub_contact,
 		pub_address,
 		book_subject,
+		book_author,
 		ord_unit_cost,
 		ord_quantity
 	FROM
