@@ -76,6 +76,27 @@ public class FinancialController {
 		return "financial/incomeView";
 	}
 	
+	// 담당자 선택 새 창보기
+	@RequestMapping("/writeManagerSelect.bn")
+	public String writeManagerSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/writeManagerSelect";
+	}
+	@RequestMapping("/writeApproverSelect.bn")
+	public String writeApproverSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/writeApproverSelect";
+	}
+	@RequestMapping("/updateManagerSelect.bn")
+	public String updateManagerSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/updateManagerSelect";
+	}
+	@RequestMapping("/updateApproverSelect.bn")
+	public String updateApproverSelect(Model model) {
+		new MemberSelectCommand().execute(model);
+		return "financial/updateApproverSelect";
+	}
 
 	// 손익계산서 엑셀 다운로드
 	@RequestMapping(value="/excelDown.bn", method = RequestMethod.POST)
@@ -179,28 +200,6 @@ public class FinancialController {
 	    wb.write(response.getOutputStream());
 	    wb.close();
 	} // end excelDown()
-	
-	// 담당자 선택 새 창보기
-	@RequestMapping("/writeManagerSelect.bn")
-	public String writeManagerSelect(Model model) {
-		new MemberSelectCommand().execute(model);
-		return "financial/writeManagerSelect";
-	}
-	@RequestMapping("/writeApproverSelect.bn")
-	public String writeApproverSelect(Model model) {
-		new MemberSelectCommand().execute(model);
-		return "financial/writeApproverSelect";
-	}
-	@RequestMapping("/updateManagerSelect.bn")
-	public String updateManagerSelect(Model model) {
-		new MemberSelectCommand().execute(model);
-		return "financial/updateManagerSelect";
-	}
-	@RequestMapping("/updateApproverSelect.bn")
-	public String updateApproverSelect(Model model) {
-		new MemberSelectCommand().execute(model);
-		return "financial/updateApproverSelect";
-	}
 	
 	
 } // end Controller

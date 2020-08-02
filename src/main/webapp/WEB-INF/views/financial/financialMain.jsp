@@ -65,6 +65,7 @@
 <!-- 현제 로그인된 아이디 정보 -->
 <input name="thisLogId" hidden="true"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
+
 	
 <!-- 결재 목록과 작성 목록을 선택할 수 있는 버튼 -->
 <table class="width100" style="margin: 50px 0 20px 0">
@@ -257,7 +258,7 @@
 				<span style="float: left; margin-left: 10px;">
 					<label for="Umanager">담당자</label>
 					<input id="updateManagerInputNumber" type="number" name="Umanager" required hidden="true">
-					<input id="updateManagerInputText" type="text" name="Umanager" disabled required>
+					<input id="updateManagerInputText" type="text" name="UmanagerText" disabled required>
 					<button type="button" class="btn skyinfo"
 							style="color: white; border: 1px solid #4d7cc4!important;"
 							onclick="window.open('updateManagerSelect.bn', '사원검색', 'width=500, height=500')">담당자 선택</button>
@@ -270,7 +271,7 @@
 				<span style="float: right;">
 					<label for="Uapprover">결재자</label>
 					<input id="updateApproverInputNumber" type="number" name="Uapprover" required hidden="true">
-					<input id="updateApproverInputText" type="text" name="Uapprover" disabled required>
+					<input id="updateApproverInputText" type="text" name="UapproverText" disabled required>
 					<button type="button" class="btn skyinfo"
 							style="color: white; border: 1px solid #4d7cc4!important;"
 							onclick="window.open('updateApproverSelect.bn', '사원검색', 'width=500, height=500')">결재자 선택</button><br>
