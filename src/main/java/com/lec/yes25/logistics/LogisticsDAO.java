@@ -1,5 +1,7 @@
 package com.lec.yes25.logistics;
 
+import java.security.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +26,14 @@ public interface LogisticsDAO {
 	public int updateByUidInStockFromOutbound(List<Map<String, Object>> list);
 	
 	public List<BookDTO> selectByFilter(int classification, String keyword, int category_uid, String fromDate, String toDate);
+	
+	
+	public List<StockDTO1> selectInboundQtyByDate(String year, String month);
+	public List<StockDTO2> selectInboundQtyByMonth(String year);
+	
+	public List<StockDTO1> selectOutboundQtyByDate(String year, String month);
+	public List<StockDTO2> selectOutboundQtyByMonth(String year);
+	
+	
+	
 }

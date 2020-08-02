@@ -222,8 +222,8 @@ function listUp2(jsonObj) {
 			result += "<td>" + items[i].book_subject + "</td>\n";
 			result += "<td>" + items[i].book_isbn + "</td>\n";
 			result += "<td>" + numberWithCommas(items[i].outbound_unit_price) + "원</td>\n";
-			result += "<td>" + items[i].outbound_quantitiy + "권</td>\n";
-			result += "<td>" + numberWithCommas(items[i].outbound_unit_price * items[i].outbound_quantitiy) + "원</td>\n";
+			result += "<td>" + items[i].outbound_quantity + "권</td>\n";
+			result += "<td>" + numberWithCommas(items[i].outbound_unit_price * items[i].outbound_quantity) + "원</td>\n";
 			result += "<td>" + items[i].outbound_date + "</td>\n";
 			result += "<tr>\n";
 		} // end for

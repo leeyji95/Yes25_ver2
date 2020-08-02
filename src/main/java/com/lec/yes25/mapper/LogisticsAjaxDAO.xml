@@ -141,7 +141,7 @@
 	<insert id="insertIntoOutbound" flushCache="true" parameterType="java.util.Map">
 		<foreach collection="list" item="item" index="index" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
 		INTO
-		tb_outbound_test (book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
+		tb_outbound_test (book_uid, outbound_unit_price, outbound_quantity, outbound_state)
 		VALUES
 		(
 		(SELECT book_uid FROM tb_book_test WHERE book_isbn = #{item.book_isbn})
@@ -202,10 +202,83 @@
 		book_uid DESC
 	</select>
 	
-	<select id="countFromBook" resultType="int">
-		SELECT COUNT(*)
-		FROM v_book_stock_test
-		WHERE stock_quantity > 0;
+	<select id="selectInboundQtyByDate" resultType="com.lec.yes25.logistics.StockDTO1">
+		SELECT *
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+		FROM v_inbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(#{param2})
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		WHERE c_month = TO_CHAR(#{param2})
+	</select> 
+	
+	<select id="selectInboundQtyByMonth" resultType="com.lec.yes25.logistics.StockDTO2">
+		SELECT c_month, SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+		FROM v_inbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		GROUP BY c_month
+		ORDER BY c_month
+	</select> 
+	
+	<select id="selectOutboundQtyByDate" resultType="com.lec.yes25.logistics.StockDTO1">
+		SELECT *
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+		FROM v_outbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(#{param2})
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		WHERE c_month = TO_CHAR(#{param2})
+	</select>
+	
+	
+	<select id="selectOutboundQtyByMonth" resultType="com.lec.yes25.logistics.StockDTO2">
+		SELECT c_month, SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+		FROM v_outbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		GROUP BY c_month
+		ORDER BY c_month
 	</select>
 
 </mapper>

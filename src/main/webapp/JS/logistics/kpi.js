@@ -2,17 +2,48 @@ var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
 var xhr = new XMLHttpRequest();
 
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1;
+//alert(year +"/"+month);
 
+var flag = 0;
 
 $(document).ready(function() {
 	loadPage();
-
-	$("#btnQuery").click(function() {
-		query1();
+	
+	$("#btnLeft").click(function() {
+		month = month-1;
+		if(month>0){
+		$(".div_datepicker span#month").html(month);
+		query(month);
+		} else{
+			$("#btnLeft").disabled = true;
+		}
+	});
+	
+	$("#btnRight").click(function() {
+		month = month+1;
+		if(month<13){
+		$(".div_datepicker span#month").html(month);
+		query(month);
+		} else{
+			$("#btnRight").disabled = true;
+		}
 	});
 
-	$("#btnExcel").click(function() {
-		excel();
+	$("#btnMonth").click(function() {
+		$("#btnMonth").disabled = true;
+		$("#btnDay").disabled = false;
+		flag = 1;
+		update2();
+	});
+
+	$("#btnDay").click(function() {
+		$("#btnDay").disabled = true;
+		$("#btnMonth").disabled = false;
+		flag = 0;
+		update1();
 	});
 	
 /*	$("#datepicker1, #datepicker2").datepicker({
@@ -40,10 +71,16 @@ function loadPage() {
 	         }
 	    });
 	 
+	 $(".div_datepicker span#month").html(month);
+	 
 		$.ajax({
-			url : "kpi.ajax",
+			url : "inboundKpiList.ajax",
 			type : "POST",
 			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
 			dataType : "json",
 			success : function(data, status) {
 				if (status == "success") {
@@ -51,53 +88,41 @@ function loadPage() {
 				}
 			}
 		});
+		
+		$.ajax({
+			url : "outboundKpiList.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp2(data);
+				}
+			}
+		});
 }
 
-function query1() {
+
+function query(month) {
 	 $.ajaxSetup({
 	        beforeSend: function(xhr) {
 	           xhr.setRequestHeader(header, token);
 	         }
 	    });
 	 
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	
-	var classification = $("#query select[name=classification]").val();
-	
-	var param = $("#query input[name=keyword]").val();
-	if(regExp.test(param)){
-		var temp = param.replace(regExp, "");
-		param = temp;
-	}
-	var keyword = param.trim().replace(/ +/g, "");
-	if(keyword == null || keyword== 0 || keyword.length == 0) keyword = 0;
-	
-	
-	var category_uid = $("#query select[name=category_uid]").val();
-	
-	/*var fromDate = $("#query input[name=datepicker1]").val();
-	if(fromDate == null || fromDate == 0 || fromDate.length == 0) fromDate = 0;
-	
-	var toDate = $("#query input[name=datepicker2]").val();
-	if(toDate == null || toDate== 0 || toDate.length == 0) toDate = 0;*/
-	
-/*	alert(classification);
-	alert(keyword);
-	alert(category_uid);
-	alert(fromDate);
-	alert(toDate);*/
-
+	 
 		$.ajax({
-			url : "stockQuery.ajax",
+			url : "inboundKpiList.ajax",
 			type : "POST",
-			data : { 
-				'classification' : classification,
-				'keyword' : keyword,
-				'category_uid' : category_uid,
-				'fromDate': fromDate,
-				'toDate': toDate,
-			},
 			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
 			dataType : "json",
 			success : function(data, status) {
 				if (status == "success") {
@@ -105,66 +130,153 @@ function query1() {
 				}
 			}
 		});
-	
-	return true;
-} // end query1()
+		
+		$.ajax({
+			url : "outboundKpiList.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp2(data);
+				}
+			}
+		});
+}
 
+function update1() {
+	 $.ajaxSetup({
+	        beforeSend: function(xhr) {
+	           xhr.setRequestHeader(header, token);
+	         }
+	    });
+	 
+	 $(".div_datepicker span#month").html(month);
+	 
+		$.ajax({
+			url : "inboundKpiList.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp1(data);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : "outboundKpiList.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp2(data);
+				}
+			}
+		});
+}
+
+
+
+function update2() {
+	 $.ajaxSetup({
+	        beforeSend: function(xhr) {
+	           xhr.setRequestHeader(header, token);
+	         }
+	    });
+	 
+	 
+		$.ajax({
+			url : "inboundKpiUpdate.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp1(data);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : "outboundKpiUpdate.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					listUp2(data);
+				}
+			}
+		});
+}
 
 
 
 function listUp1(jsonObj) {
-	result = "";
+	var chartLabels =[];
+	var chartData =[];
 
 	if (jsonObj.status == "OK") {
 		var count = jsonObj.count;
-
+		
 		var i;
 		var items = jsonObj.data;
-		for (i = 0; i < count; i++) {
-			result += "<tr>\n";
-			result += "<td>" + (i+1) +"</td>\n";
-			result += "<td>" + items[i].book_subject + "</td>\n";
-			result += "<td name='book_isbn' val='"+ items[i].book_isbn +"'>" + items[i].book_isbn + "</td>\n";
-			result += "<td>" + items[i].publisher_name + "</td>\n";
-			result += "<td>" + items[i].book_author + "</td>\n";
-			result += "<td>" + items[i].category_name + "</td>\n";
-			result += "<td>" + items[i].book_pubdate + "</td>\n";
-			result += "<td>" + items[i].stock_quantity + "권</td>\n";
-			result += "<tr>\n";
+/*		for (i = 0; i < 31; i++) {
+			chartLabels.push(i+1);
 		} // end for
-		$("#list tbody").html(result);
+*/		
+		if(flag == 0){
+			for (i = 0; i < count; i++) {
+				chartLabels.push(items[i].c_day);
+				chartData.push(items[i].c_quantity);
+			} // end for
+		} else{
+			for (i = 0; i < count; i++) {
+				chartLabels.push(items[i].c_month);
+				chartData.push(items[i].c_quantity);
+			} // end for
+		}
 		
-		$(".table-background1 span").html(jsonObj.count);
-		
-		 var ctx = document.getElementById('myChart');
+		 var ctx = document.getElementById('myChart1');
 		 var myChart = new Chart(ctx, {
 			 type: 'line',
 			 data: {
-				 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				 labels: chartLabels,
 				 datasets: [{
-					 	label: '# of Votes',
-					 	data: [12, 19, 3, 5, 2, 3],
+					 	label: '입고량',
+					 	data: chartData,
 					 	backgroundColor: [
-					 		'rgba(255, 99, 132, 0.2)',
-							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 159, 64, 0.2)'
+					 		'rgba(255, 99, 132, 0.2)'
 					 	],
 					 	borderColor: [
-					 		'rgba(255, 99, 132, 1)',
-							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)',
-							'rgba(153, 102, 255, 1)',
-							'rgba(255, 159, 64, 1)'
+					 		'rgba(255, 99, 132, 1)'
 					 	],
 					 	borderWidth: 1
 				 }]
 			 },
 			 options: {
-				 	responsive: false,
+				 	responsive: true,
 				 	scales: {
 				 			yAxes: [{
 				 					ticks: {
@@ -172,6 +284,16 @@ function listUp1(jsonObj) {
 				 					}
 				 			}]
 				 	},
+				 	legend: {
+				        display: false
+				    },
+				    tooltips: {
+				        callbacks: {
+				           label: function(tooltipItem) {
+				                  return tooltipItem.yLabel;
+				           }
+				        }
+				    }
 			 }
 		 });
 		
@@ -184,110 +306,75 @@ function listUp1(jsonObj) {
 	return false;
 } // end outboundListUp1()
 
-/*function excel() {
-	 $.ajaxSetup({
-	        beforeSend: function(xhr) {
-	           xhr.setRequestHeader(header, token);
-	         }
-	    });
-	 
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	
-	var classification = $("#query select[name=classification]").val();
-	
-	var param = $("#query input[name=keyword]").val();
-	if(regExp.test(param)){
-		var temp = param.replace(regExp, "");
-		param = temp;
-	}
-	var keyword = param.trim().replace(/ +/g, "");
-	if(keyword == null || keyword== 0 || keyword.length == 0) keyword = 0;
-	
-	
-	var category_uid = $("#query select[name=category_uid]").val();
-	
-	var fromDate = $("#query input[name=datepicker1]").val();
-	if(fromDate == null || fromDate == 0 || fromDate.length == 0) fromDate = 0;
-	
-	var toDate = $("#query input[name=datepicker2]").val();
-	if(toDate == null || toDate== 0 || toDate.length == 0) toDate = 0;
-	
-	alert(classification);
-	alert(keyword);
-	alert(category_uid);
-	alert(fromDate);
-	alert(toDate);
-	
-	if (!confirm("엑셀파일 다운로드")) return false;
+function listUp2(jsonObj) {
+	var chartLabels =[];
+	var chartData =[];
 
-		$.ajax({
-			url : "excel.ajax",
-			type : "POST",
-			data : { 
-				'classification' : classification,
-				'keyword' : keyword,
-				'category_uid' : category_uid,
-				'fromDate': fromDate,
-				'toDate': toDate,
-			},
-			cache : false,
-			dataType : "json",
-			success : function(data, status) {
-				
-			}
-		});
-	
-	return true;
-} // end excel()
-*/
-
-function excel() {
-	$.ajaxSetup({
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader(header, token);
+	if (jsonObj.status == "OK") {
+		
+		var count = jsonObj.count;
+		var i;
+		var items = jsonObj.data;
+/*		for (i = 0; i < 31; i++) {
+			chartLabels.push(i+1);
+		} // end for
+*/		
+		if(flag == 0){
+			for (i = 0; i < count; i++) {
+				chartLabels.push(items[i].c_day);
+				chartData.push(items[i].c_quantity);
+			} // end for
+		} else{
+			for (i = 0; i < count; i++) {
+				chartLabels.push(items[i].c_month);
+				chartData.push(items[i].c_quantity);
+			} // end for
 		}
-	});
-	
-	var book_isbn = [];
-	$("#list tbody td[name=book_isbn]").each(function(){
-		book_isbn.push($(this).text());
-	});
-	
-	if(book_isbn.length==0){
-		alert('다운로드할 정보가 없습니다');
-	} else{
-		if(!confirm('엑셀 파일로 다운로드 받으시겠습니까?')) return false;
 		
-	var book_isbns= "";
-	
-	for (var i = 0; i < book_isbn.length; i++) {
-		book_isbns += "|"+book_isbn[i];
-	}
-	
-	alert(book_isbns);
-	
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-
-	
-	alert(book_isbns);
-	
-		
-		
-		$.ajax({
-			url : "excel.ajax",
-			type : "POST",
-			data : { 
-				'book_isbns' : book_isbns,
+		var ctx = document.getElementById('myChart2');
+		var myChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: chartLabels,
+				datasets: [{
+					label: '출고량',
+					data: chartData,
+					backgroundColor: [
+						'rgba(54, 162, 235, 0.2)'
+						],
+						borderColor: [
+							'rgba(54, 162, 235, 1)'
+							],
+							borderWidth: 1
+				}]
 			},
-			cache : false,
-			dataType : "json",
-			success : function(data, status) {
-				
+			options: {
+				responsive: true,
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				},
+				legend: {
+			        display: false
+			    },
+			    tooltips: {
+			        callbacks: {
+			           label: function(tooltipItem) {
+			                  return tooltipItem.yLabel;
+			           }
+			        }
+			    }
 			}
 		});
 		
 		return true;
-	}
 		
-} // end excel()
-
+	} else {
+		alert(jsonObj.message);
+		return false;
+	} // end if
+	return false;
+} // end outboundListUp1()

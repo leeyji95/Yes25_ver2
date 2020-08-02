@@ -9,7 +9,7 @@ import lombok.Data;
 public class OutboundDTO {
 	private int book_uid; 
 	private int outbound_uid; 
-	private int outbound_quantitiy; 
+	private int outbound_quantity; 
 	private int outbound_unit_price; 
 	private int outbound_state; 
 	private Timestamp outbound_date;

@@ -24,7 +24,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
-	src="${pageContext.request.contextPath }/JS/logistics/stock2.js"></script>
+	src="${pageContext.request.contextPath }/JS/logistics/kpi.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 </head>
@@ -35,97 +35,83 @@
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
 				<div class="div_title">
-					<h1 class="display-4 d-none d-sm-block" id="title">재고관리</h1>
+					<h1 class="display-4 d-none d-sm-block" id="title">현황요약</h1>
 				</div>
-				<%--버튼 --%>
-				<div class="container div_btn">
-					<div class="pull-right">
-					<button type="button" id="btnQuery" class="btn btn-primary">조회</button>
-					<button type="button" id="btnExcel" class="btn btn-primary">엑셀</button>
+				
+				<div>
+					<div class="container div_datepicker text-center">
+						<button id="btnLeft">
+						<i class="fas fa-chevron-left"></i>
+						</button>
+						<span>2020.<span id="month"></span>. <i class="far fa-calendar-alt fa-1x calendar"></i></span>
+						<button id="btnRight">
+						<i class="fas fa-chevron-right"></i>
+						</button>
+						<div class="btn-group">
+						  <button type="button" id="btnDay" class="btn btn-primary">월간</button>
+						  <button type="button" id="btnMonth" class="btn btn-primary">연간</button>
+						</div>
 					</div>
 				</div>
 
 
 				<form id="query">
-					<div class="form-group">
-						<table class="table table-cols">
-							<tbody>
-								<tr>
-									<th>조건검색</th>
-									<td>
-									<div>
-										<select name='classification'>
-											<option value='0' selected>선택</option>
-											<option value='1'>도서제목</option>
-											<option value='2'>ISBN</option>
-											<option value='3'>출판사명</option>
-											<option value='4'>도서저자</option>
-										</select>
-										<input type="text" name='keyword'>
-									</div>
-									</td>
-								</tr>
-								<tr>
-									<th>카테고리</th>
-									<td>
-									<div>
-										<select name='category_uid'>
-											<option value='0' selected>선택</option>
-											<option value='1'>문학</option>
-											<option value='2'>소설</option>
-											<option value='3'>전산</option>
-											<option value='4'>과학</option>
-										</select>
-									</div>
-									</td>	
-								</tr>
-								<tr>
-									<th>출간일자</th>
-									<td>
-									<div>
-										<input type="text" id="datepicker1" name="datepicker1"><i class="far fa-calendar-alt fa-1x calendar"></i> ~ <input type="text" id="datepicker2" name="datepicker2"><i class="far fa-calendar-alt fa-1x calendar"></i>
-									</div>
-									</td>	
-								</tr>
-							</tbody>
-						</table>
+					<div class="infor_wrap">
+						<div class="data_section">
+							<div class="dashboard_component">
+								<ul class="list">
+									<li class="item">
+										<span class="item_title">입고량 누계</span>
+										<strong class="item_value"></strong>
+									</li>
+									<li class="item">
+										<span class="item_title">출고량 누계</span>
+										<strong class="item_value"></strong>
+									</li>
+									<li class="item">
+										<span class="item_title">평균 재고 수량</span>
+										<strong class="item_value"></strong>
+									</li>
+									<li class="item">
+										<span class="item_title">최다 출고 서적</span>
+										<strong class="item_value"></strong>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</div>
-				</form>
+				</form> 
 				
 
 				<div class="row my-4">
-					<div class="col-lg-12 col-md-12">
+					<div class="col-lg-6 col-md-6" id="div_graph">
 						<div id="list" class="table-responsive">
 							<div class="table-background1">
-								<p>총 <span></span>건 검색</p>
+								<p class="chart_title">&lt;기간별 입고량 집계&gt;</p>
 							</div>
 								<form id="frmList" name="frmList">
-									<table class="table table-striped table-main">
-										<thead class="thead-inverse">
-											<tr>
-												<th>번      호</th>
-												<th>도서제목</th>
-												<th>ISBN</th>
-												<th>출판사명</th>
-												<th>도서저자</th>
-												<th>카테고리</th>
-												<th>출간일자</th>
-												<th>재고수량</th>
-											</tr>
-										</thead>
-										<tbody>
-	
-										</tbody>
-									</table>
+									<div class="chartAreaWrapper">
+										<canvas id="myChart1" width="580" height="400"></canvas>
+									</div>
 								</form>
-							<div class="table-background2"></div>
+							<!-- <div class="table-background2"></div> -->
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6" id="div_graph">
+						<div id="list" class="table-responsive">
+							<div class="table-background1">
+								<p class="chart_title">&lt;기간별 출고량 집계&gt;</p>
+							</div>
+								<form id="frmList" name="frmList">
+									<div class="chartAreaWrapper">
+										<canvas id="myChart2" width="580" height="400"></canvas>
+									</div>
+								</form>
+							<!-- <div class="table-background2"></div> -->
 						</div>
 					</div>
 				</div>
 				
-			<div>
-				<canvas id="myChart" width="400" height="400"></canvas>
-			</div>
 
 
 			</div>

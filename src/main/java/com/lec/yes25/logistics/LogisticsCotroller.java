@@ -44,7 +44,7 @@ public class LogisticsCotroller {
 	}
 	
 	@RequestMapping("/kpi")
-	public String stock2(Model model) {
+	public String kpi(Model model) {
 		return "logistics/kpi";
 	}
 	
