@@ -11,7 +11,7 @@
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 
 <style>
-    [class^='col-sm'] 
+    .container-fluid 
     {padding-top: 15px;}
     
     #publisher-list tr
@@ -28,6 +28,10 @@
    	
    	.spaceRight
    	{padding-right : 0.5em;}
+   	
+   	.page-info-panel, .page-info-panel > div
+   	{margin : 0 !important;
+   	padding : 0 !important;}
 </style>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
@@ -52,7 +56,14 @@
                 <div class="card">
                 <div class="card-header bg-dark text-white">거래처 목록</div>
                 <div class="card-body">
-                	<div id="page-info"></div>
+                	<div class="col-sm-12 row page-info-panel">
+               			<div class="col-sm-8 text-left align-self-end" id="page-info"></div>
+               			<div class="col-sm-4 text-right">
+	               			<button type="button" class="btn btn-warning" id="reset-publisher-list">
+								<i class="fa fa-refresh spaceRight"></i>초기화
+							</button>
+						</div>
+                	</div>
                     <div class="table-responsive table-hover">
                         <table class="table">
                             <thead class="thead-inverse">
@@ -104,7 +115,7 @@
 									</div>
 
 									<div class="form-group text-right">
-										<button type="reset" id="reset-reg-pub" class="btn btn-warning">
+										<button type="reset" class="btn btn-warning" id="reset-reg-pub">
 											<i class="fa fa-refresh spaceRight"></i>초기화
 										</button>
 										<button class="btn btn-primary" id="insert-reg-pub">
@@ -118,25 +129,27 @@
 					
 					<!-- 거래처 검색 -->
 					<div class="tab-pane fade" id="pub-search-tab">
-		              <div class="card">
-		                <div class="card-body">
-		                	<form role="form" id="pub-search" method="POST">
-								<div class="form-group row justify-content-center">
-									<div class="input-group col-sm-10">
-										<select class="form-control selectpicker col-sm-3" name="searchType" title="검색옵션">
-											<option value="pub_name">거래처명</option>
-											<option value="pub_rep">대표자명</option>
-											<option value="all">전체</option>
-										</select>
-										<input type="text" class="form-control" name="keyword">
-										<div class="input-group-append">
-											<button class="btn btn-primary" id="search"><i class="fa fa-search"></i></button>
+						<div class="card">
+							<div class="card-body">
+								<form role="form" id="pub-search" method="POST">
+									<div class="form-group row justify-content-center">
+										<div class="input-group col-sm-10">
+											<select class="form-control selectpicker col-sm-3"
+												name="searchType" title="검색옵션">
+												<option value="pub_name">거래처명</option>
+												<option value="pub_rep">대표자명</option>
+												<option value="all">전체</option>
+											</select> <input type="text" class="form-control" name="keyword">
+											<div class="input-group-append">
+												<button class="btn btn-primary" id="search">
+													<i class="fa fa-search"></i>
+												</button>
+											</div>
 										</div>
 									</div>
-								</div>
-							</form>
-		                </div>
-		              </div>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

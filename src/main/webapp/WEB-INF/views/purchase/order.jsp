@@ -11,7 +11,7 @@
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 
 <style>
-    [class^='col-sm']
+    .container-fluid
     {padding-top: 15px;}
     
     #search-result-table tr
