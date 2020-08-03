@@ -319,7 +319,7 @@
 		ORDER BY A.c_month, A.c_day)
 		WHERE c_month = TO_CHAR(#{param2})
 		GROUP BY c_month
-	</select>
+	</select> 
 	
 	<select id="sumInboundQtyByMonth" resultType="com.lec.yes25.logistics.InboundQtyDTO">
 		SELECT SUM(c_quantity) AS c_quantity

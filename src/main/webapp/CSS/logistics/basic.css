@@ -206,3 +206,6 @@ padding: 0px;
     color: #00c73c;
 }
 
+.item_value{
+	text-align: right;
+}

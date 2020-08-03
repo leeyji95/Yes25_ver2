@@ -64,15 +64,15 @@
 								<ul class="list">
 									<li class="item">
 										<span class="item_title">입고량 누계</span>
-										<p><strong class="item_value1"></strong></p>
+										<p class="item_value"><strong class="item_value1"></strong></p>
 									</li>
 									<li class="item">
 										<span class="item_title">출고량 누계</span>
-										<p><strong class="item_value2"></strong></p>
+										<p class="item_value"><strong class="item_value2"></strong></p>
 									</li>
  									<li class="item">
 										<span class="item_title">GAP (입고량 - 출고량)</span>
-										<p><strong class="item_value3"></strong></p>
+										<p class="item_value"><strong class="item_value3"></strong></p>
 									</li>
 									<!-- <li class="item">
 										<span class="item_title">최다 출고 서적</span>
