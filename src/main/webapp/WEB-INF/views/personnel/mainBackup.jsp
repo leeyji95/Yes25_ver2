@@ -22,12 +22,10 @@
 
 </head>
 <body>
-	<jsp:include page="nav.jsp" />
 
 	<div class="container-fluid" id="main">
 		<div class="row row-offcanvas row-offcanvas-left">
-			<jsp:include page="left_menu.jsp" />
-
+ㄴ
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
 			<h3 class="display-4 d-none d-sm-block">
