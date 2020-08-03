@@ -176,12 +176,12 @@ let app = new Vue({
         },
         getPublisher: function () {
             console.log('출판사 가져오기 시작');
-            axios.post(`http://localhost:8000/yes25/products/ajax/publisherList.ajax`), 1, 
+            axios.post(`http://localhost:8000/yes25/products/ajax/publisherList.ajax`, 1, 
             {
             	headers: {
             		"X-CSRF-TOKEN": token
                 }
-            }
+            })
                 .then((result) => {
                     console.log('출판사 가져오기 성공');
                     console.log(result);
