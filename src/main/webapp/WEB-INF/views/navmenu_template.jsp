@@ -56,8 +56,8 @@
                   <div class="link"><i class="fa fa-cloud"></i>물류관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/logistics/inbound">입고관리</a></li>
-                    <li><a href="${pageContext.request.contextPath }/logistics/outbound">재고관리</a></li>
-                    <li><a href="${pageContext.request.contextPath }/logistics/stock">출고관리</a></li>
+                    <li><a href="${pageContext.request.contextPath }/logistics/outbound">출고관리</a></li>
+                    <li><a href="${pageContext.request.contextPath }/logistics/stock">재고관리</a></li>
                     <li><a href="${pageContext.request.contextPath }/logistics/kpi">현황요약</a></li>
                   </ul>
                 </li>  

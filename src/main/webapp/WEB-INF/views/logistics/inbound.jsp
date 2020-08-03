@@ -15,8 +15,6 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/styles.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/logistics/basic.css" />
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
 <script
@@ -68,8 +66,8 @@
                   <div class="link"><i class="fa fa-cloud"></i>물류관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/logistics/inbound">입고관리</a></li>
-                    <li><a href="${pageContext.request.contextPath }/logistics/outbound">재고관리</a></li>
-                    <li><a href="${pageContext.request.contextPath }/logistics/stock">출고관리</a></li>
+                    <li><a href="${pageContext.request.contextPath }/logistics/outbound">출고관리</a></li>
+                    <li><a href="${pageContext.request.contextPath }/logistics/stock">재고관리</a></li>
                     <li><a href="${pageContext.request.contextPath }/logistics/kpi">현황요약</a></li>
                   </ul>
                 </li>  
@@ -107,7 +105,6 @@
 					<div class="div_title">
 					<h1 class="display-4 d-none d-sm-block" id="title">입고관리</h1>
 				</div>
-					<hr>
 					<div class="lead mt-5 d-none d-sm-block">
 					
 						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
