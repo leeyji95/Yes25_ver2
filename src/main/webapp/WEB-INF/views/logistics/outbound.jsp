@@ -138,7 +138,7 @@
 					</div>
 				</form>
 
-				<div class="row my-4">
+				<div class="row my-4  div_table">
 					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
 							<div class="table-background1">
@@ -147,7 +147,7 @@
 							<form id="frmList" name="frmList">
 								<table class="table table-striped table-main">
 									<thead class="thead-inverse">
-										<tr>
+										<tr class="fixed_top">
 											<th>번호선택</th>
 											<th>출고번호</th>
 											<th>도서제목</th>
