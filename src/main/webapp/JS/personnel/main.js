@@ -123,6 +123,7 @@ $(".goWork").on("click", function () {
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
 					alert(data.message);
+					$('#changetext').text(data.message);
 				} else {
 					alert("다시 처리해주세요.");
 				}
@@ -130,8 +131,8 @@ $(".goWork").on("click", function () {
 		}
 	});
 	$(this).removeClass("top-active-button").siblings().addClass("top-active-button");
-	//$(this).attr('disabled', true);
-	$('#changetext').text('출근시간  :  \n' + goworkTime);
+	$(this).attr('disabled', true);
+	
 	return false;
 });
 
@@ -164,16 +165,16 @@ $(".outWork").on("click", function () {
 						alert(data.message);
 						totalWorkTime();
 					}
-					
+					$('#changetext').text(data.message);
 				} else {
 					alert("출근을 먼저 등록해주세요");
 				}
 			}
 		}
 	});
-	$(this).removeClass("top-active-button").siblings().addClass("top-active-button");
-	//$(this).attr('disabled', true);
-	$('#changetext').text('퇴근시간  :  \n' + outworkTime);
+	$(this).removeClass("top-active-button");
+	$(this).attr('disabled', true);
+	
 	return false;
 });
 

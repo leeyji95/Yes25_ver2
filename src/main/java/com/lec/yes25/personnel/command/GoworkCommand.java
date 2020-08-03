@@ -60,7 +60,7 @@ public class GoworkCommand implements RCommand {
 				Date realDate = dao.selectGowork(username);
 				if (cmmtStart != null) {
 					if (cmmtStartFormatter.parse(paramDate).compareTo(cmmtStartFormatter.parse(cmmtStart)) == 0) {
-						message.append("이미  처리되었습니다.\n" + format1.format(realDate));
+						message.append("이미  등록처리되었습니다. \n" + format1.format(realDate));
 						status = "OK";
 						System.out.println("이미 출근 했는데....");
 					} else {
@@ -98,7 +98,7 @@ public class GoworkCommand implements RCommand {
 						if (goworkGetTime <= stdGetTime9) {
 							System.out.println("출근");
 							state = "출근";
-							message.append("정상 출근\n" + format1.format(goworkDate));
+							message.append("정상출근\n" + format1.format(goworkDate));
 							// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
 							cntUpdate = dao.goworkState(username, state);
 						} else if (stdGetTime9 < goworkGetTime && goworkGetTime <= stdGetTime12) {
@@ -110,7 +110,7 @@ public class GoworkCommand implements RCommand {
 							System.out.println("결근");
 							state = "결근";
 							cntUpdate = dao.goworkState(username, state);
-							message.append(cmmtStartFormatter.format(cmmtStartFormatter.parse(paramDate)) + "\n결근 처리");
+							message.append(cmmtStartFormatter.format(cmmtStartFormatter.parse(paramDate)) + "\n결근처리");
 						}
 
 						System.out.println("cntUpdate ::: " + cntUpdate + "개 업데이트");
