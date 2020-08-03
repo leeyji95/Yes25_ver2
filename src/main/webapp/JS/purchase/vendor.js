@@ -164,7 +164,6 @@ $(document).ready(function(){
 	$('#reset-publisher-list').click(function(){
 		searchType = '';
 		keyword = '';
-		$("#pub-search input[name='keyword']").val('');
 
 		$.ajax({
 			type : 'POST',

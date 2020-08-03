@@ -35,16 +35,10 @@ $(document).ready(function(){
 	$('#search-order').submit(function(e){
 		e.preventDefault();
 		
-		var dateBuf = '';
-		
 		keyword_pubName = $('#search-order-pub-name').val().trim();
 		keyword_bookSubject = $('#search-order-book-subject').val().trim();
-		
 		keyword_startDate = $('#search-order-startDate').val();
-	    console.log(keyword_startDate);
-	    
 	    keyword_endDate = $('#search-order-endDate').val();
-	    console.log(keyword_endDate);
 	    
 		$.ajax({
 			type : 'POST',
@@ -65,6 +59,33 @@ $(document).ready(function(){
 		});
 	});
 	
+	// 검색 결과 초기화
+	$('#reset-order-list').click(function(){
+		keyword_pubName = '';
+		keyword_bookSubject = '';
+		keyword_startDate = '';
+	    keyword_endDate = '';
+	    
+		$.ajax({
+			type : 'POST',
+			url : 'status/orderList.ajax',
+			data : {
+					pub_name : keyword_pubName,
+					book_subject : keyword_bookSubject,
+					startDate : keyword_startDate,
+					endDate : keyword_endDate,
+					page : 1,
+					pageRows : pageRows},
+			cache : false,
+			success : function(data, status){
+				if(status == "success"){
+					updateOrderList(data);
+				}			
+			}
+		});		
+	});
+	
+	// 발주서 인쇄
 	$('#print-purchase-order').click(function(){
 		onPrint('#purchase-order .modal-body');
 	});

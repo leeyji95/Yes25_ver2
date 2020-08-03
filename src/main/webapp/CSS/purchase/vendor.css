@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.page-info-panel, .page-info-panel>div {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+#publisher-list tr {
+	cursor: pointer;
+}
+
+.pagination {
+	justify-content: center;
+}
+
+.pagination li {
+	cursor: pointer;
+}
+
+.error {
+	color: red;
+}
+
+.spaceRight {
+	padding-right: 0.5em;
+}
+

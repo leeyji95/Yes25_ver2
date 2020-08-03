@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+.page-info-panel, .page-info-panel>div {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+#order-list tr {
+	cursor: pointer;
+}
+
+.modal-dialog {
+	max-width: 90% !important;
+}
+
+.pagination {
+	justify-content: center;
+}
+
+.pagination li {
+	cursor: pointer;
+}
+
+.none, .none * {
+	display: none !important;
+}
+
+.inline-block * {
+	display: inline-block !important;
+}
+
+
+.spaceRight {
+	padding-right: 0.5em;
+}
