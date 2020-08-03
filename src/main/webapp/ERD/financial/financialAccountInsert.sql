@@ -1,4 +1,4 @@
--- 당좌자산
+-- 당좌자산 
 INSERT INTO tb_account(account_uid, account_name) VALUES (101, '현금');
 -- 검색 기능을 시연하기 위한 추가
 INSERT INTO tb_account(account_uid, account_name) VALUES (102, '현금');
