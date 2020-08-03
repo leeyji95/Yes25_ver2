@@ -28,7 +28,7 @@ public class NewempCommand implements RCommand {
 		
 		// String -> Date 형변환
 		String hiredate = request.getParameter("hiredate");
-		System.out.println("param date: " + hiredate);
+		System.out.println("hiredate: " + hiredate);
 //		SimpleDateFormat transFormat = new SimpleDateFormat("YYYY-MM-dd");
 //		Date to = transFormat.parse(hiredate);
 //		System.out.println("date: " + to);

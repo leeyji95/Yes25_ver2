@@ -24,6 +24,9 @@
 /* 제목에 헤더 줌*/
 #proceedHeader, #writeHeader {
 	margin-top: 50px;
+	font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 
 /* 기본 세팅 너비 */
