@@ -240,8 +240,29 @@ ORDER BY commute_date DESC) T;
 
 
 
+-- ----------------------------------------------------------------------------
+SELECT 
+      SUM(outbound_quantitiy * outbound_unit_price) 
+   FROM 
+      tb_outbound_test
+   WHERE
+      outbound_date>='2019-01-01' AND outbound_date<='2019-01-31';
 
 
+SELECT 
+   SUM(outbound_quantitiy * outbound_unit_price) 
+FROM 
+   tb_outbound_test
+WHERE
+   outbound_date>='2019-01-01' AND outbound_date<='2019-12-31'
+   ;
 
-
+  
+SELECT 
+   outbound_quantity * outbound_unit_price
+FROM 
+   tb_outbound_test
+WHERE
+   outbound_date>='2019-01-01' AND outbound_date<='2019-12-31'
+   ;
 
