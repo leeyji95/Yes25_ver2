@@ -611,7 +611,7 @@ function userInfo(username) {
 	
 	return word;
 	
-}
+} // end userInfo()
 function deptName(deptNo) {
 	switch(deptNo) {
 	case 10:
@@ -625,7 +625,7 @@ function deptName(deptNo) {
 	case 50:
 		return '구매팀';
 	}
-}
+} // end deptName()
 
 // 글 수정
 function chkUpdate() {

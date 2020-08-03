@@ -7,6 +7,8 @@ public class AccountDTO {
 	private int account_uid;
 	private String account_name;
 
+	// 생성자
+	public AccountDTO() {}
 	
 	// getter, getter
 	public int getAccount_uid() {

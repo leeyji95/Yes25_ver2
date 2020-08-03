@@ -8,7 +8,9 @@ import com.lec.yes25.financial.bean.AccountDTO;
 public class AjaxAccountResult extends AjaxWriteResult {
 	@JsonProperty("data")
 	private List<AccountDTO> list;	// 데이터 목록
-
+	
+	// 생성자
+	public AjaxAccountResult() {}
 	
 	// setter, getter
 	public List<AccountDTO> getList() {
