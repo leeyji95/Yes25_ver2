@@ -313,7 +313,7 @@ function updateList(jsonObj) {
 		switch(choice) {
 			case 1:
 				// 결제를 기다리고 있는 전표 목록
-				$("#pageinfo").text("총 " + jsonObj.page + " 페이지 / " + jsonObj.totalpage + " 페이지(결제를 기다리고 있는 " + jsonObj.totalcnt + "개의 전표)");
+				$("#pageinfo").text("총 " + jsonObj.page + " 페이지 / " + jsonObj.totalpage + " 페이지(결재를 기다리고 있는 " + jsonObj.totalcnt + "개의 전표)");
 				break;
 			case 2:
 				$("#pageinfo").text("총 " + jsonObj.page + " 페이지 / " + jsonObj.totalpage + " 페이지(내가 작성한 " + jsonObj.totalcnt + "개의 전표)");

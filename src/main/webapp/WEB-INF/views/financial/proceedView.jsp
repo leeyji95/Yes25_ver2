@@ -116,7 +116,7 @@
 				<div class="col main pt-5 mt-3">
 					<!-- 월별 매출 그래프 -->
 					<div class="div_title">
-						<h1 class="title" style=" padding-top: 50px; text-align: center;">월별 매출 그래프</h1>
+						<h1 class="title" style=" padding-top: 50px; text-align: center;">일반전표</h1>
 					</div>
 					<hr>
 					
@@ -130,7 +130,7 @@
 [전표번호] ${list[0].stmt_uid }<br>
 </div>
 
-<div style="text-align: center; font-size: 30px; padding-top: 30px;">
+<div style="text-align: center; font-size: 20px; padding-top: 30px;">
 <!-- 담당 라인(1) , 결제 라인(2), 최종 승인(3), 승인 거절(4) -->
 <c:choose>
 <c:when test="${list[0].proceed == 1}">

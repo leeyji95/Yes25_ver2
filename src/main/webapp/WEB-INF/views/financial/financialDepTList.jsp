@@ -56,7 +56,7 @@
         </nav>
         
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation" style="width: 22em;" style="overflow-y: scroll;">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y: scroll;">           
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
                  	<div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
@@ -154,12 +154,12 @@
 	<table class="width100">
 		
 		<thead class="width100">
-			<th style="width: 5%; text-align: center;">삭제</th>
+			<th style="width: 10%; text-align: center;">삭제</th>
 			<th style="width: 10%; text-align: center;">날짜</th>
-			<th style="width: 15%; text-align: center;">계정과목</th>
-			<th style="width: 35%; text-align: center;">적요</th>
+			<th style="width: 10%; text-align: center;">계정과목</th>
+			<th style="width: 30%; text-align: center;">적요</th>
 			<th style="width: 20%; text-align: center;">금액</th>
-			<th style="width: 15%; text-align: center;">결제 진행 사항</th>
+			<th style="width: 20%; text-align: center;">결제 진행 사항</th>
 		</thead>
 		
 		<tbody id="tbodyList" class="width100"></tbody>
@@ -175,7 +175,7 @@
 </div>
 
 <!-- 버튼 -->
-<button type="button" class="btnMyself info" style="float: right;"
+<button type="button" class="btnMyself info" style="float: right; margin-bottom: 50px;"
 	onclick="location.href='financialMain.bn'">재무 메인</button>
 
 <!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>						

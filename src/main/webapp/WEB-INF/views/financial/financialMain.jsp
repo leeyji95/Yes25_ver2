@@ -114,7 +114,7 @@
 
 
 <!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>
-<div style="width: 80%; margin: 50px auto 5px auto; height: 500px;">
+<div style="width: 80%; margin: 50px auto 5px auto; height: 400px;">
     <canvas id="monthSales"></canvas>
 </div>
 
@@ -131,7 +131,7 @@
 <tr class="width100">
 	<td class="width50">
 		<button id="proceedChoiceBtn" class="width100 infohover" 
-			style="padding: 15px; border: none; border-radius: 10px 0 0 0">결제를 기다리고 있는 전표 목록</button>
+			style="padding: 15px; border: none; border-radius: 10px 0 0 0">결재를 기다리고 있는 전표 목록</button>
 	</td>
 	<td class="width50">
 		<button id="writeChoiceBtn" class="width100 info" 
@@ -142,7 +142,7 @@
 
 
 <!-- 제목 -->
-<h1 id="proceedHeader" class="display-4 d-none d-sm-block">결제를 기다리고 있는 전표 목록</h1>
+<h1 id="proceedHeader" class="display-4 d-none d-sm-block">결재를 기다리고 있는 전표 목록</h1>
 <h1 id="writeHeader" class="display-4 d-none d-sm-block">작성한 전표 목록</h1> 
 
 
