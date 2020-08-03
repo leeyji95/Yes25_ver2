@@ -28,37 +28,17 @@ import net.sf.json.JSONObject;
 public class OutboundUpdateCommand implements Command {
 	
 
-	private SqlSession sqlSession;
-	
-	
-	@Autowired
-	public void setSqlSession(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
-		C.sqlSession =sqlSession;
-	}
-	
-	TransactionTemplate transactionTemplate;
-	
-	@Autowired
-	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-		this.transactionTemplate = transactionTemplate;
-	}
-	
-	
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-			
-			@Override
-			protected void doInTransactionWithoutResult(TransactionStatus status) {
-				
+		
 	
 		int cnt = 0;
 		
 		LogisticsDAO dao = C.sqlSession.getMapper(LogisticsDAO.class);
 		
 		StringBuffer message = new StringBuffer();
-		String status1 = "FAIL";
+		String status = "FAIL";
 		
 
 		
@@ -97,7 +77,7 @@ public class OutboundUpdateCommand implements Command {
 				if(cnt == 0) {
 					message.append("[0 inserted]");
 				}  else {
-					status1 = "OK";					
+					status = "OK";					
 				} // end if
 
 			} catch (Exception e) {
@@ -107,12 +87,10 @@ public class OutboundUpdateCommand implements Command {
 		} // end if
 		
 		request.setAttribute("result", cnt);
-		request.setAttribute("status", status1);
+		request.setAttribute("status", status);
 		request.setAttribute("message", message.toString());
 		
-			}
-		});
-			
+	
 	} // end execute
 
 } // end OutboundUpdateCommand

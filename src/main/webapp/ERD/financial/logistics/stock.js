@@ -224,7 +224,7 @@ function excel() {
 		book_isbns += "|"+book_isbn[i];
 	}
 	
-	alert(book_isbns);
+	//alert(book_isbns);
 	
 	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 
