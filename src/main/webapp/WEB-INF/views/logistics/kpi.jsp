@@ -108,13 +108,13 @@
 						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
 
 
-											<div>
+				<div>
 					<div class="container text-center">
 						<div class="div_datepicker">
 							<button id="btnLeft">
 							<i class="fas fa-chevron-left"></i>
 							</button>
-							<span>2020.<span id="month"></span>. <i class="far fa-calendar-alt fa-1x calendar"></i></span>
+							<span><span id="year">2020년 </span><span id="month"></span>월 <i class="far fa-calendar-alt fa-1x calendar"></i></span>
 							<button id="btnRight">
 							<i class="fas fa-chevron-right"></i>
 							</button>

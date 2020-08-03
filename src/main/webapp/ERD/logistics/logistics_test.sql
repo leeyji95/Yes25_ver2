@@ -7,8 +7,6 @@ DROP TABLE tb_order_test CASCADE CONSTRAINT purge;
 DROP TABLE tb_stock_test CASCADE CONSTRAINT purge;
 DROP TABLE tb_inbound_test CASCADE CONSTRAINT purge;
 DROP TABLE tb_outbound_test CASCADE CONSTRAINT purge;
-/*DROP TABLE tb_month_test CASCADE CONSTRAINT purge;
-DROP TABLE tb_date_test CASCADE CONSTRAINT purge;*/
 DROP TABLE tb_calendar_test CASCADE CONSTRAINT purge;
 
 
@@ -408,7 +406,7 @@ END;
 
 
 
-I
+
 
 
 /*	SELECT

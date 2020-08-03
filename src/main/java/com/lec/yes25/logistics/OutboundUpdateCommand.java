@@ -1,17 +1,12 @@
 package com.lec.yes25.logistics;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
-import org.springframework.transaction.annotation.Transactional;
 
 import com.lec.yes25.common.C;
 import com.lec.yes25.common.Command;
@@ -22,18 +17,16 @@ import net.sf.json.JSONObject;
 
 
 public class OutboundUpdateCommand implements Command {
-
+	
 	@Override
-	@Transactional
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		
 		int cnt = 0;
 		
 		LogisticsDAO dao = C.sqlSession.getMapper(LogisticsDAO.class);
 		
 		StringBuffer message = new StringBuffer();
 		String status = "FAIL";
-		
-
 		
 		String params = request.getParameter("jsonData");
 		
@@ -53,7 +46,7 @@ public class OutboundUpdateCommand implements Command {
 					
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("book_isbn", Long.valueOf(String.valueOf(obj.get("book_isbn"))));
-					map.put("price", Integer.valueOf(String.valueOf(obj.get("price"))));
+					map.put("book_price", Integer.valueOf(String.valueOf(obj.get("book_price"))));
 					map.put("stock_quantity", Integer.valueOf(String.valueOf(obj.get("stock_quantity"))));
 					
 					list.add(map);
@@ -82,6 +75,8 @@ public class OutboundUpdateCommand implements Command {
 		request.setAttribute("result", cnt);
 		request.setAttribute("status", status);
 		request.setAttribute("message", message.toString());
+		
+	
 	} // end execute
 
 } // end OutboundUpdateCommand

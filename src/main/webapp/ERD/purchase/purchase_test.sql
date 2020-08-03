@@ -1,4 +1,7 @@
 -- table 삭제
+DROP TABLE tb_publisher CASCADE CONSTRAINT purge;
+DROP TABLE tb_book CASCADE CONSTRAINT purge;
+DROP TABLE tb_category CASCADE CONSTRAINT purge;
 DROP TABLE tb_order CASCADE CONSTRAINT purge;
 
 -- view 삭제
@@ -8,11 +11,79 @@ DROP VIEW v_Order;
 -- sequence 삭제
 DROP SEQUENCE publisher_seq;
 DROP SEQUENCE book_seq;
+DROP SEQUENCE category_seq;
+DROP SEQUENCE order_seq;
+DROP SEQUENCE order_set_seq;
 
 -- sequence 생성
 CREATE SEQUENCE publisher_seq;
 CREATE SEQUENCE book_seq;
+CREATE SEQUENCE category_seq;
+CREATE SEQUENCE order_seq;
+CREATE SEQUENCE order_set_seq;
+------------------------------
 
+-- 출판사 테이블
+CREATE TABLE tb_publisher
+(
+    publisher_uid        NUMBER           NOT NULL, 
+    publisher_name       VARCHAR2(100)    NOT NULL, 
+    publisher_num        VARCHAR2(12)     NOT NULL, 
+    publisher_rep        VARCHAR2(30)     NOT NULL, 
+    publisher_contact    VARCHAR2(60)     NOT NULL, 
+    publisher_address    VARCHAR2(200)    NOT NULL, 
+    CONSTRAINT TB_PUBLISHER_PK PRIMARY KEY (publisher_uid)
+);
+
+ALTER TABLE tb_publisher
+    ADD CONSTRAINT UC_publisher_num UNIQUE (publisher_num);
+   
+SELECT * FROM tb_publisher;
+------------------------------
+
+-- 카테고리 테이블
+CREATE TABLE tb_category
+(
+    category_uid       NUMBER          NOT NULL, 
+    category_name      VARCHAR2(30)    NULL, 
+    category_parent    NUMBER          NULL, 
+    CONSTRAINT TB_CATEGORY_PK PRIMARY KEY (category_uid)
+);
+
+ALTER TABLE tb_category
+    ADD CONSTRAINT FK_tb_category_category_parent FOREIGN KEY (category_parent)
+        REFERENCES tb_category (category_uid);
+       
+SELECT * FROM tb_category;
+------------------------------ 
+
+-- 도서 테이블
+CREATE TABLE tb_book
+(
+    book_uid         NUMBER           NOT NULL, 
+    book_subject     VARCHAR2(200)    NOT NULL, 
+    book_author      VARCHAR2(60)     NOT NULL, 
+    book_content     CLOB             NULL,
+    book_price       NUMBER           NULL,
+    book_pubdate     DATE             NOT NULL, 
+    book_regdate     DATE             DEFAULT SYSDATE NOT NULL,
+    book_isbn        NUMBER           NULL, 
+    category_uid     NUMBER           NOT NULL, 
+    publisher_uid    NUMBER           NOT NULL, 
+    CONSTRAINT TB_BOOK_PK PRIMARY KEY (book_uid)
+);
+
+ALTER TABLE tb_book
+    ADD CONSTRAINT FK_tb_book_category_uid_tb_cat FOREIGN KEY (category_uid)
+        REFERENCES tb_category (category_uid);
+
+ALTER TABLE tb_book
+    ADD CONSTRAINT FK_tb_book_publisher_uid_tb_pu FOREIGN KEY (publisher_uid)
+        REFERENCES tb_publisher (publisher_uid);
+
+SELECT * FROM tb_book;
+------------------------------      
+   
 -- 발주 테이블
 CREATE TABLE tb_order
 (
@@ -26,6 +97,14 @@ CREATE TABLE tb_order
     order_state        INT       DEFAULT 0 NOT NULL, 
     CONSTRAINT tb_order_pk PRIMARY KEY (order_set_uid, book_uid, publisher_uid)
 );
+
+ALTER TABLE tb_order
+    ADD CONSTRAINT FK_tb_order_book_uid_tb_book_b FOREIGN KEY (book_uid)
+        REFERENCES tb_book (book_uid);
+
+ALTER TABLE tb_order
+    ADD CONSTRAINT FK_tb_order_pub_uid_tb_pub FOREIGN KEY (publisher_uid)
+        REFERENCES tb_publisher (publisher_uid);
 
 SELECT * FROM tb_order;
 ------------------------------
@@ -113,6 +192,11 @@ BEGIN
 END;
 ------------------------------
 
+-- 카테고리 더미 데이터
+INSERT INTO tb_category VALUES (1, 'IT', null);
+INSERT INTO tb_category VALUES (2, '소설', null);
+------------------------------
+
 -- 도서 더미 데이터
 DELETE FROM tb_book;
 
@@ -131,3 +215,30 @@ BEGIN
   END LOOP;
 END;
 ------------------------------
+
+-- 발주 더미 데이터
+DELETE FROM tb_order;
+
+SELECT order_set_seq.nextval FROM dual;
+DECLARE 
+	num NUMBER := 1;
+	orderSetUid NUMBER := order_set_seq.currval;
+	pubUid NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 30));
+	YYYY NUMBER := CEIL(DBMS_RANDOM.VALUE(2017, 2020));
+	MM NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 6));
+	DD NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 27));
+BEGIN
+  WHILE (num <= 30) LOOP
+  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
+  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
+  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
+    num := num + 1;
+    orderSetUid := order_set_seq.nextval;
+   	pubUid := CEIL(DBMS_RANDOM.VALUE(1, 30));
+   	YYYY := CEIL(DBMS_RANDOM.VALUE(2018, 2020));
+   	MM := CEIL(DBMS_RANDOM.VALUE(1, 7));
+   	DD := CEIL(DBMS_RANDOM.VALUE(1, 28));
+  END LOOP;
+END;
+
+SELECT * FROM tb_order;

@@ -83,7 +83,7 @@ input[type=checkbox]{
 .table-background2{
 	height: 46px;
 	width: 100%;
-	overflow: hidden;
+	overflow: hidden; 
 	padding: 8px 0;
 	margin-top: -20px;
 	background: #F6F6F6;
@@ -131,10 +131,10 @@ input[type=checkbox]{
 }
 
 .div_datepicker{
-vertical-align: middle;
-margin-top: 45px;
-margin-bottom: 45px;
-padding: 0px;
+	vertical-align: middle;
+	margin-top: 45px;
+	margin-bottom: 45px;
+	padding: 0px;
 }
 
 .chartAreaWrapper{
@@ -214,13 +214,22 @@ padding: 0px;
 
 .item_value {
 	display: block;
-    margin-top: 26px;
+    margin-top: 15px;
     word-break: break-all;
     font-size: 22px;
     font-weight: bold;
     color: #00c73c;
 }
 
-.item_value{
+ .item_value{
 	text-align: right;
+} 
+
+#frmList{
+	max-height: 500px;
+	overflow-y: auto;
 }
+
+
+
+

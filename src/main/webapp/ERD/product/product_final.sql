@@ -1,46 +1,89 @@
-SELECT * FROM tab;
-SELECT * FROM tb_book;
-SELECT * FROM tb_category;
-SELECT * FROM tb_publisher;
-SELECT * FROM TB_ATTACH ORDER BY ATTACH_UID DESC;
+--테이블삭제
+DROP TABLE tb_publisher CASCADE CONSTRAINT purge;
+DROP TABLE tb_category CASCADE CONSTRAINT purge;
+DROP TABLE tb_book CASCADE CONSTRAINT purge;
+DROP TABLE tb_attach CASCADE CONSTRAINT purge;
 
-DELETE FROM TB_BOOK tb;
-DELETE FROM TB_ATTACH ta;
+--시퀀스삭제
+DROP SEQUENCE publisher_seq;
+DROP SEQUENCE book_seq;
+DROP SEQUENCE attach_seq;
 
-SELECT *
-	FROM 
-	(SELECT rownum AS rnum, vb.* 
-	FROM VIEW_BOOK vb
-	WHERE SUBJECT LIKE '%aaa%')	
-	WHERE RNUM >= 1 + (1 - 1)*5 AND RNUM < 1 + 1*5
-	;
+--시퀀스생성
+CREATE SEQUENCE publisher_seq;
+CREATE SEQUENCE book_seq;
+CREATE SEQUENCE attach_seq;
 
-SELECT * FROM TB_ATTACH
-WHERE BOOK_UID = 110;
+--테이블생성
+CREATE TABLE tb_category
+(
+    category_uid       NUMBER          NOT NULL, 
+    category_name      VARCHAR2(30)    NULL, 
+    category_parent    NUMBER          NULL, 
+    CONSTRAINT TB_CATEGORY_PK PRIMARY KEY (category_uid)
+);
 
-SELECT PUBLISHER_UID pubUid, PUBLISHER_NAME pubName, 
-PUBLISHER_NUM pubNum, PUBLISHER_REP pubRep, 
-PUBLISHER_CONTACT pubContact, PUBLISHER_ADDRESS pubAddress 
-FROM TB_PUBLISHER;
+ALTER TABLE tb_category
+    ADD CONSTRAINT FK_tb_category_category_parent FOREIGN KEY (category_parent)
+        REFERENCES tb_category (category_uid);
 
-SELECT ROOT_UID rootUid, ROOT_NAME rootName,
-DOWN1_UID down1Uid, DOWN1_NAME down1Name,
-DOWN2_UID down2Uid, DOWN2_NAME down2Name
-FROM view_category;
+       
+CREATE TABLE tb_publisher
+(
+    publisher_uid        NUMBER           NOT NULL, 
+    publisher_name       VARCHAR2(100)    NOT NULL, 
+    publisher_num        VARCHAR2(12)     NOT NULL, 
+    publisher_rep        VARCHAR2(30)     NOT NULL, 
+    publisher_contact    VARCHAR2(60)     NOT NULL, 
+    publisher_address    VARCHAR2(200)    NOT NULL, 
+    CONSTRAINT TB_PUBLISHER_PK PRIMARY KEY (publisher_uid)
+);
 
-CREATE OR REPLACE VIEW view_category AS
-SELECT root.CATEGORY_UID root_uid, root.CATEGORY_NAME root_name, 
-down1.CATEGORY_UID down1_uid, down1.CATEGORY_NAME down1_name,  
-down2.CATEGORY_UID down2_uid, down2.CATEGORY_NAME down2_name  
-FROM TB_CATEGORY root 
-LEFT OUTER JOIN TB_CATEGORY down1 ON down1.CATEGORY_PARENT = root.CATEGORY_UID
-LEFT OUTER JOIN TB_CATEGORY down2 ON down2.CATEGORY_PARENT = down1.CATEGORY_UID 
-WHERE root.CATEGORY_PARENT IS NULL 
-ORDER BY root.CATEGORY_NAME, down1.CATEGORY_NAME, down2.CATEGORY_NAME 
-;
+ALTER TABLE tb_publisher
+    ADD CONSTRAINT UC_publisher_num UNIQUE (publisher_num);
 
-UPDATE TB_ATTACH SET BOOK_UID = 8 WHERE ATTACH_UID = 11;
+       
+CREATE TABLE tb_book
+(
+    book_uid         NUMBER           NOT NULL, 
+    book_subject     VARCHAR2(200)    NOT NULL, 
+    book_author      VARCHAR2(100)    NOT NULL, 
+    book_content     CLOB             NULL, 
+    book_price       NUMBER           NULL, 
+    book_pubdate     DATE             NULL, 
+    book_regdate     DATE             DEFAULT SYSDATE NOT NULL, 
+    book_isbn        NUMBER           NULL, 
+    category_uid     NUMBER           NOT NULL, 
+    publisher_uid    NUMBER           NOT NULL, 
+    CONSTRAINT TB_BOOK_PK PRIMARY KEY (book_uid)
+);
 
+ALTER TABLE tb_book
+    ADD CONSTRAINT FK_tb_book_category_uid_tb_cat FOREIGN KEY (category_uid)
+        REFERENCES tb_category (category_uid);
+
+ALTER TABLE tb_book
+    ADD CONSTRAINT FK_tb_book_publisher_uid_tb_pu FOREIGN KEY (publisher_uid)
+        REFERENCES tb_publisher (publisher_uid);
+       
+CREATE TABLE tb_attach
+(
+    attach_uid           NUMBER           NOT NULL, 
+    attach_oriname       VARCHAR2(200)    NOT NULL, 
+    attach_servername    VARCHAR2(200)    NOT NULL, 
+    attach_type          VARCHAR2(200)    NOT NULL, 
+    attach_uri           VARCHAR2(200)    NULL, 
+    attach_regdate       DATE             DEFAULT SYSDATE NOT NULL, 
+    attach_size          NUMBER           NOT NULL, 
+    book_uid             NUMBER           NULL, 
+    CONSTRAINT TB_ATTACH_PK PRIMARY KEY (attach_uid)
+);
+
+ALTER TABLE tb_attach
+    ADD CONSTRAINT FK_tb_attach_book_uid_tb_book_ FOREIGN KEY (book_uid)
+        REFERENCES tb_book (book_uid);
+
+--뷰 생성
 CREATE OR REPLACE VIEW view_book AS
 SELECT  
 		tbk.BOOK_UID bookUid, tbk.BOOK_SUBJECT subject, tbk.BOOK_AUTHOR author, 
@@ -57,35 +100,17 @@ SELECT
 	ON tbk.BOOK_UID = tat.BOOK_UID 
 	ORDER BY tbk.BOOK_UID DESC;
 
-SELECT * FROM view_book;	
-
-
-SELECT *
-FROM 
-(SELECT rownum AS rnum, vb.* 
-FROM VIEW_BOOK vb
-WHERE (SUBJECT LIKE '%1%'))
-WHERE RNUM >= 1 AND RNUM < 1 + 5
+CREATE OR REPLACE VIEW view_category AS
+SELECT root.CATEGORY_UID root_uid, root.CATEGORY_NAME root_name, 
+down1.CATEGORY_UID down1_uid, down1.CATEGORY_NAME down1_name,  
+down2.CATEGORY_UID down2_uid, down2.CATEGORY_NAME down2_name  
+FROM TB_CATEGORY root 
+LEFT OUTER JOIN TB_CATEGORY down1 ON down1.CATEGORY_PARENT = root.CATEGORY_UID
+LEFT OUTER JOIN TB_CATEGORY down2 ON down2.CATEGORY_PARENT = down1.CATEGORY_UID 
+WHERE root.CATEGORY_PARENT IS NULL 
+ORDER BY root.CATEGORY_NAME, down1.CATEGORY_NAME, down2.CATEGORY_NAME 
 ;
-
-SELECT count(*) FROM TB_BOOK;
-
-UPDATE TB_BOOK 
-SET 
-	BOOK_SUBJECT = '바뀌었지', BOOK_AUTHOR = '이장훈', BOOK_CONTENT = '바뀌었다구', BOOK_PUBDATE = SYSDATE, BOOK_ISBN = 34262, CATEGORY_UID = 2, PUBLISHER_UID = 1 
-WHERE BOOK_UID = 10;
-
-SELECT BOOK_UID, BOOK_SUBJECT, BOOK_AUTHOR, BOOK_CONTENT, BOOK_PUBDATE, BOOK_REGDATE, BOOK_ISBN, CATEGORY_UID, PUBLISHER_UID 
-FROM tb_book 
-ORDER BY BOOK_UID DESC;
-
-SELECT 
-		BOOK_UID bookUid, BOOK_SUBJECT subject, BOOK_AUTHOR author, BOOK_CONTENT content, BOOK_PUBDATE pubdate, BOOK_REGDATE regdate, BOOK_ISBN isbn, CATEGORY_UID categoryUid, PUBLISHER_UID pubUid 
-	FROM tb_book 
-	ORDER BY BOOK_UID DESC;
-
-DELETE FROM TB_CATEGORY;
-
+--샘플 데이터
 INSERT INTO TB_CATEGORY VALUES(1, 'IT 모바일', null);
 INSERT INTO TB_CATEGORY VALUES(2, '게임', 1);
 INSERT INTO TB_CATEGORY VALUES(3, '그래픽', 1);
@@ -111,11 +136,6 @@ INSERT INTO TB_CATEGORY VALUES(22, 'HTML/CSS', 7);
 INSERT INTO TB_CATEGORY VALUES(23, '웹디자인', 7);
 INSERT INTO TB_CATEGORY VALUES(24, '웹기획', 7);
 INSERT INTO TB_CATEGORY VALUES(25, 'JavaScript', 7);
-
-INSERT INTO TB_CATEGORY 
-	(CATEGORY_UID, CATEGORY_NAME, CATEGORY_PARENT) 
-VALUES
-	(3, 'C', 1);
 
 INSERT INTO TB_PUBLISHER 
 	(PUBLISHER_UID, PUBLISHER_NAME, PUBLISHER_NUM, PUBLISHER_REP, PUBLISHER_CONTACT, PUBLISHER_ADDRESS) 
@@ -156,9 +176,6 @@ INSERT INTO TB_PUBLISHER
 	(PUBLISHER_UID, PUBLISHER_NAME, PUBLISHER_NUM, PUBLISHER_REP, PUBLISHER_CONTACT, PUBLISHER_ADDRESS) 
 VALUES
 	(publisher_seq.nextval, '넥서스', '02-1232-1511', '이재훈', '총부부', '서울 동작구');
-
-
-
 
 INSERT INTO TB_BOOK 
 	(BOOK_UID, BOOK_SUBJECT, BOOK_AUTHOR, BOOK_CONTENT, BOOK_PUBDATE, BOOK_REGDATE, BOOK_ISBN, CATEGORY_UID, PUBLISHER_UID) 

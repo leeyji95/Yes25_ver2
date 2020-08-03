@@ -135,7 +135,7 @@
   					</div>
 				</form>
 
-				<div class="row my-4">
+				<div class="row my-4 div_table">
 					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
 								<div class="table-background1">

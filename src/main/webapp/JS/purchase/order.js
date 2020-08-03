@@ -317,7 +317,7 @@ $(document).ready(function(){
             			alert("발주요청 실패!");
             		}
             		$('#order-list').empty();
-            		$('#order-parer-title').text("거래처명");
+            		$('#order-parer-title').text("수주처");
 				}	
             },
             error: function(data){
