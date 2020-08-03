@@ -1,8 +1,7 @@
 --테이블 삭제
 DROP TABLE tb_publisher CASCADE CONSTRAINT purge;
-DROP TABLE tb_book_test CASCADE CONSTRAINT purge;
-DROP TABLE tb_attach_test CASCADE CONSTRAINT purge;
-DROP TABLE tb_category_test CASCADE CONSTRAINT purge;
+DROP TABLE tb_book CASCADE CONSTRAINT purge;
+DROP TABLE tb_category CASCADE CONSTRAINT purge;
 DROP TABLE tb_order CASCADE CONSTRAINT purge;
 DROP TABLE tb_stock CASCADE CONSTRAINT purge;
 DROP TABLE tb_inbound CASCADE CONSTRAINT purge;
@@ -12,8 +11,8 @@ DROP TABLE tb_calendar CASCADE CONSTRAINT purge;
 
 -- 시퀀스 삭제
 DROP SEQUENCE publisher_seq;
-DROP SEQUENCE book_test_seq;
-DROP SEQUENCE category_test_seq;
+DROP SEQUENCE book_seq;
+DROP SEQUENCE category_seq;
 DROP SEQUENCE order_seq;
 DROP SEQUENCE stock_seq;
 DROP SEQUENCE inbound_seq;
@@ -24,11 +23,11 @@ DROP SEQUENCE calendar_seq;
 
 --시퀀스 생성
 CREATE SEQUENCE publisher_seq;
-CREATE SEQUENCE book_test_seq;
-CREATE SEQUENCE category_test_seq;
+CREATE SEQUENCE book_seq;
+CREATE SEQUENCE category_seq;
 CREATE SEQUENCE order_seq;
 CREATE SEQUENCE stock_seq;
-CREATE SEQUENCE inbound_seq; /*START WITH 1 INCREMENT BY 1;*/
+CREATE SEQUENCE inbound_seq;
 CREATE SEQUENCE outbound_seq;
 CREATE SEQUENCE calendar_seq;
 
@@ -39,17 +38,17 @@ DROP VIEW v_book_stock;
 
 --테이블 생성
 
-CREATE TABLE tb_category_test
+CREATE TABLE tb_category
 (
     category_uid       NUMBER          NOT NULL, 
     category_name      VARCHAR2(30)    NULL, 
     category_parent    NUMBER          NULL, 
-    CONSTRAINT TB_CATEGORY_TEST_PK PRIMARY KEY (category_uid)
+    CONSTRAINT TB_CATEGORY_PK PRIMARY KEY (category_uid)
 );
 
-ALTER TABLE tb_category_test
-    ADD CONSTRAINT FK_tb_category_parent FOREIGN KEY (category_parent)
-        REFERENCES tb_category_test (category_uid);
+ALTER TABLE tb_category
+     ADD CONSTRAINT FK_tb_category_category_parent FOREIGN KEY (category_parent)
+        REFERENCES tb_category (category_uid);
 
        
 
@@ -67,28 +66,28 @@ CREATE TABLE tb_publisher
 ALTER TABLE tb_publisher
     ADD CONSTRAINT UC_publisher_num UNIQUE (publisher_num);
    
-CREATE TABLE tb_book_test
+CREATE TABLE tb_book
 (
     book_uid         NUMBER           NOT NULL, 
     book_subject     VARCHAR2(200)    NOT NULL, 
-    book_author      VARCHAR2(20)     NOT NULL, 
+    book_author      VARCHAR2(100)    NOT NULL, 
     book_content     CLOB             NULL, 
-    book_pubdate     DATE             NOT NULL, 
+    book_price       NUMBER           NULL, 
+    book_pubdate     DATE             NULL, 
     book_regdate     DATE             DEFAULT SYSDATE NOT NULL, 
     book_isbn        NUMBER           NULL, 
     category_uid     NUMBER           NOT NULL, 
-    publisher_uid    NUMBER           NOT NULL,
-    price            NUMBER           NOT NULL,
-    CONSTRAINT TB_BOOK_TEST_PK PRIMARY KEY (book_uid)
+    publisher_uid    NUMBER           NOT NULL, 
+    CONSTRAINT TB_BOOK_PK PRIMARY KEY (book_uid)
 );
 
-ALTER TABLE tb_book_test
-    ADD CONSTRAINT FK_tb_book_category_uid FOREIGN KEY (category_uid)
-        REFERENCES tb_category_test (category_uid);
+ALTER TABLE tb_book
+    ADD CONSTRAINT FK_tb_book_category_uid_tb_cat FOREIGN KEY (category_uid)
+        REFERENCES tb_category (category_uid);
 
-ALTER TABLE tb_book_test
-    ADD CONSTRAINT FK_tb_book_publisher_uid FOREIGN KEY (publisher_uid)
-        REFERENCES tb_publisher_test (publisher_uid);  
+ALTER TABLE tb_book
+    ADD CONSTRAINT FK_tb_book_publisher_uid_tb_pu FOREIGN KEY (publisher_uid)
+        REFERENCES tb_publisher (publisher_uid); 
        
 CREATE TABLE tb_order
 (
@@ -105,7 +104,7 @@ CREATE TABLE tb_order
 
 ALTER TABLE tb_order
     ADD CONSTRAINT FK_tb_order_book_uid_tb_book FOREIGN KEY (book_uid)
-        REFERENCES tb_book_test (book_uid);
+        REFERENCES tb_book (book_uid);
 
 
 
@@ -120,7 +119,7 @@ CREATE TABLE tb_stock
 
 ALTER TABLE tb_stock
     ADD CONSTRAINT FK_tb_stock_book_uid_tb FOREIGN KEY (book_uid)
-        REFERENCES tb_book_test (book_uid);
+        REFERENCES tb_book (book_uid);
 
 
 CREATE TABLE tb_inbound
@@ -148,7 +147,7 @@ CREATE TABLE tb_outbound
 
 ALTER TABLE tb_outbound
     ADD CONSTRAINT FK_tb_outbound_book_uid FOREIGN KEY (book_uid)
-        REFERENCES tb_book_test (book_uid);
+        REFERENCES tb_book (book_uid);
 
 CREATE OR REPLACE TRIGGER tb_outbound_AI_TRG
 BEFORE INSERT ON tb_outbound 
@@ -183,7 +182,7 @@ AS SELECT C.inbound_uid
 			, B.book_subject
 			, B.book_isbn
 			, C.inbound_date
-FROM tb_order A, tb_book_test B, tb_inbound C
+FROM tb_order A, tb_book B, tb_inbound C
 WHERE A.book_uid = B.book_uid AND A.order_uid = C.order_uid;
 
 CREATE OR REPLACE VIEW v_book_order
@@ -195,7 +194,7 @@ AS SELECT A.book_uid
 		, B.order_quantity
 		, B.order_date
 		, B.order_state
-FROM tb_book_test A, tb_order B
+FROM tb_book A, tb_order B
 WHERE A.book_uid = B.book_uid;
 
 CREATE OR REPLACE VIEW v_outbound
@@ -205,10 +204,10 @@ AS SELECT A.book_uid
 			, C.outbound_unit_price
 			, C.outbound_state
 			, C.outbound_date
-			, B.price
+			, B.book_price
 			, B.book_subject
 			, B.book_isbn
-FROM tb_stock A, tb_book_test B, tb_outbound C
+FROM tb_stock A, tb_book B, tb_outbound C
 WHERE A.book_uid = B.book_uid AND A.book_uid = C.book_uid;
 
 
@@ -217,7 +216,7 @@ AS SELECT A.book_uid
 		, A.book_subject
 		, A.book_isbn
 		, A.book_author
-		, A.price
+		, A.book_price
 		, A.book_pubdate
 		, B.stock_uid
 		, B.stock_quantity
@@ -225,7 +224,7 @@ AS SELECT A.book_uid
 		, C.category_name
 		, D.PUBLISHER_UID
 		, D.publisher_name
-FROM tb_book_test A, tb_stock B, tb_category_test C, tb_publisher D
+FROM tb_book A, tb_stock B, tb_category C, tb_publisher D
 WHERE A.book_uid = B.book_uid
 AND A.category_uid = C.CATEGORY_UID 
 AND A.PUBLISHER_UID = D.PUBLISHER_UID 
@@ -236,8 +235,8 @@ AND A.PUBLISHER_UID = D.PUBLISHER_UID
 SELECT * FROM tb_stock;
 SELECT * FROM tb_inbound;
 SELECT * FROM tb_outbound;
-SELECT * FROM tb_book_test;
-SELECT * FROM tb_category_test;
+SELECT * FROM tb_book;
+SELECT * FROM tb_category;
 SELECT * FROM tb_publisher;
 SELECT * FROM tb_order;
 SELECT * FROM v_inbound;
@@ -246,38 +245,38 @@ SELECT * FROM v_book_stock;
 SELECT * FROM tb_calendar;
 
 
-INSERT INTO tb_category_test (category_uid, category_name, category_parent)
-	VALUES (category_test_seq.NEXTVAL, '문학', NULL);
-INSERT INTO tb_category_test (category_uid, category_name, category_parent)
-	VALUES (category_test_seq.NEXTVAL, '소설', 2);
+INSERT INTO tb_category (category_uid, category_name, category_parent)
+	VALUES (category_seq.NEXTVAL, '문학', NULL);
+INSERT INTO tb_category (category_uid, category_name, category_parent)
+	VALUES (category_seq.NEXTVAL, '소설', 2);
 
 INSERT INTO tb_publisher (publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address)
 	VALUES (publisher_seq.NEXTVAL, '예경', 2, '김예경', 1, '서울시');
 
-INSERT INTO tb_book_test (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, price)
-	VALUES (book_test_seq.NEXTVAL, '서양미술사', '곰브리치', '서양 미술의 역사', to_date('2003-07-10', 'yyyy-mm-dd'), 9788970840659, 2, 1, 34200);
-INSERT INTO tb_book_test (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, price)
-	VALUES (book_test_seq.NEXTVAL, '동양미술사', '김동양', '동양 미술의 역사', to_date('2003-07-11', 'yyyy-mm-dd'), 9788970840658, 2, 1, 34201);
-INSERT INTO tb_book_test (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, price)
-	VALUES (book_test_seq.NEXTVAL, '서양화', '김서양', '서양화의 역사', to_date('2003-07-12', 'yyyy-mm-dd'), 9788970840657, 2, 1, 34202);
-INSERT INTO tb_book_test (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, price)
-	VALUES (book_test_seq.NEXTVAL, '미술사', '김미술', '미술의 역사', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840656, 2, 1, 34203);
-INSERT INTO tb_book_test (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, price)
-	VALUES (book_test_seq.NEXTVAL, '미술사2', '김미술2', '미술의 역사2', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840636, 2, 1, 34203);
-INSERT INTO tb_book_test (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, price)
-	VALUES (book_test_seq.NEXTVAL, '미술사3', '김미술3', '미술의 역사3', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840634, 2, 1, 34205);
+INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
+	VALUES (book_seq.NEXTVAL, '서양미술사', '곰브리치', '서양 미술의 역사', to_date('2003-07-10', 'yyyy-mm-dd'), 9788970840659, 2, 1, 34200);
+INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
+	VALUES (book_seq.NEXTVAL, '동양미술사', '김동양', '동양 미술의 역사', to_date('2003-07-11', 'yyyy-mm-dd'), 9788970840658, 2, 1, 34201);
+INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
+	VALUES (book_seq.NEXTVAL, '서양화', '김서양', '서양화의 역사', to_date('2003-07-12', 'yyyy-mm-dd'), 9788970840657, 2, 1, 34202);
+INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
+	VALUES (book_seq.NEXTVAL, '미술사', '김미술', '미술의 역사', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840656, 2, 1, 34203);
+INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
+	VALUES (book_seq.NEXTVAL, '미술사2', '김미술2', '미술의 역사2', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840636, 2, 1, 34203);
+INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
+	VALUES (book_seq.NEXTVAL, '미술사3', '김미술3', '미술의 역사3', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840634, 2, 1, 34205);
 
 
-INSERT INTO tb_order (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 1, 1, 30000, 30, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 2, 1, 30010, 40, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 3, 1, 30030, 50, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 4, 1, 30040, 60, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 5, 1, 30040, 70, SYSDATE, 0);
+INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
+	VALUES (order_seq.NEXTVAL, 1, 1, 1, 30000, 30, SYSDATE, 0);
+INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
+	VALUES (order_seq.NEXTVAL, 2, 1, 1, 30010, 40, SYSDATE, 0);
+INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
+	VALUES (order_seq.NEXTVAL, 3, 1, 1, 30030, 50, SYSDATE, 0);
+INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
+	VALUES (order_seq.NEXTVAL, 4, 1, 1, 30040, 60, SYSDATE, 0);
+INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_statee)
+	VALUES (order_seq.NEXTVAL, 5, 1, 1, 30040, 70, SYSDATE, 0);
 
 
 
