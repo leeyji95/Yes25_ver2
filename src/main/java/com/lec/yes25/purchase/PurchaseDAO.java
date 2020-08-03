@@ -53,4 +53,6 @@ public interface PurchaseDAO {
 													@Param("endDate") String endDate,
 													@Param("fromRow") int fromRow,
 													@Param("pageRows") int pageRows);
+	
+	public List<OrderDTO> selectPO(int ord_set_uid);
 }

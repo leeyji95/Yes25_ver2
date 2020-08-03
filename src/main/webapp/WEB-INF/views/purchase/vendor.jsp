@@ -11,7 +11,7 @@
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 
 <style>
-    [class^='col-sm'] 
+    .container-fluid 
     {padding-top: 15px;}
     
     #publisher-list tr
@@ -26,18 +26,25 @@
    	.error 
    	{color : red;}
    	
-   	.spaceLeft
-   	{padding-left : 0.5em;}
+   	.spaceRight
+   	{padding-right : 0.5em;}
+   	
+   	.page-info-panel, .page-info-panel > div
+   	{margin : 0 !important;
+   	padding : 0 !important;}
 </style>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 </head>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/i18n/defaults-ko_KR.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/JS/purchase/vendor.js"></script>
 
@@ -49,7 +56,14 @@
                 <div class="card">
                 <div class="card-header bg-dark text-white">거래처 목록</div>
                 <div class="card-body">
-                	<div id="page-info"></div>
+                	<div class="col-sm-12 row page-info-panel">
+               			<div class="col-sm-8 text-left align-self-end" id="page-info"></div>
+               			<div class="col-sm-4 text-right">
+	               			<button type="button" class="btn btn-warning" id="reset-publisher-list">
+								<i class="fa fa-refresh spaceRight"></i>초기화
+							</button>
+						</div>
+                	</div>
                     <div class="table-responsive table-hover">
                         <table class="table">
                             <thead class="thead-inverse">
@@ -101,11 +115,11 @@
 									</div>
 
 									<div class="form-group text-right">
-										<button type="reset" id="reset-reg-pub" class="btn btn-warning">
-											초기화<i class="fa fa-refresh spaceLeft"></i>
+										<button type="reset" class="btn btn-warning" id="reset-reg-pub">
+											<i class="fa fa-refresh spaceRight"></i>초기화
 										</button>
 										<button class="btn btn-primary" id="insert-reg-pub">
-											등록<i class="fa fa-check spaceLeft"></i>
+											<i class="fa fa-check spaceRight"></i>등록
 										</button>
 									</div>
 								</form>
@@ -113,30 +127,29 @@
 						</div>
 					</div>
 					
-					
 					<!-- 거래처 검색 -->
 					<div class="tab-pane fade" id="pub-search-tab">
-		              <div class="card">
-		                <div class="card-body">
-		                	<form role="form" id="pub-search" method="POST">
-								<div class="form-group row justify-content-center">
-									<div style="padding-right: 10px">
-										<select class="form-control" name="searchType" id="searchType">
-											<option value="pub_name">거래처명</option>
-											<option value="pub_rep">대표자명</option>
-											<option value="all">전체</option>
-										</select>
+						<div class="card">
+							<div class="card-body">
+								<form role="form" id="pub-search" method="POST">
+									<div class="form-group row justify-content-center">
+										<div class="input-group col-sm-10">
+											<select class="form-control selectpicker col-sm-3"
+												name="searchType" title="검색옵션">
+												<option value="pub_name">거래처명</option>
+												<option value="pub_rep">대표자명</option>
+												<option value="all">전체</option>
+											</select> <input type="text" class="form-control" name="keyword">
+											<div class="input-group-append">
+												<button class="btn btn-primary" id="search">
+													<i class="fa fa-search"></i>
+												</button>
+											</div>
+										</div>
 									</div>
-									<div style="padding-right: 10px">
-										<input type="text" class="form-control" name="keyword" id="keyword">
-									</div>
-									<div>
-										<button class="btn btn-primary" id="search">검색</button>
-									</div>
-								</div>
-							</form>
-		                </div>
-		              </div>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

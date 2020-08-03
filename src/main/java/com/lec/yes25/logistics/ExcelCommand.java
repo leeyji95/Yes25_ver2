@@ -48,13 +48,8 @@ public class ExcelCommand implements Command {
 		String path = System.getProperty("user.dir") + File.separator +TEST_DIRECTORY;
 		f = new File(path);
 		
-		
-		int classification = Integer.parseInt(request.getParameter("classification"));
-		String keyword = request.getParameter("keyword");
-		int category_uid = Integer.parseInt(request.getParameter("category_uid"));
-		String fromDate = request.getParameter("fromDate");
-		String toDate = request.getParameter("toDate");
-		
+		String book_isbns = request.getParameter("book_isbns");
+
 		
 		if(!f.exists()) {
 			if(f.mkdir()) {
@@ -89,9 +84,9 @@ public class ExcelCommand implements Command {
 		
 		
 		try {
-			System.out.println(classification +","+ keyword+","+category_uid+","+fromDate+","+toDate);
+			System.out.println(book_isbns);
 			
-			list = dao.selectByFilter(classification, keyword, category_uid, fromDate, toDate);
+			list = dao.searchByIsbnFromBook(book_isbns);
 			
 			//Iterator<BookDTO> iter =list.iterator();
 			HSSFWorkbook workbook = new HSSFWorkbook();

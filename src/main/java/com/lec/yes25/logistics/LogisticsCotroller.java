@@ -43,5 +43,10 @@ public class LogisticsCotroller {
 		return "logistics/stock";
 	}
 	
+	@RequestMapping("/kpi")
+	public String kpi(Model model) {
+		return "logistics/kpi";
+	}
+	
 
 }

@@ -80,11 +80,11 @@ function query1() {
 	var toDate = $("#query input[name=datepicker2]").val();
 	if(toDate == null || toDate== 0 || toDate.length == 0) toDate = 0;
 	
-	alert(classification);
+/*	alert(classification);
 	alert(keyword);
 	alert(category_uid);
 	alert(fromDate);
-	alert(toDate);
+	alert(toDate);*/
 
 		$.ajax({
 			url : "stockQuery.ajax",
@@ -123,16 +123,18 @@ function listUp1(jsonObj) {
 			result += "<tr>\n";
 			result += "<td>" + (i+1) +"</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
-			result += "<td>" + items[i].book_isbn + "</td>\n";
+			result += "<td name='book_isbn' val='"+ items[i].book_isbn +"'>" + items[i].book_isbn + "</td>\n";
 			result += "<td>" + items[i].publisher_name + "</td>\n";
 			result += "<td>" + items[i].book_author + "</td>\n";
 			result += "<td>" + items[i].category_name + "</td>\n";
 			result += "<td>" + items[i].book_pubdate + "</td>\n";
-			result += "<td>" + items[i].stock_quantity + "</td>\n";
+			result += "<td>" + items[i].stock_quantity + "권</td>\n";
 			result += "<tr>\n";
 		} // end for
 		$("#list tbody").html(result);
-
+		
+		$(".table-background1 span").html(jsonObj.count);
+		
 		return true;
 		
 	} else {
@@ -142,7 +144,7 @@ function listUp1(jsonObj) {
 	return false;
 } // end outboundListUp1()
 
-function excel() {
+/*function excel() {
 	 $.ajaxSetup({
 	        beforeSend: function(xhr) {
 	           xhr.setRequestHeader(header, token);
@@ -196,5 +198,56 @@ function excel() {
 		});
 	
 	return true;
+} // end excel()
+*/
+
+function excel() {
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(header, token);
+		}
+	});
+	
+	var book_isbn = [];
+	$("#list tbody td[name=book_isbn]").each(function(){
+		book_isbn.push($(this).text());
+	});
+	
+	if(book_isbn.length==0){
+		alert('다운로드할 정보가 없습니다');
+	} else{
+		if(!confirm('엑셀 파일로 다운로드 받으시겠습니까?')) return false;
+		
+	var book_isbns= "";
+	
+	for (var i = 0; i < book_isbn.length; i++) {
+		book_isbns += "|"+book_isbn[i];
+	}
+	
+	alert(book_isbns);
+	
+	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+
+	
+	alert(book_isbns);
+	
+		
+		
+		$.ajax({
+			url : "excel.ajax",
+			type : "POST",
+			data : { 
+				'book_isbns' : book_isbns,
+			},
+			cache : false,
+			dataType : "json",
+			success : function(data, status) {
+				
+			}
+		});
+		
+		return true;
+	}
+		
 } // end excel()
 

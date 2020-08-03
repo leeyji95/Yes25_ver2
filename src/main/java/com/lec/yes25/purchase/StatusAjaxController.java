@@ -82,4 +82,45 @@ public class StatusAjaxController {
 		
 		return AjaxDTOList;
 	}
+
+	@RequestMapping(value = "/purchasing/status/viewPO.ajax")
+	public AjaxDTOList poList(int ord_set_uid) {
+		// MyBatis 사용
+		PurchaseDAO dao = C.sqlSession.getMapper(PurchaseDAO.class);
+		
+		AjaxDTOList ajaxDTOList = new AjaxDTOList();
+		List<OrderDTO> list  = null;
+		
+		// ajax response 에 필요한 값들
+		StringBuffer message = new StringBuffer();
+		String status = "FAIL";   // 기본 FAIL
+		
+		String param = Integer.toString(ord_set_uid);
+		
+		// 유효성 검사
+		if(param == null) {
+			message.append("[유효하지 않은 parameter 0 or null]");
+		} else {			
+			try {
+				ord_set_uid = Integer.parseInt(param);
+				
+				list = dao.selectPO(ord_set_uid); // 읽기
+				
+				if(list == null) {
+					message.append("[해당 데이터가 없습니다]");
+				} else {
+					status = "OK";
+				}
+				
+			} catch (Exception e) {  
+				message.append("[예외발생:" + e.getMessage() + "]");
+			}
+		}
+		
+		ajaxDTOList.setStatus(status);
+		ajaxDTOList.setMessage(message.toString());
+		ajaxDTOList.setList(list);
+		
+		return ajaxDTOList;
+	}
 }

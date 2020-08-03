@@ -159,6 +159,28 @@ $(document).ready(function(){
 	$('#pub-info #delete').click(function(){
 		deleteByUid(viewItem.pub_uid);
 	});
+	
+	// 검색 결과 초기화
+	$('#reset-publisher-list').click(function(){
+		searchType = '';
+		keyword = '';
+		$("#pub-search input[name='keyword']").val('');
+
+		$.ajax({
+			type : 'POST',
+			url : 'vendor/pubList.ajax',
+			data : {searchType : searchType,
+					keyword : keyword,
+					page : 1,
+					pageRows : pageRows},
+			cache : false,
+			success : function(data, status){
+				if(status == "success"){
+					updatePubList(data);
+				}			
+			}
+		});
+	});
 });
 
 function addViewEvent(){

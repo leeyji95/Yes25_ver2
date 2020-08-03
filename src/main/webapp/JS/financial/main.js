@@ -50,15 +50,6 @@ $(document).ready(function() {
 		loadPage(window.page, window.choice);  			// 현재 페이지 리로딩
 	});
 	
-	
-	//$(".memberBtn").click();
-	
-	
-	
-	
-	
-	
-	
 	// 글 수정 버튼 누르면 정보 불러오기
 	$("#updateBtn").click(function(){
 		if($("input:radio[name=stmt_uid]:checked").val()) {
@@ -411,8 +402,6 @@ function chkWrite() {
 	// 해당 폼 안의 name이 있는 것들을 끌어 들어옴, 리턴값은 Object
 	var data = $("#frmWrite").serialize();
 	
-
-	
 	// ajax reques
 	$.ajax({
 		url : "writeOk.ajax"
@@ -530,11 +519,12 @@ function loadView() {
 					
 					// 현재 로그인한 사람과 저장된 로그인이 일치하는지 확인
 					if(thisLogId == viewItem.writer) {
-						//alert('일치한다');
 						
 						// 팝업에 보여주기
 						$("input[name='Umanager']").val(viewItem.manager);
+						$("input[name='UmanagerText']").val(viewItem.manager + " " + userInfo(viewItem.manager));
 						$("input[name='Uapprover']").val(viewItem.approver);
+						$("input[name='UapproverText']").val(viewItem.approver + " " + userInfo(viewItem.approver));
 						$("input[name='UregDate']").val(viewItem.regDate);
 						$("input[name='Uaccount_uid']").val(viewItem.account_uid);
 						$("input[name='Uaccount_name']").val(accountName(viewItem.account_uid));
@@ -602,6 +592,41 @@ function Usearch(word){
 		}
 	});
 } // end Usearch()
+function userInfo(username) {
+	var word = "";
+
+	$.ajax({
+		url : "userInfo.ajax?username=" + username
+		, type : "GET"
+		, cache : false
+		, async: false
+		, success : function(data, status) {
+			if(status == "success"){
+				if(data.status == "OK"){
+					word = data.data.name + " " + deptName(data.data.deptno);
+				}
+			}
+		}
+	});
+	
+	return word;
+	
+}
+function deptName(deptNo) {
+	switch(deptNo) {
+	case 10:
+		return '인사팀';
+	case 20:
+		return '재무팀';
+	case 30:
+		return '제품팀';
+	case 40:
+		return '물류팀';
+	case 50:
+		return '구매팀';
+	}
+}
+
 // 글 수정
 function chkUpdate() {
 	

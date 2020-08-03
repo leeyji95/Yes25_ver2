@@ -7,6 +7,9 @@ DROP TABLE tb_order_test CASCADE CONSTRAINT purge;
 DROP TABLE tb_stock_test CASCADE CONSTRAINT purge;
 DROP TABLE tb_inbound_test CASCADE CONSTRAINT purge;
 DROP TABLE tb_outbound_test CASCADE CONSTRAINT purge;
+/*DROP TABLE tb_month_test CASCADE CONSTRAINT purge;
+DROP TABLE tb_date_test CASCADE CONSTRAINT purge;*/
+DROP TABLE tb_calendar_test CASCADE CONSTRAINT purge;
 
 
 -- 시퀀스 삭제
@@ -17,6 +20,7 @@ DROP SEQUENCE order_test_seq;
 DROP SEQUENCE stock_test_seq;
 DROP SEQUENCE inbound_test_seq;
 DROP SEQUENCE outbound_test_seq;
+DROP SEQUENCE calendar_test_seq;
 
 
 
@@ -28,6 +32,7 @@ CREATE SEQUENCE order_test_seq;
 CREATE SEQUENCE stock_test_seq;
 CREATE SEQUENCE inbound_test_seq; /*START WITH 1 INCREMENT BY 1;*/
 CREATE SEQUENCE outbound_test_seq;
+CREATE SEQUENCE calendar_test_seq;
 
 
 DROP VIEW v_inbound_test;
@@ -90,7 +95,7 @@ ALTER TABLE tb_book_test
 CREATE TABLE tb_order_test
 (
     order_uid          NUMBER    NOT NULL, 
-    book_uid           NUMBER    NOT NULL, 
+    book_uid           NUMBER    UNIQUE NOT NULL, 
     account_uid        NUMBER    NOT NULL, 
     order_unit_cost    INT       NOT NULL, 
     order_quantity     INT       NOT NULL, 
@@ -122,12 +127,13 @@ ALTER TABLE tb_stock_test
 CREATE TABLE tb_inbound_test
 (
     inbound_uid         NUMBER    NOT NULL, 
-    order_uid           NUMBER    UNIQUE NOT NULL,
+    order_uid           NUMBER    NOT NULL,
 /*  book_uid            NUMBER    NOT NULL,
     inbound_quantity    NUMBER    NOT NULL, */
     inbound_date        DATE      DEFAULT SYSDATE NOT NULL,
     CONSTRAINT TB_INBOUND_TEST_PK PRIMARY KEY (inbound_uid)
 );
+
 
 
 /*CREATE OR REPLACE TRIGGER tb_inbound_test_AI_TRG
@@ -152,7 +158,7 @@ CREATE TABLE tb_outbound_test
 (
     outbound_uid           NUMBER          NOT NULL,
     book_uid               NUMBER          NOT NULL,
-    outbound_quantitiy     VARCHAR2(20)    DEFAULT '0' NOT NULL, 
+    outbound_quantity     VARCHAR2(20)    DEFAULT '0' NOT NULL, 
     outbound_unit_price    VARCHAR2(20)    NOT NULL,
     outbound_state         NUMBER          NOT NULL,
     outbound_date          DATE            DEFAULT SYSDATE NOT NULL, 
@@ -162,6 +168,40 @@ CREATE TABLE tb_outbound_test
 ALTER TABLE tb_outbound_test
     ADD CONSTRAINT FK_tb_outbound_book_uid FOREIGN KEY (book_uid)
         REFERENCES tb_book_test (book_uid);
+
+CREATE OR REPLACE TRIGGER tb_outbound_test_AI_TRG
+BEFORE INSERT ON tb_outbound_test 
+REFERENCING NEW AS NEW FOR EACH ROW 
+BEGIN 
+    SELECT outbound_test_seq.NEXTVAL
+    INTO :NEW.outbound_uid 
+    FROM DUAL;
+END;
+
+
+/*CREATE TABLE tb_month_test
+(
+    c_month        NUMBER        NOT NULL, 
+    CONSTRAINT TB_month_TEST_PK PRIMARY KEY (c_month),
+    CONSTRAINT check_c_month CHECK (c_month >= 1 AND c_month <=12 )
+);       
+       
+CREATE TABLE tb_date_test
+(
+    c_date        NUMBER        NOT NULL, 
+    CONSTRAINT TB_date_TEST_PK PRIMARY KEY (c_date),
+    CONSTRAINT check_c_date CHECK (c_date >= 1 AND c_date <=31 )
+);*/
+
+CREATE TABLE tb_calendar_test
+(
+	c_uid         NUMBER        NOT NULL,
+	c_month       NUMBER        NOT NULL, 
+    c_day        NUMBER        NOT NULL, 
+    CONSTRAINT TB_CALENDAR_TEST_PK PRIMARY KEY (c_uid),
+    CONSTRAINT check_c_month CHECK (c_month >= 1 AND c_month <=12 ),
+    CONSTRAINT c_day CHECK (c_day >= 1 AND c_day <=31 )
+);
 
 
 CREATE OR REPLACE VIEW v_inbound_test
@@ -193,7 +233,7 @@ WHERE A.book_uid = B.book_uid;
 CREATE OR REPLACE VIEW v_outbound_test
 AS SELECT A.book_uid
 			, C.outbound_uid
-			, C.outbound_quantitiy
+			, C.outbound_quantity
 			, C.outbound_unit_price
 			, C.outbound_state
 			, C.outbound_date
@@ -202,6 +242,7 @@ AS SELECT A.book_uid
 			, B.book_isbn
 FROM tb_stock_test A, tb_book_test B, tb_outbound_test C
 WHERE A.book_uid = B.book_uid AND A.book_uid = C.book_uid;
+
 
 CREATE OR REPLACE VIEW v_book_stock_test
 AS SELECT A.book_uid
@@ -234,6 +275,9 @@ SELECT * FROM tb_order_test;
 SELECT * FROM v_inbound_test;
 SELECT * FROM v_outbound_test;
 SELECT * FROM v_book_stock_test;
+SELECT * FROM tb_calendar_test;
+/*SELECT * FROM tb_month_test;
+SELECT * FROM tb_date_test;*/
 
 INSERT INTO tb_category_test (category_uid, category_name, category_parent)
 	VALUES (category_test_seq.NEXTVAL, '문학', NULL);
@@ -267,10 +311,117 @@ INSERT INTO tb_order_test (order_uid, book_uid, account_uid, order_unit_cost, or
 	VALUES (order_test_seq.NEXTVAL, 4, 1, 30040, 60, SYSDATE, 0);
 INSERT INTO tb_order_test (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
 	VALUES (order_test_seq.NEXTVAL, 5, 1, 30040, 70, SYSDATE, 0);
-INSERT INTO tb_order_test (order_uid, book_uid, account_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_test_seq.NEXTVAL, 1, 1, 30000, 70, SYSDATE, 0);
 
 
+
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 1, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 2, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 3, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 4, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 5, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 6, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 7, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 8, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 9, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 10, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 11, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+DECLARE a_cnt NUMBER := 1;
+BEGIN DBMS_OUTPUT.ENABLE;
+LOOP INSERT INTO tb_calendar_test(c_uid, c_month, c_day) VALUES(calendar_test_seq.NEXTVAL, 12, a_cnt);
+a_cnt := a_cnt+1;
+EXIT WHEN a_cnt > 31;
+END LOOP;
+END;
+
+
+
+
+
+
+I
+
+
+/*	SELECT
+		*
+		FROM
+		v_book_stock_test
+		WHERE
+		REGEXP_LIKE(book_isbn,
+		REGEXP_REPLACE('|9788970840636|9788970840659', ' ', ''))
+		AND
+		stock_quantity > 0
+		ORDER BY
+		book_isbn DESC*/
 
 /*INSERT INTO tb_stock_test (stock_uid, book_uid)
 	VALUES (stock_test_seq.NEXTVAL, 1);
@@ -281,7 +432,8 @@ INSERT INTO tb_stock_test (stock_uid, book_uid)
 INSERT INTO tb_stock_test (stock_uid, book_uid)
 	VALUES (stock_test_seq.NEXTVAL, 4);*/
 
-
+/*INSERT INTO tb_outbound_test (book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
+VALUES (1, 3000, 2, 1);*/
 
 /*INSERT INTO tb_outbound_test (outbound_uid, book_uid, outbound_unit_price, outbound_quantitiy, outbound_state)
 VALUES (outbound_test_seq.NEXTVAL, 
@@ -352,4 +504,154 @@ SELECT order_uid, book_uid, order_quantity FROM tb_order_test WHERE order_uid IN
 
 /*INSERT INTO tb_inbound_test (order_uid)
 SELECT order_uid FROM tb_order_test WHERE order_uid IN (1,2,3);*/
+
+/*INSERT ALL INTO tb_inbound_test (inbound_uid, order_uid)
+VALUES (inbound_test_seq.NEXTVAL, 3)
+SELECT * FROM DUAL;*/
+
+
+/*		MERGE INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_book_stock_test WHERE book_isbn = 9788970840657) B
+		ON (A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity - 1
+		UNION ALL
+		MERGE INTO
+		tb_stock_test A
+		USING
+		(SELECT * FROM v_book_stock_test WHERE book_isbn = 9788970840656) B
+		ON (A.book_uid = B.book_uid)
+		WHEN MATCHED THEN
+		UPDATE SET
+		A.stock_quantity = A.stock_quantity - 2;*/
+	
+/*DECLARE BEGIN
+UPDATE tb_stock_test
+SET stock_quantity = stock_quantity - 2
+WHERE book_uid = (SELECT book_uid FROM v_book_stock_test WHERE book_isbn = 9788970840657);
+UPDATE tb_stock_test
+SET stock_quantity = stock_quantity - 1
+WHERE book_uid = (SELECT book_uid FROM v_book_stock_test WHERE book_isbn = 9788970840656); END;*/
+
+/*SELECT COUNT(*)
+FROM v_book_stock_test
+WHERE stock_quantity > 0;*/
+
+SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+FROM v_inbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))
+;
+
+SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+FROM v_inbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_date = B.c_day(+)
+ORDER BY A.c_month, A.c_day;
+
+SELECT *
+FROM (
+SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+FROM v_inbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+WHERE c_month = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)));
+
+
+SELECT *
+FROM (
+SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+FROM v_outbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+WHERE c_month = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)));
+
+SELECT c_month, SUM(c_quantity)
+FROM (
+SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+FROM v_outbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+GROUP BY c_month
+ORDER BY c_month
+;
+
+SELECT SUM(c_quantity) AS c_quantity
+FROM (
+SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+FROM v_inbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+WHERE c_month = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY c_month
+;
+
+SELECT SUM(c_quantity)
+FROM (
+SELECT NVL(B.C_YEAR, TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))) AS C_YEAR, A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+FROM v_outbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+GROUP BY C_YEAR
+;
+
 

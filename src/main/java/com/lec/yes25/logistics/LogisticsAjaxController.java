@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -85,6 +87,54 @@ public class LogisticsAjaxController {
 		return returnURL;
 	}
 	
+	@RequestMapping("/logistics/inboundKpiList.ajax")
+	public LogisticsAjaxWriteList inboundKpiList(HttpServletRequest request, HttpServletResponse response) { 
+		new InboundKpiListCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/outboundKpiList.ajax")
+	public LogisticsAjaxWriteList OutboundKpiList(HttpServletRequest request, HttpServletResponse response) { 
+		new OutboundKpiListCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/inboundKpiUpdate.ajax")
+	public LogisticsAjaxWriteList inboundKpiUpdate(HttpServletRequest request, HttpServletResponse response) { 
+		new InboundKpiUpdateCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/outboundKpiUpdate.ajax")
+	public LogisticsAjaxWriteList OutboundKpiUpdate(HttpServletRequest request, HttpServletResponse response) { 
+		new OutboundKpiUpdateCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/inboundKpiInform.ajax")
+	public LogisticsAjaxWriteList inboundKpiInform(HttpServletRequest request, HttpServletResponse response) { 
+		new InboundKpiInformCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/outboundKpiInform.ajax")
+	public LogisticsAjaxWriteList outboundKpiInform(HttpServletRequest request, HttpServletResponse response) { 
+		new OutboundKpiInformCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/inboundKpiInformUpdate.ajax")
+	public LogisticsAjaxWriteList inboundKpiInformUpdate(HttpServletRequest request, HttpServletResponse response) { 
+		new InboundKpiInformUpdateCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/outboundKpiInformUpdate.ajax")
+	public LogisticsAjaxWriteList outboundKpiInformUpdate(HttpServletRequest request, HttpServletResponse response) { 
+		new OutboundKpiInformUpdateCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
 
 	
 	public LogisticAjaxWriteResult buildResult(HttpServletRequest request) {
@@ -93,13 +143,14 @@ public class LogisticsAjaxController {
 		result.setStatus((String)request.getAttribute("status"));
 		result.setMessage((String)request.getAttribute("message"));
 		result.setCount((Integer)request.getAttribute("result"));
+
 		
 		return result;
 	} // end buildResult
 	
 	@SuppressWarnings("unchecked")
 	public LogisticsAjaxWriteList bulidList(HttpServletRequest request) {
-		List<InboundDTO> data = (List<InboundDTO>)request.getAttribute("data");
+		List<?> data = (List<?>)request.getAttribute("data");
 		LogisticsAjaxWriteList result = new LogisticsAjaxWriteList();
 		result.setStatus((String)request.getAttribute("status"));
 		result.setMessage((String)request.getAttribute("message"));

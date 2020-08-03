@@ -32,16 +32,16 @@
 
 			<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
-				<h1 class="display-4 d-none d-sm-block" id="title">재고관리</h1>
-
+				<div class="div_title">
+					<h1 class="display-4 d-none d-sm-block" id="title">재고관리</h1>
+				</div>
 				<%--버튼 --%>
-				<div class="container">
+				<div class="container div_btn">
 					<div class="pull-right">
 					<button type="button" id="btnQuery" class="btn btn-primary">조회</button>
 					<button type="button" id="btnExcel" class="btn btn-primary">엑셀</button>
 					</div>
 				</div>
-
 
 
 				<form id="query">
@@ -81,7 +81,7 @@
 									<th>출간일자</th>
 									<td>
 									<div>
-										<input type="text" id="datepicker1" name="datepicker1"><i class="far fa-calendar-alt"></i> ~ <input type="text" id="datepicker2" name="datepicker2"><i class="far fa-calendar-alt"></i>
+										<input type="text" id="datepicker1" name="datepicker1"><i class="far fa-calendar-alt fa-1x calendar"></i> ~ <input type="text" id="datepicker2" name="datepicker2"><i class="far fa-calendar-alt fa-1x calendar"></i>
 									</div>
 									</td>	
 								</tr>
@@ -94,7 +94,9 @@
 				<div class="row my-4">
 					<div class="col-lg-12 col-md-12">
 						<div id="list" class="table-responsive">
-							<div class="table-background"></div>
+							<div class="table-background1">
+								<p>총 <span></span>건 검색</p>
+							</div>
 								<form id="frmList" name="frmList">
 									<table class="table table-striped table-main">
 										<thead class="thead-inverse">
@@ -114,7 +116,7 @@
 										</tbody>
 									</table>
 								</form>
-							<div class="table-background"></div>
+							<div class="table-background2"></div>
 						</div>
 					</div>
 				</div>

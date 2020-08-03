@@ -5,20 +5,20 @@
 	<select id="selectFromOrder"
 		resultType="com.lec.yes25.logistics.OrderDTO">
 		SELECT
-		*
+			*
 		FROM
-		v_book_order_test
+			v_book_order_test
 		WHERE
-		order_state = 0
+			order_state = 0
 		ORDER BY
-		order_uid DESC
+			order_uid DESC
 	</select>
 
 	<select id="countAll" resultType="int">
 		SELECT
-		count(*)
+			count(*)
 		FROM
-		v_inbound_test
+			v_inbound_test
 	</select>
 
 	<select id="searchByIsbnFromOrder"
@@ -50,20 +50,25 @@
 		ORDER BY
 		inbound_uid DESC
 	</select>
-
-	<insert id="insertIntoInbound" flushCache="true">
-		INSERT INTO
-		tb_inbound_test (inbound_uid, order_uid)
-		VALUES
-		(inbound_test_seq.NEXTVAL, #{param1})
+	
+	<insert id="insertIntoInbound" flushCache="true" parameterType="java.util.ArrayList">
+		INSERT INTO tb_inbound_test (inbound_uid, order_uid)
+		SELECT inbound_test_seq.NEXTVAL, A.* FROM (
+		<foreach collection="array" item="item" index="index" separator="UNION ALL ">
+		SELECT ${item} 
+		FROM DUAL
+		</foreach>) A
 	</insert>
-
+	
 	<update id="updateByUidInStockFromInbound" flushCache="true">
 		MERGE INTO
 		tb_stock_test A
 		USING
-		(SELECT * FROM v_inbound_test WHERE order_uid =
-		#{param1}) B
+		(SELECT * FROM v_inbound_test WHERE order_uid IN (
+		<foreach collection="array" item="item" index="index" separator=",">
+		${item}
+		</foreach>
+		)) B
 		ON
 		(A.book_uid = B.book_uid)
 		WHEN MATCHED THEN
@@ -76,7 +81,7 @@
 		VALUES
 		(stock_test_seq.NEXTVAL, B.book_uid, B.order_quantity)
 	</update>
-
+	
 	<update id="updateByUidIntoOrder" flushCache="true"
 		parameterType="int">
 		UPDATE
@@ -84,21 +89,23 @@
 		SET
 		order_state = 1
 		WHERE
-		order_uid =
-		#{param1}
+		order_uid IN (
+		<foreach collection="array" item="item" index="index" separator=",">
+		${item}
+		</foreach>
+		)
 	</update>
-
 
 	<select id="selectFromBook"
 		resultType="com.lec.yes25.logistics.BookDTO">
 		SELECT
-		*
+			*
 		FROM
-		v_book_stock_test
+			v_book_stock_test
 		WHERE
-		stock_quantity > 0
+			stock_quantity > 0
 		ORDER BY
-		book_uid DESC
+			book_uid DESC
 	</select>
 
 	<select id="searchByIsbnFromBook"
@@ -130,42 +137,31 @@
 		ORDER BY
 		outbound_uid DESC
 	</select>
-
-	<insert id="insertIntoOutbound" flushCache="true">
-		INSERT INTO
-		tb_outbound_test (outbound_uid, book_uid, outbound_unit_price,
-		outbound_quantitiy, outbound_state)
+	
+	<insert id="insertIntoOutbound" flushCache="true" parameterType="java.util.Map">
+		<foreach collection="list" item="item" index="index" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+		INTO
+		tb_outbound_test (book_uid, outbound_unit_price, outbound_quantity, outbound_state)
 		VALUES
 		(
-		outbound_test_seq.NEXTVAL
-		,
-		(SELECT book_uid FROM tb_book_test WHERE book_isbn = #{param1})
-		,
-		#{param2}
-		, (CASE WHEN #{param3} > (SELECT stock_quantity FROM
-		v_book_stock_test
-		WHERE book_isbn = #{param1}) THEN (SELECT
-		stock_quantity FROM
-		v_book_stock_test WHERE book_isbn = #{param1}) ELSE
-		#{param3} END)
+		(SELECT book_uid FROM tb_book_test WHERE book_isbn = #{item.book_isbn})
+		, #{item.price}
+		, (CASE WHEN #{item.stock_quantity} > (SELECT stock_quantity FROM v_book_stock_test WHERE book_isbn = #{item.book_isbn}) THEN (SELECT stock_quantity FROM v_book_stock_test WHERE book_isbn = #{item.book_isbn}) ELSE #{item.stock_quantity} END)
 		, 1
 		)
+		</foreach>
 	</insert>
 
-	<update id="updateByUidInStockFromOutbound" flushCache="true">
-		MERGE
-		INTO
-		tb_stock_test A
-		USING
-		(SELECT * FROM v_book_stock_test WHERE
-		book_isbn = #{param1}) B
-		ON
-		(A.book_uid = B.book_uid)
-		WHEN MATCHED THEN
-		UPDATE SET
-		A.stock_quantity = A.stock_quantity - (CASE WHEN #{param2} >
-		A.stock_quantity THEN
-		A.stock_quantity ELSE #{param2} END)
+	
+	<update id="updateByUidInStockFromOutbound" flushCache="true" parameterType="java.util.Map">
+		<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+		UPDATE 
+			tb_stock_test
+		SET
+			stock_quantity = stock_quantity - (CASE WHEN ${item.stock_quantity} > stock_quantity THEN stock_quantity ELSE ${item.stock_quantity} END)
+		WHERE 
+			book_uid = (SELECT book_uid FROM v_book_stock_test WHERE book_isbn = ${item.book_isbn})
+		</foreach>
 	</update>
 
 
@@ -205,5 +201,162 @@
 		ORDER BY
 		book_uid DESC
 	</select>
+	
+	<select id="selectInboundQtyByDay" resultType="com.lec.yes25.logistics.StockDTO1">
+		SELECT *
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+		FROM v_inbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(#{param2})
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		WHERE c_month = TO_CHAR(#{param2})
+	</select> 
+	
+	<select id="selectInboundQtyByMonth" resultType="com.lec.yes25.logistics.StockDTO2">
+		SELECT c_month, SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+		FROM v_inbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		GROUP BY c_month
+		ORDER BY c_month
+	</select> 
+	
+	<select id="selectOutboundQtyByDay" resultType="com.lec.yes25.logistics.StockDTO1">
+		SELECT *
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+		FROM v_outbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(#{param2})
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		WHERE c_month = TO_CHAR(#{param2})
+	</select>
+	
+	
+	<select id="selectOutboundQtyByMonth" resultType="com.lec.yes25.logistics.StockDTO2">
+		SELECT c_month, SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+		FROM v_outbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		GROUP BY c_month
+		ORDER BY c_month
+	</select>
+	
+	<select id="sumInboundQtyByDay" resultType="com.lec.yes25.logistics.InboundQtyDTO">
+		SELECT SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+		FROM v_inbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(#{param2})
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		WHERE c_month = TO_CHAR(#{param2})
+		GROUP BY c_month
+	</select>
+	
+	<select id="sumOutboundQtyByDay" resultType="com.lec.yes25.logistics.OutboundQtyDTO">
+		SELECT SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+		FROM v_outbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(#{param2})
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		WHERE c_month = TO_CHAR(#{param2})
+		GROUP BY c_month
+	</select>
+	
+	<select id="sumInboundQtyByMonth" resultType="com.lec.yes25.logistics.InboundQtyDTO">
+		SELECT SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT NVL(B.c_year, TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))) AS c_year, A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS c_year, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+		FROM v_inbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		GROUP BY c_year
+	</select> 
+	
+	<select id="sumOutboundQtyByMonth" resultType="com.lec.yes25.logistics.OutboundQtyDTO">
+		SELECT SUM(c_quantity) AS c_quantity
+		FROM (
+		SELECT NVL(B.c_year, TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))) AS c_year, A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+		FROM tb_calendar_test A, 
+		(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+		FROM v_outbound_test
+		WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
+		AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+		GROUP BY 
+		TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+		TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+		WHERE A.c_month = B.c_month(+)
+		AND A.c_day = B.c_day(+)
+		ORDER BY A.c_month, A.c_day)
+		GROUP BY c_year
+	</select> 
 
 </mapper>
