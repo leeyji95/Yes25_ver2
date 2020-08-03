@@ -111,6 +111,29 @@ public class LogisticsAjaxController {
 		return bulidList(request);
 	}
 	
+	@RequestMapping("/logistics/inboundKpiInform.ajax")
+	public LogisticsAjaxWriteList inboundKpiInform(HttpServletRequest request, HttpServletResponse response) { 
+		new InboundKpiInformCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/outboundKpiInform.ajax")
+	public LogisticsAjaxWriteList outboundKpiInform(HttpServletRequest request, HttpServletResponse response) { 
+		new OutboundKpiInformCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/inboundKpiInformUpdate.ajax")
+	public LogisticsAjaxWriteList inboundKpiInformUpdate(HttpServletRequest request, HttpServletResponse response) { 
+		new InboundKpiInformUpdateCommand().execute(request, response);
+		return bulidList(request);
+	}
+	
+	@RequestMapping("/logistics/outboundKpiInformUpdate.ajax")
+	public LogisticsAjaxWriteList outboundKpiInformUpdate(HttpServletRequest request, HttpServletResponse response) { 
+		new OutboundKpiInformUpdateCommand().execute(request, response);
+		return bulidList(request);
+	}
 	
 
 	

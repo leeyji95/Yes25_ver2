@@ -39,14 +39,16 @@
 				</div>
 				
 				<div>
-					<div class="container div_datepicker text-center">
-						<button id="btnLeft">
-						<i class="fas fa-chevron-left"></i>
-						</button>
-						<span>2020.<span id="month"></span>. <i class="far fa-calendar-alt fa-1x calendar"></i></span>
-						<button id="btnRight">
-						<i class="fas fa-chevron-right"></i>
-						</button>
+					<div class="container text-center">
+						<div class="div_datepicker">
+							<button id="btnLeft">
+							<i class="fas fa-chevron-left"></i>
+							</button>
+							<span>2020.<span id="month"></span>. <i class="far fa-calendar-alt fa-1x calendar"></i></span>
+							<button id="btnRight">
+							<i class="fas fa-chevron-right"></i>
+							</button>
+						</div>
 						<div class="btn-group">
 						  <button type="button" id="btnDay" class="btn btn-primary">월간</button>
 						  <button type="button" id="btnMonth" class="btn btn-primary">연간</button>
@@ -62,20 +64,20 @@
 								<ul class="list">
 									<li class="item">
 										<span class="item_title">입고량 누계</span>
-										<strong class="item_value"></strong>
+										<p><strong class="item_value1"></strong></p>
 									</li>
 									<li class="item">
 										<span class="item_title">출고량 누계</span>
-										<strong class="item_value"></strong>
+										<p><strong class="item_value2"></strong></p>
 									</li>
-									<li class="item">
-										<span class="item_title">평균 재고 수량</span>
-										<strong class="item_value"></strong>
+ 									<li class="item">
+										<span class="item_title">GAP (입고량 - 출고량)</span>
+										<p><strong class="item_value3"></strong></p>
 									</li>
-									<li class="item">
+									<!-- <li class="item">
 										<span class="item_title">최다 출고 서적</span>
-										<strong class="item_value"></strong>
-									</li>
+										<p><strong class="item_value4"></strong></p>
+									</li>  -->
 								</ul>
 							</div>
 						</div>

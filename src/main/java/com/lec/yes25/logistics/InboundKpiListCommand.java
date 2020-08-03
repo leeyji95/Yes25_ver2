@@ -29,7 +29,7 @@ public class InboundKpiListCommand implements Command {
 			String year = request.getParameter("year");
 			String month = request.getParameter("month");
 			
-			list =dao.selectInboundQtyByDate(year, month);
+			list =dao.selectInboundQtyByDay(year, month);
 			
 			if(list == null) {
 				message.append("[리스트할 데이터가 없습니다]");

@@ -37,6 +37,7 @@ $(document).ready(function() {
 		$("#btnDay").disabled = false;
 		flag = 1;
 		update2();
+		$('.div_datepicker').css("visibility", "hidden");
 	});
 
 	$("#btnDay").click(function() {
@@ -44,6 +45,7 @@ $(document).ready(function() {
 		$("#btnMonth").disabled = false;
 		flag = 0;
 		update1();
+		$('.div_datepicker').css("visibility", "visible")
 	});
 	
 /*	$("#datepicker1, #datepicker2").datepicker({
@@ -73,6 +75,7 @@ function loadPage() {
 	 
 	 $(".div_datepicker span#month").html(month);
 	 
+	 
 		$.ajax({
 			url : "inboundKpiList.ajax",
 			type : "POST",
@@ -85,6 +88,22 @@ function loadPage() {
 			success : function(data, status) {
 				if (status == "success") {
 					listUp1(data);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : "inboundKpiInform.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform1(data);
 				}
 			}
 		});
@@ -104,6 +123,26 @@ function loadPage() {
 				}
 			}
 		});
+		
+		
+		$.ajax({
+			url : "outboundKpiInform.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform2(data);
+				}
+			}
+		});
+		
+		
+		
 }
 
 
@@ -132,6 +171,22 @@ function query(month) {
 		});
 		
 		$.ajax({
+			url : "inboundKpiInform.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform1(data);
+				}
+			}
+		});
+		
+		$.ajax({
 			url : "outboundKpiList.ajax",
 			type : "POST",
 			cache : false,
@@ -143,6 +198,22 @@ function query(month) {
 			success : function(data, status) {
 				if (status == "success") {
 					listUp2(data);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : "outboundKpiInform.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform2(data);
 				}
 			}
 		});
@@ -174,6 +245,22 @@ function update1() {
 		});
 		
 		$.ajax({
+			url : "inboundKpiInform.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform1(data);
+				}
+			}
+		});
+		
+		$.ajax({
 			url : "outboundKpiList.ajax",
 			type : "POST",
 			cache : false,
@@ -185,6 +272,22 @@ function update1() {
 			success : function(data, status) {
 				if (status == "success") {
 					listUp2(data);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : "outboundKpiInform.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year,
+				'month': month
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform2(data);
 				}
 			}
 		});
@@ -216,6 +319,21 @@ function update2() {
 		});
 		
 		$.ajax({
+			url : "inboundKpiInformUpdate.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform1(data);
+				}
+			}
+		});
+		
+		$.ajax({
 			url : "outboundKpiUpdate.ajax",
 			type : "POST",
 			cache : false,
@@ -226,6 +344,21 @@ function update2() {
 			success : function(data, status) {
 				if (status == "success") {
 					listUp2(data);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : "outboundKpiInformUpdate.ajax",
+			type : "POST",
+			cache : false,
+			data : {
+				'year': year
+			},
+			dataType : "json",
+			success : function(data, status) {
+				if (status == "success") {
+					inform2(data);
 				}
 			}
 		});
@@ -372,6 +505,36 @@ function listUp2(jsonObj) {
 		
 		return true;
 		
+	} else {
+		alert(jsonObj.message);
+		return false;
+	} // end if
+	return false;
+} // end outboundListUp1()
+
+function inform1(jsonObj) {
+
+	if (jsonObj.status == "OK") {
+		
+		$("strong.item_value1").html(jsonObj.data[0].c_quantity);
+
+		return true;
+	} else {
+		alert(jsonObj.message);
+		return false;
+	} // end if
+	return false;
+} // end outboundListUp1()
+
+function inform2(jsonObj) {
+
+	if (jsonObj.status == "OK") {
+		
+		$("strong.item_value2").html(jsonObj.data[0].c_quantity);
+		
+		$("strong.item_value3").text($("strong.item_value1").text() - $("strong.item_value2").text());
+		
+		return true;
 	} else {
 		alert(jsonObj.message);
 		return false;

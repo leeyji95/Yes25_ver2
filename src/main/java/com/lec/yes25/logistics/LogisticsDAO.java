@@ -28,12 +28,16 @@ public interface LogisticsDAO {
 	public List<BookDTO> selectByFilter(int classification, String keyword, int category_uid, String fromDate, String toDate);
 	
 	
-	public List<StockDTO1> selectInboundQtyByDate(String year, String month);
+	public List<StockDTO1> selectInboundQtyByDay(String year, String month);
 	public List<StockDTO2> selectInboundQtyByMonth(String year);
 	
-	public List<StockDTO1> selectOutboundQtyByDate(String year, String month);
+	public List<StockDTO1> selectOutboundQtyByDay(String year, String month);
 	public List<StockDTO2> selectOutboundQtyByMonth(String year);
 	
+	public List<InboundQtyDTO> sumInboundQtyByDay(String year, String month);
+	public List<InboundQtyDTO> sumInboundQtyByMonth(String year);
+	public List<OutboundQtyDTO> sumOutboundQtyByDay(String year, String month);
+	public List<OutboundQtyDTO> sumOutboundQtyByMonth(String year);
 	
 	
 }

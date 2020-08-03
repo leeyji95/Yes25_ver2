@@ -617,3 +617,41 @@ GROUP BY c_month
 ORDER BY c_month
 ;
 
+SELECT SUM(c_quantity) AS c_quantity
+FROM (
+SELECT A.c_month, A.c_day, NVL(B.order_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date))) AS c_day, SUM(order_quantity) AS order_quantity 
+FROM v_inbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(inbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+WHERE c_month = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY c_month
+;
+
+SELECT SUM(c_quantity)
+FROM (
+SELECT NVL(B.C_YEAR, TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))) AS C_YEAR, A.c_month, A.c_day, NVL(B.outbound_quantity, 0) AS c_quantity 
+FROM tb_calendar_test A, 
+(SELECT TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) AS C_YEAR, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day, SUM(outbound_quantity) AS outbound_quantity 
+FROM v_outbound_test
+WHERE TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(YEAR FROM TRUNC(SYSDATE)))
+AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
+GROUP BY 
+TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
+TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date)))) B
+WHERE A.c_month = B.c_month(+)
+AND A.c_day = B.c_day(+)
+ORDER BY A.c_month, A.c_day)
+GROUP BY C_YEAR
+;
+
+

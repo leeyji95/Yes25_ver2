@@ -12,13 +12,13 @@ import com.lec.yes25.common.Command;
 
 
 
-public class OutboundKpiListCommand implements Command {
+public class OutboundKpiInformCommand implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 
 		LogisticsDAO dao = C.sqlSession.getMapper(LogisticsDAO.class);
-		List<StockDTO1> list = null;
+		List<OutboundQtyDTO> list = null;
 		
 		StringBuffer message = new StringBuffer();
 		String status = "FAIL";
@@ -29,7 +29,7 @@ public class OutboundKpiListCommand implements Command {
 			String year = request.getParameter("year");
 			String month = request.getParameter("month");
 			
-			list =dao.selectOutboundQtyByDay(year, month);
+			list =dao.sumOutboundQtyByDay(year, month);
 			
 			if(list == null) {
 				message.append("[리스트할 데이터가 없습니다]");
