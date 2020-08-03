@@ -1,10 +1,5 @@
 @charset "UTF-8";
 
-/* 전체 기본 여백 */
-body, html {
-	margin: 0 60px 150px 20px;
-}
-
 /* 내 설정 버튼 */
 .btnMyself {
   border: none;
@@ -29,6 +24,9 @@ body, html {
 /* 제목에 헤더 줌*/
 #proceedHeader, #writeHeader {
 	margin-top: 50px;
+	font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 
 /* 기본 세팅 너비 */
@@ -36,9 +34,9 @@ body, html {
 .width50 {width: 50%;}
 
 /* 전표 목록 페이지 */
-.left {
-	margin-top: 20px;
-}
+/* .left { */
+/* 	margin-top: 20px; */
+/* } */
 #list table, #viewTable table {
 	margin-top: 10px;
 	margin-bottom: 30px;

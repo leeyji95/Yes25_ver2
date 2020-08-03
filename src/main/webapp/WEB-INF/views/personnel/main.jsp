@@ -7,25 +7,23 @@
 <html lang="ko" >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <title>도서관리</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet"	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/personnel/main.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/personnel/register.css" />	
-	<link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
 
 
 </head>
 <body>
 	<div class="wrap">
-        <nav class="nav-bar navbar-inverse" role="navigation">
-            <div id ="top-menu" class="container-fluid active">
+        <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
+            <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
                 <ul class="nav navbar-nav">        
                     <li class="dropdown movable">
@@ -49,7 +47,7 @@
         <aside id="side-menu" class="aside" role="navigation">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-globe"></i>인사관리<i class="fa fa-chevron-down"></i></div>
+                     <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/personnel/main">출퇴근 등록</a></li>  
                     <li><a href="${pageContext.request.contextPath }/personnel/commutelist">근태현황 조회</a></li>  
@@ -57,30 +55,31 @@
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-users"></i>재무관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-piggy-bank"></i>재무관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
- 						<li><a href="${pageContext.request.contextPath }/financial/financialMain.bn">재무메인</a></li>                  </ul>
+                    <li><a href="${pageContext.request.contextPath }/financial/financialMain.bn">재무메인</a></li>
+                  </ul>
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-cloud"></i>물류관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-boxes"></i>물류관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/logistics/inbound">입고관리</a></li>
-                    <li><a href="${pageContext.request.contextPath }/logistics/outbound">재고관리</a></li>
-                    <li><a href="${pageContext.request.contextPath }/logistics/stock">출고관리</a></li>
+                    <li><a href="${pageContext.request.contextPath }/logistics/outbound">출고관리</a></li>
+                    <li><a href="${pageContext.request.contextPath }/logistics/stock">재고관리</a></li>
                     <li><a href="${pageContext.request.contextPath }/logistics/kpi">현황요약</a></li>
                   </ul>
                 </li>  
                 
                  <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-map-marker"></i>제품관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-book-open"></i>제품관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/products/list">제품관리</a></li>
                   </ul>
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-file-image-o"></i>구매관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-calculator"></i>구매관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/purchasing/vendor.do">거래처관리</a></li> 
                     <li><a href="${pageContext.request.contextPath }/purchasing/order.do">발주요청</a></li> 
@@ -201,13 +200,13 @@
                                             <div class="col_half">
                                                 <!-- 이름 -->
                                                 <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                                    <input type="text" name="name" value="yeji" placeholder="Name" required />
+                                                    <input type="text" name="name"  placeholder="Name" required />
                                                 </div>
                                             </div>
                                             <div class="col_half">
                                                 <!-- 전화번호 -->
                                                 <div class="input_field"> <span><i aria-hidden="true" class="fa fa-phone"></i></span>
-                                                    <input type="text" name="phone" value="01022234400" placeholder="PhoneNumber" required />
+                                                    <input type="text" name="phone" placeholder="PhoneNumber" required />
                                                 </div>
                                             </div>
                                         </div>
@@ -217,9 +216,9 @@
                                                 <!-- 부서코드 -->
                                                 <div class="input_field select_option"> <span><i aria-hidden="true" class="fa fa-sitemap"></i></span>
                                                     <select name="deptno" required>
-                                                        <option>---부서코드---</option>
+                                                        <option selected>---부서코드---</option>
                                                         <option value="10">인사</option>
-                                                        <option value="20" selected>재무</option>
+                                                        <option value="20">재무</option>
                                                         <option value="30">제품</option>
                                                         <option value="40">물류</option>
                                                         <option value="50">구매</option>
@@ -230,7 +229,7 @@
                                             <div class="col_half">
                                                 <!-- 이메일 -->
                                                 <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                                                    <input type="email" name="email" value="leeyji95@naver.com" placeholder="Email" required />
+                                                    <input type="email" name="email" placeholder="Email" required />
                                                 </div>
                                             </div>
                                         </div>
@@ -241,8 +240,8 @@
                                                 <!-- 직급코드 -->
                                                 <div class="input_field select_option"> <span><i aria-hidden="true" class="fa fa-address-card"></i></span>
                                                     <select name="positionno" required>
-                                                        <option>---직급코드---</option>
-                                                        <option value="300" selected>사원</option>
+                                                        <option selected>---직급코드---</option>
+                                                        <option value="300">사원</option>
                                                         <option value="400">대리</option>
                                                         <option value="500">과장</option>
                                                         <option value="600">부장</option>
@@ -255,7 +254,7 @@
                                                 <!-- 입사일 -->
                                                 <div class="input_field"> <span class="reg">입사일</span>
                                                 	<label>
-                                                    	<input type="date" id="datepicker" name="hiredate" value="2020-08-10" required style="letter-spacing: 3px; text-align: center;" />
+                                                    	<input type="date" id="datepicker" name="hiredate" required style="letter-spacing: 3px; text-align: center;" />
                                                     </label>
                                                     
                                                     <script type="text/javascript">
@@ -273,8 +272,8 @@
                                                 <!-- 관리자여부 -->
                                                 <div class="input_field select_option"> <span><i aria-hidden="true" class="fa fa-address-card"></i></span>
                                                     <select name="admin" required>
-                                                        <option>---선택하세요---</option>
-                                                        <option value="ROLE_MEMBER" selected>일반</option>
+                                                        <option selected>---선택하세요---</option>
+                                                        <option value="ROLE_MEMBER">일반</option>
                                                         <option value="ROLE_ADMIN">관리자</option>
                                                     </select>
                                                     <div class="select_arrow"></div>

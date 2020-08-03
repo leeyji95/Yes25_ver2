@@ -391,7 +391,7 @@ let app = new Vue({
         deleteItem: function (event) {
             console.log(event.target.parentNode.parentNode.firstChild.innerText);
 
-            axios.post(`http://localhost:8109/yes25_project/products/ajax/delete.ajax`, {
+            axios.post(`http://localhost:8000/yes25/products/ajax/delete.ajax`, {
                     "bookUid": event.target.parentNode.parentNode.firstChild.innerText
                 }, 
                 {

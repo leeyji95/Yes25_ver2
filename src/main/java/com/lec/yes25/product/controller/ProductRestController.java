@@ -91,7 +91,9 @@ public class ProductRestController {
 		return dto.getBookUid();
 	}
 
-	@RequestMapping("/upload.ajax")
+//	@RequestMapping("/upload.ajax")
+	@RequestMapping(value = "/upload.ajax", method= RequestMethod.POST, 
+	headers = ("content-type=multipart/*"))
 	public String upload(@RequestParam("file") MultipartFile file, HttpSession session,
 			@RequestParam("bookuid") int bookUid) {
 		
@@ -103,7 +105,7 @@ public class ProductRestController {
 	}
 	
 //	@RequestMapping("/imgupdate.ajax")
-	@RequestMapping(value = "/imageupdate.ajax", method= RequestMethod.POST, 
+	@RequestMapping(value = "/imgupdate.ajax", method= RequestMethod.POST, 
 			headers = ("content-type=multipart/*"))
 	public String imgUpdate(@RequestParam("file") MultipartFile file, HttpSession session,
 			@RequestParam("bookuid") int bookUid ){

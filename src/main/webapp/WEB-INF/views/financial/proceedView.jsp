@@ -23,11 +23,17 @@
     
      <!-- Latest compiled and minified CSS --> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
     <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
-    
+    <style type="text/css">
+    #title
+   	{font-size: 38px;
+	    font-weight: bold;
+	    padding: 15px 20px;
+	    letter-spacing: 5px;}
+    </style>
     </head>
     
 
@@ -36,8 +42,8 @@
 
 			
 	<div class="wrap">
-        <nav class="nav-bar navbar-inverse" role="navigation">
-            <div id ="top-menu" class="container-fluid active">
+        <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
+            <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
                 <ul class="nav navbar-nav">        
                     <li class="dropdown movable">
@@ -57,7 +63,7 @@
         <aside id="side-menu" class="aside" role="navigation">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-globe"></i>인사관리<i class="fa fa-chevron-down"></i></div>
+                    <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/personnel/main">출퇴근 등록</a></li>  
                     <li><a href="${pageContext.request.contextPath }/personnel/commutelist">근태현황 조회</a></li>  
@@ -65,14 +71,14 @@
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-users"></i>재무관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-piggy-bank"></i>재무관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/financial/financialMain.bn">재무메인</a></li>
                   </ul>
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-cloud"></i>물류관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-boxes"></i>물류관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/logistics/inbound">입고관리</a></li>
                     <li><a href="${pageContext.request.contextPath }/logistics/outbound">출고관리</a></li>
@@ -82,14 +88,14 @@
                 </li>  
                 
                  <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-map-marker"></i>제품관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-book-open"></i>제품관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/products/list">제품관리</a></li>
                   </ul>
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-file-image-o"></i>구매관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-calculator"></i>구매관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/purchasing/vendor.do">거래처관리</a></li> 
                     <li><a href="${pageContext.request.contextPath }/purchasing/order.do">발주요청</a></li> 
@@ -111,9 +117,9 @@
 
 			<section class="content-inner">
 				<div class="col main pt-5 mt-3">
-					<h3 class="display-4 d-none d-sm-block">
-							_____큰____제목______
-					</h3>
+					<div class="div_title">
+						<h1 class="display-4 d-none d-sm-block" id="title">결재대기</h1>
+					</div>
 					<hr>
 					<div class="lead mt-5 d-none d-sm-block">
 					
@@ -196,11 +202,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!-- jQuery 선언 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- 내 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- JS, Popper.js -->
+	 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/JS/navmenu_template.js"></script>
     <script src="${pageContext.request.contextPath}/JS/financial/financialView.js"></script>
     
 </body>

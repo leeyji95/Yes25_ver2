@@ -11,15 +11,22 @@
 
     
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
     <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
+    <style type="text/css">
+    	.title
+   	{font-size: 38px;
+	    font-weight: bold;
+	    letter-spacing: 5px;}
+    </style>
   </head>
 <body>
 
-<div class="wrap">
-        <nav class="nav-bar navbar-inverse" role="navigation">
-            <div id ="top-menu" class="container-fluid active">
+<div class="wrap ">
+        <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
+            <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
                 <ul class="nav navbar-nav">        
                     <li class="dropdown movable">
@@ -30,7 +37,6 @@
                             <li><a href="${pageContext.request.contextPath }/personnel/logout"><span class="fa fa-power-off"></span>Logout</a></li>
                         </ul>
                     </li>
-                    
                 </ul>
             </div>      
         </nav>
@@ -39,7 +45,7 @@
         <aside id="side-menu" class="aside" role="navigation">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-globe"></i>인사관리<i class="fa fa-chevron-down"></i></div>
+                      <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/personnel/main">출퇴근 등록</a></li>  
                     <li><a href="${pageContext.request.contextPath }/personnel/commutelist">근태현황 조회</a></li>  
@@ -47,14 +53,14 @@
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-users"></i>재무관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-piggy-bank"></i>재무관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/financial/financialMain.bn">재무메인</a></li>
                   </ul>
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-cloud"></i>물류관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-boxes"></i>물류관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/logistics/inbound">입고관리</a></li>
                     <li><a href="${pageContext.request.contextPath }/logistics/outbound">출고관리</a></li>
@@ -64,14 +70,14 @@
                 </li>  
                 
                  <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-map-marker"></i>제품관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-book-open"></i>제품관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/products/list">제품관리</a></li>
                   </ul>
                 </li>
                 
                 <li class="nav-header">
-                  <div class="link"><i class="fa fa-lg fa-file-image-o"></i>구매관리<i class="fa fa-chevron-down"></i></div>
+                  <div class="link"><i class="fas fa-calculator"></i>구매관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
                     <li><a href="${pageContext.request.contextPath }/purchasing/vendor.do">거래처관리</a></li> 
                     <li><a href="${pageContext.request.contextPath }/purchasing/order.do">발주요청</a></li> 
@@ -94,10 +100,12 @@
 			<section class="content-inner">
 				<div class="col main pt-5 mt-3">
 					<!-- 월별 매출 그래프 -->
-					<h3 class="display-4 d-none d-sm-block" style="padding-top: 50px; text-align: center;">월별 매출 그래프</h3>
+					<div class="div_title">
+						<h1 class="title" style=" padding-top: 50px; text-align: center;">월별 매출 그래프</h1>
+					</div>
 					<hr>
-					<div class="lead mt-5 d-none d-sm-block">
 					
+					<div class="lead mt-5 d-none d-sm-block">
 						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
 
 
@@ -129,7 +137,7 @@
 
 <!-- 제목 -->
 <h1 id="proceedHeader" class="display-4 d-none d-sm-block">결제를 기다리고 있는 전표 목록</h1>
-<h1 id="writeHeader" class="display-4 d-none d-sm-block">작성한 전표 목록</h1>
+<h1 id="writeHeader" class="display-4 d-none d-sm-block">작성한 전표 목록</h1> 
 
 
 <!-- 전표 목록  -->
