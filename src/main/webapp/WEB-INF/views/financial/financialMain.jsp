@@ -131,6 +131,7 @@
 <h1 id="writeHeader" class="display-4 d-none d-sm-block">작성한 전표 목록</h1>
 
 
+
 <!-- 전표 목록  -->
 <div id="list">
 	<div class="d01">
