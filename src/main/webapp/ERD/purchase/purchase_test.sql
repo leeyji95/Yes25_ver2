@@ -181,15 +181,46 @@ END;
 -- 출판사 더미 데이터
 DELETE FROM tb_publisher;
 
-DECLARE num number := 1;
-BEGIN
-  WHILE (num <= 10) LOOP
-	INSERT INTO tb_publisher VALUES (publisher_seq.nextval, 'A출판사'||publisher_seq.nextval, CEIL(DBMS_RANDOM.VALUE(100, 999))||'-'||CEIL(DBMS_RANDOM.VALUE(10, 99))||'-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999)), 'A대표자'||publisher_seq.nextval, '010-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999))||'-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999)), '주소'||publisher_seq.nextval);
-	INSERT INTO tb_publisher VALUES (publisher_seq.nextval, 'B출판사'||publisher_seq.nextval, CEIL(DBMS_RANDOM.VALUE(100, 999))||'-'||CEIL(DBMS_RANDOM.VALUE(10, 99))||'-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999)), 'B대표자'||publisher_seq.nextval, '010-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999))||'-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999)), '주소'||publisher_seq.nextval);
-	INSERT INTO tb_publisher VALUES (publisher_seq.nextval, 'C출판사'||publisher_seq.nextval, CEIL(DBMS_RANDOM.VALUE(100, 999))||'-'||CEIL(DBMS_RANDOM.VALUE(10, 99))||'-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999)), 'C대표자'||publisher_seq.nextval, '010-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999))||'-'||CEIL(DBMS_RANDOM.VALUE(1000, 9999)), '주소'||publisher_seq.nextval);
-    num := num + 1;
-  END LOOP;
-END;
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '길벗', '101-12-12653', '김재훈', '02-6522-6511', '서울 종로구  혜화동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '한빛', '101-64-11223', '이재훈', '02-1232-9261', '서울 종로구 부암동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '프리렉', '220-02-47863', '이재훈', '02-1332-0821', '서울 강남구 역삼동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '다락원', '220-28-45964', '이재훈', '02-1243-5571', '서울 강남구 역삼동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '도우출판', '120-28-39683', '이재훈', '02-1221-6511', '서울 강남구 삼성동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '제이펍', '120-12-95953', '이재훈', '02-1232-6521', '서울 강남구 삼성동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '나라원', '106-24-65412', '이재훈', '02-2932-2921', '서울 용산구 한남동');
+
+INSERT INTO tb_publisher 
+	(publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address) 
+VALUES
+	(publisher_seq.nextval, '넥서스', '106-12-93482', '이재훈', '02-1922-1246', '서울 용산구 남영동');
 ------------------------------
 
 -- 카테고리 더미 데이터
@@ -203,14 +234,14 @@ DELETE FROM tb_book;
 DECLARE num number := 1;
 BEGIN
   WHILE (num <= 300) LOOP
-	INSERT INTO tb_book VALUES (book_seq.nextval, '기억1'||book_seq.nextval, '베르나르 베르베르', '소설입니다.', 14800, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 2, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '기억2'||book_seq.nextval, '베르나르 베르베르', '소설입니다.', 14800, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 2, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '라플라스의 마녀'||book_seq.nextval, '히가시노 게이고', '소설입니다.', 13320, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 2, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '마력의 태동'||book_seq.nextval, '히가시노 게이고', '소설입니다.', 12600, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 2, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 기초편'||book_seq.nextval, '남궁성', 'Java 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 1, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석'||book_seq.nextval, '남궁성', 'Java 책입니다.', 27000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 1, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C 프로그래밍'||book_seq.nextval, '윤성우', 'C 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 1, CEIL(DBMS_RANDOM.VALUE(1, 30)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C++ 프로그래밍'||book_seq.nextval, '윤성우', 'C 책입니다.', 24300, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(1000000, 9999999)), 1, CEIL(DBMS_RANDOM.VALUE(1, 30)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '기억1'||book_seq.nextval, '베르나르 베르베르', '소설입니다.', 14800, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 2, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '기억2'||book_seq.nextval, '베르나르 베르베르', '소설입니다.', 14800, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 2, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '라플라스의 마녀'||book_seq.nextval, '히가시노 게이고', '소설입니다.', 13320, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 2, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '마력의 태동'||book_seq.nextval, '히가시노 게이고', '소설입니다.', 12600, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 2, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 기초편'||book_seq.nextval, '남궁성', 'Java 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 1, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석'||book_seq.nextval, '남궁성', 'Java 책입니다.', 27000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 1, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C 프로그래밍'||book_seq.nextval, '윤성우', 'C 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 1, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C++ 프로그래밍'||book_seq.nextval, '윤성우', 'C 책입니다.', 24300, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999999, 9999999999)), 1, CEIL(DBMS_RANDOM.VALUE(0, 8)));
     num := num + 1;
   END LOOP;
 END;
@@ -223,10 +254,10 @@ SELECT order_set_seq.nextval FROM dual;
 DECLARE 
 	num NUMBER := 1;
 	orderSetUid NUMBER := order_set_seq.currval;
-	pubUid NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 30));
+	pubUid NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 8));
 	YYYY NUMBER := CEIL(DBMS_RANDOM.VALUE(2017, 2020));
 	MM NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 6));
-	DD NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 27));
+	DD NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 28));
 BEGIN
   WHILE (num <= 30) LOOP
   	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
@@ -234,10 +265,10 @@ BEGIN
   	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
     num := num + 1;
     orderSetUid := order_set_seq.nextval;
-   	pubUid := CEIL(DBMS_RANDOM.VALUE(1, 30));
-   	YYYY := CEIL(DBMS_RANDOM.VALUE(2018, 2020));
-   	MM := CEIL(DBMS_RANDOM.VALUE(1, 7));
-   	DD := CEIL(DBMS_RANDOM.VALUE(1, 28));
+   	pubUid := CEIL(DBMS_RANDOM.VALUE(0, 8));
+   	YYYY := CEIL(DBMS_RANDOM.VALUE(2017, 2020));
+   	MM := CEIL(DBMS_RANDOM.VALUE(0, 8));
+   	DD := CEIL(DBMS_RANDOM.VALUE(0, 28));
   END LOOP;
 END;
 
