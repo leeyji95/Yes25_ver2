@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+#title {
+	font-size: 38px;
+	font-weight: bold;
+	padding: 15px 20px;
+	letter-spacing: 5px;
+}
+
 .page-info-panel, .page-info-panel>div {
 	margin: 0 !important;
 	padding: 0 !important;

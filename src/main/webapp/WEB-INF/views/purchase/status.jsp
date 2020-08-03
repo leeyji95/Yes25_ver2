@@ -44,8 +44,8 @@
 							<li><a
 								href="${pageContext.request.contextPath }/personnel/logout"><span
 									class="fa fa-power-off"></span>Logout</a></li>
-						</ul></li>
-
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</nav>
