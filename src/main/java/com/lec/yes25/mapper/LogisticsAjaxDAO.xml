@@ -63,7 +63,7 @@
 	
 	<update id="updateByUidInStockFromInbound" flushCache="true">
 		MERGE INTO
-			tb_stock_test A
+			tb_stock A
 		USING
 			(SELECT * FROM v_inbound WHERE order_uid IN (
 			<foreach collection="array" item="item" index="index" separator=",">

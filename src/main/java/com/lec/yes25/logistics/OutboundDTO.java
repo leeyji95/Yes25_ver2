@@ -13,7 +13,7 @@ public class OutboundDTO {
 	private int outbound_unit_price; 
 	private int outbound_state; 
 	private Timestamp outbound_date;
-	private int price; 
+	private int book_price; 
 	private String book_subject; 
 	private long book_isbn; 
 	

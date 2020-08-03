@@ -11,7 +11,7 @@ public class BookDTO {
 	String book_subject;
 	long book_isbn; 
 	String book_author;
-	int price;
+	int book_price;
 	Timestamp book_pubdate;
 	int stock_uid; 
 	int stock_quantity;

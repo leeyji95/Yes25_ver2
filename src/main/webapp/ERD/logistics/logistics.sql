@@ -241,6 +241,7 @@ SELECT * FROM tb_publisher;
 SELECT * FROM tb_order;
 SELECT * FROM v_inbound;
 SELECT * FROM v_outbound;
+SELECT * FROM v_book_order;
 SELECT * FROM v_book_stock;
 SELECT * FROM tb_calendar;
 
@@ -268,15 +269,15 @@ INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pub
 
 
 INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 1, 1, 1, 30000, 30, SYSDATE, 0);
+	VALUES (order_seq.NEXTVAL, 1, 2, 1, 30000, 30, SYSDATE, 0);
 INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 2, 1, 1, 30010, 40, SYSDATE, 0);
+	VALUES (order_seq.NEXTVAL, 2, 2, 1, 30010, 40, SYSDATE, 0);
 INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 3, 1, 1, 30030, 50, SYSDATE, 0);
+	VALUES (order_seq.NEXTVAL, 3, 3, 1, 30030, 50, SYSDATE, 0);
 INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 4, 1, 1, 30040, 60, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_statee)
-	VALUES (order_seq.NEXTVAL, 5, 1, 1, 30040, 70, SYSDATE, 0);
+	VALUES (order_seq.NEXTVAL, 4, 4, 1, 30040, 60, SYSDATE, 0);
+INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
+	VALUES (order_seq.NEXTVAL, 5, 5, 1, 30040, 70, SYSDATE, 0);
 
 
 
@@ -368,8 +369,6 @@ a_cnt := a_cnt+1;
 EXIT WHEN a_cnt > 31;
 END LOOP;
 END;
-
-
 
 
 
