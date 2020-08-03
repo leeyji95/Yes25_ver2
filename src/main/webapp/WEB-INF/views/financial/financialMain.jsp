@@ -17,9 +17,9 @@
   </head>
 <body>
 
-<div class="wrap">
-        <nav class="nav-bar navbar-inverse" role="navigation">
-            <div id ="top-menu" class="container-fluid active">
+<div class="wrap ">
+        <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
+            <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
                 <ul class="nav navbar-nav">        
                     <li class="dropdown movable">
@@ -30,7 +30,6 @@
                             <li><a href="${pageContext.request.contextPath }/personnel/logout"><span class="fa fa-power-off"></span>Logout</a></li>
                         </ul>
                     </li>
-                    
                 </ul>
             </div>      
         </nav>
