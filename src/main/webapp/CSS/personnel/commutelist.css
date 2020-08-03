@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
-html, body {
+/* html, body {
   padding: 0;
   margin: 0;
   background: white;
   height: 100%;
-}
+} */
 
 /* 데이트 피커 */
 .hidden {
@@ -130,6 +130,7 @@ html, body {
           box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.3), 30px 30px 40px 0 rgba(0, 0, 0, 0.2);
   padding: 15px;
   position: absolute;
+  top: 190px;
   overflow: hidden;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -316,13 +317,17 @@ ul.pagination a:hover:not(.active) {background-color: #ddd;}
 	height: 20px;
 }
 #pageRows #rows{
-	width: 100%;
-	height: 100%;
+	padding: 0px 6px;
 }
 
 
+#rows{
+	
+	
+}
 
 
-
-
-
+#date-picker-modal {
+    top: 190px !important;
+    left: 350px;
+}

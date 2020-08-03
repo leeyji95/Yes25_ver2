@@ -20,6 +20,7 @@ function checkStuff() {
   if (username.value == "") {
     msg.style.display = 'block';
     msg.innerHTML = "Please enter your username";
+    alert("사원번호를 입력해주세요");
     username.focus();
     return false;
   } else {
@@ -28,6 +29,7 @@ function checkStuff() {
   
    if (password.value == "") {
     msg.innerHTML = "Please enter your password";
+    alert("비밀번호를 입력해주세요");
     password.focus();
     return false;
   } else {
@@ -35,11 +37,17 @@ function checkStuff() {
   }
    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!re.test(email.value)) {
-    msg.innerHTML = "Please enter a valid email";
+    msg.innerHTML = "Please enter a valid number";
     email.focus();
     return false;
   } else {
     msg.innerHTML = "";
   }
+  
+}
+
+function chkLogin(){
+	
+	
 }
 

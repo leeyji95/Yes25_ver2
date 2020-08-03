@@ -22,6 +22,14 @@
 		<security:intercept-url pattern="/login" access="permitAll" />
 		<security:intercept-url pattern="/personnel/main" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
 		<security:intercept-url pattern="/personnel/commutelist" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/financial/*" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/logistics/inbound" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/logistics/outbound" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/logistics/stock" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/product/kpi" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/purchasing/vendor.do" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/purchasing/order.do" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
+		<security:intercept-url pattern="/purchasing/status.do" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')" />
 
 		<security:form-login login-page="/personnel/login" authentication-success-handler-ref="LoginSuccess" />
 		<security:logout logout-url="/personnel/logout" logout-success-url="/personnel/login"	invalidate-session="true" delete-cookies="JSESSIONID" />
