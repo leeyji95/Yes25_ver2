@@ -245,7 +245,7 @@
 <select id="netSales" resultType="int">
 	<![CDATA[
 	SELECT 
-		SUM(outbound_quantitiy * outbound_unit_price) 
+		SUM(outbound_quantity * outbound_unit_price) 
 	FROM 
 		tb_outbound_test
 	WHERE

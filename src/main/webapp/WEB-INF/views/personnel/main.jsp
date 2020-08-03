@@ -59,10 +59,7 @@
                 <li class="nav-header">
                   <div class="link"><i class="fa fa-lg fa-users"></i>재무관리<i class="fa fa-chevron-down"></i></div>
                   <ul class="submenu">
-                    <li><a href="${pageContext.request.contextPath }/financial/">재무메인</a></li>
-                    <li><a href="${pageContext.request.contextPath }/financial/">재무서브1</a></li>
-                    <li><a href="${pageContext.request.contextPath }/financial/">재무서브2</a></li>
-                  </ul>
+ 						<li><a href="${pageContext.request.contextPath }/financial/financialMain.bn">재무메인</a></li>                  </ul>
                 </li>
                 
                 <li class="nav-header">
