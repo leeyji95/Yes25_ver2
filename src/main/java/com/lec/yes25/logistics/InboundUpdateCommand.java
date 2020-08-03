@@ -3,8 +3,12 @@ package com.lec.yes25.logistics;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.lec.yes25.common.C;
@@ -12,7 +16,16 @@ import com.lec.yes25.common.Command;
 
 
 public class InboundUpdateCommand implements Command {
-
+	
+	private SqlSession sqlSession;
+	
+	
+	@Autowired
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+		C.sqlSession =sqlSession;
+	}
+	
 	TransactionTemplate transactionTemplate;
 	
 	@Autowired
@@ -23,15 +36,20 @@ public class InboundUpdateCommand implements Command {
 	
 	
 	@Override
-	@Transactional
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				
 
 		int cnt = 0;
 		
 		LogisticsDAO dao = C.sqlSession.getMapper(LogisticsDAO.class);
 		
 		StringBuffer message = new StringBuffer();
-		String status = "FAIL";
+		String status1 = "FAIL";
 		
 		String [] params = request.getParameterValues("order_uid");
 		int [] order_uids = null;
@@ -54,7 +72,7 @@ public class InboundUpdateCommand implements Command {
 				if(cnt==0) {
 					message.append("[0 update]");
 				} else {
-					status = "OK";					
+					status1 = "OK";					
 				}
 	
 			} catch (NumberFormatException e) {
@@ -64,10 +82,12 @@ public class InboundUpdateCommand implements Command {
 			}
 		}
 		
-		
 		request.setAttribute("result", cnt);
-		request.setAttribute("status", status);
+		request.setAttribute("status", status1);
 		request.setAttribute("message", message.toString());
+			}
+		});
+		
 		
 	} // end execute
  

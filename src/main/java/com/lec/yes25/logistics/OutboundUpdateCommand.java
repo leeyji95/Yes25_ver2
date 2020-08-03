@@ -10,8 +10,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.lec.yes25.common.C;
 import com.lec.yes25.common.Command;
@@ -22,16 +26,39 @@ import net.sf.json.JSONObject;
 
 
 public class OutboundUpdateCommand implements Command {
+	
 
+	private SqlSession sqlSession;
+	
+	
+	@Autowired
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+		C.sqlSession =sqlSession;
+	}
+	
+	TransactionTemplate transactionTemplate;
+	
+	@Autowired
+	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+		this.transactionTemplate = transactionTemplate;
+	}
+	
+	
 	@Override
-	@Transactional
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				
+	
 		int cnt = 0;
 		
 		LogisticsDAO dao = C.sqlSession.getMapper(LogisticsDAO.class);
 		
 		StringBuffer message = new StringBuffer();
-		String status = "FAIL";
+		String status1 = "FAIL";
 		
 
 		
@@ -70,7 +97,7 @@ public class OutboundUpdateCommand implements Command {
 				if(cnt == 0) {
 					message.append("[0 inserted]");
 				}  else {
-					status = "OK";					
+					status1 = "OK";					
 				} // end if
 
 			} catch (Exception e) {
@@ -80,8 +107,12 @@ public class OutboundUpdateCommand implements Command {
 		} // end if
 		
 		request.setAttribute("result", cnt);
-		request.setAttribute("status", status);
+		request.setAttribute("status", status1);
 		request.setAttribute("message", message.toString());
+		
+			}
+		});
+			
 	} // end execute
 
 } // end OutboundUpdateCommand
