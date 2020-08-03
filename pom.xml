@@ -222,6 +222,13 @@
 	    <version>2.4</version>
 	    <classifier>jdk13</classifier>    
 		</dependency>
+		
+		<!-- 파일업로드 -->
+		<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>1.4</version>
+		</dependency>
 
 	<dependency>
     <groupId>net.sf.json-lib</groupId>
