@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.yes25.product.mapper.ProductDAO">
+
+<select id="select" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb)
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectBySearch" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb
+	WHERE (SUBJECT LIKE '%'||#{param3}||'%' OR CONTENT LIKE '%'||#{param3}||'%' 
+	OR AUTHOR LIKE '%'||#{param3}||'%' OR PUBNAME LIKE '%'||#{param3}||'%' OR CATEGORYNAME LIKE '%'||#{param3}||'%'))	
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectBySubject" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb
+	WHERE SUBJECT LIKE '%'||#{param3}||'%')	
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectByContent" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb
+	WHERE CONTENT LIKE '%'||#{param3}||'%')	
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectByAuthor" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb
+	WHERE AUTHOR LIKE '%'||#{param3}||'%')	
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectByPublisher" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb
+	WHERE PUBNAME LIKE '%'||#{param3}||'%')	
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectByCategory" resultType="com.lec.yes25.product.dto.BookDTO">
+	<![CDATA[
+	SELECT *
+	FROM 
+	(SELECT rownum AS rnum, vb.* 
+	FROM VIEW_BOOK vb
+	WHERE CATEGORYNAME LIKE '%'||#{param3}||'%')	
+	WHERE RNUM >= 1 + (#{param1} - 1)*#{param2} AND RNUM < 1 + #{param1}*#{param2}
+	]]>
+</select>
+
+<select id="selectByUid" resultType="com.lec.yes25.product.dto.BookDTO">
+	SELECT 
+		* 
+	FROM view_book 
+	WHERE bookUid = #{param1}
+</select>
+
+<select id="selectCount" resultType="int">
+	SELECT count(*) FROM TB_BOOK
+</select>
+
+<select id="selectSearchCount" resultType="int">
+	SELECT count(*) FROM VIEW_BOOK 
+	WHERE SUBJECT LIKE '%'||#{param1}||'%' OR CONTENT LIKE '%'||#{param1}||'%' OR AUTHOR LIKE '%'||#{param1}||'%' OR PUBNAME LIKE '%'||#{param3}||'%'
+</select>
+
+<select id="selectSubjectCount" resultType="int">
+	SELECT count(*) FROM VIEW_BOOK 
+	WHERE SUBJECT LIKE '%'||#{param1}||'%'
+</select>
+
+<select id="selectContentCount" resultType="int">
+	SELECT count(*) FROM VIEW_BOOK 
+	WHERE CONTENT LIKE '%'||#{param1}||'%'
+</select>
+
+<select id="selectAuthorCount" resultType="int">
+	SELECT count(*) FROM VIEW_BOOK 
+	WHERE AUTHOR LIKE '%'||#{param1}||'%'
+</select>
+
+<select id="selectPublisherCount" resultType="int">
+	SELECT count(*) FROM VIEW_BOOK 
+	WHERE PUBNAME LIKE '%'||#{param1}||'%'
+</select>
+
+<select id="selectCategoryCount" resultType="int">
+	SELECT count(*) FROM VIEW_BOOK 
+	WHERE CATEGORYNAME LIKE '%'||#{param1}||'%'
+</select>
+
+<insert id="insert" flushCache="true"
+	parameterType="com.lec.yes25.product.dto.BookDTO" useGeneratedKeys="true">
+	INSERT INTO TB_BOOK 
+	(BOOK_UID, BOOK_SUBJECT, BOOK_AUTHOR, BOOK_CONTENT, BOOK_PRICE, BOOK_PUBDATE, BOOK_REGDATE, BOOK_ISBN, CATEGORY_UID, PUBLISHER_UID) 
+	VALUES
+	(book_seq.nextval, #{subject}, #{author}, #{content}, #{price}, SYSDATE, SYSDATE, #{isbn}, #{categoryUid}, #{pubUid})
+	<selectKey keyProperty="bookUid" resultType="Integer" order="AFTER">
+		SELECT book_seq.currval FROM dual
+	</selectKey>
+</insert>
+
+<delete id="deleteByUid" flushCache="true">
+DELETE FROM TB_BOOK WHERE BOOK_UID = #{param1}
+</delete>
+
+<update id="update" flushCache="true"
+	parameterType="com.lec.yes25.product.dto.BookDTO">
+UPDATE TB_BOOK 
+SET 
+	BOOK_SUBJECT = #{subject}, BOOK_AUTHOR = #{author}, BOOK_CONTENT = #{content}, BOOK_PRICE = #{price},
+	BOOK_ISBN = #{isbn}, CATEGORY_UID = #{categoryUid}, PUBLISHER_UID = #{pubUid} 
+WHERE BOOK_UID = #{bookUid}
+</update>
+
+</mapper>
