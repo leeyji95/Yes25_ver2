@@ -27,7 +27,7 @@
     <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
 
 <style type="text/css">
-.title {
+.title { 
 	font-size: 38px;
 	font-weight: bold;
 	padding: 15px 20px;
