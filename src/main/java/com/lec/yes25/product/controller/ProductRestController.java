@@ -91,7 +91,9 @@ public class ProductRestController {
 		return dto.getBookUid();
 	}
 
-	@RequestMapping("/upload.ajax")
+//	@RequestMapping("/upload.ajax")
+	@RequestMapping(value = "/upload.ajax", method= RequestMethod.POST, 
+	headers = ("content-type=multipart/*"))
 	public String upload(@RequestParam("file") MultipartFile file, HttpSession session,
 			@RequestParam("bookuid") int bookUid) {
 		
