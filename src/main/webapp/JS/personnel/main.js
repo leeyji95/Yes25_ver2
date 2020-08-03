@@ -202,7 +202,7 @@ function totalWorkTime(){
 		success : function(data, status) {
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
-					alert("/totalwork.ajax 도 성공성공성공성공성공");
+					//alert("/totalwork.ajax 도 성공성공성공성공성공");
 				} else {
 					alert("/totalwork.ajax 실패......");
 				}

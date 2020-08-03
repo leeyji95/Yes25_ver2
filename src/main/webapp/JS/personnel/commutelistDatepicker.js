@@ -440,7 +440,7 @@ function sendParam(){
 		data : data, 
 		dataType : 'json',
 		success : function(data, status) {
-			alert("AJAX 성공 : request 성공"); // 최초 로딩 시 뜸 
+			//alert("AJAX 성공 : request 성공"); // 최초 로딩 시 뜸 
 			if (status == "success") { // 여기서의 success 는 코드 200
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
 					
@@ -471,16 +471,30 @@ function updateList(jsonObj){
 		var i;
 		var items = jsonObj.data; // 배열
 		for(i = 0; i < count; i++){
-			// result 문자열 조립할 거고, 포문 다끝나면 
-			result += "<tr>\n";
-			result += "<td>" + items[i].cmmtDate + "</td>\n"; /* 어떤 엘리먼트에도 원하는 값을 꽂아 넣을 수 있다. data-(원하는 이름)*/
-			result += "<td>" + items[i].cmmtStart + "</td>\n";
-			result += "<td>" + items[i].cmmtEnd + "</td>\n";
-			result += "<td>" + items[i].cmmtOver + "시간</td>\n";
-			result += "<td>" + items[i].cmmtState + "</td>\n";
-			result += "<td>" + items[i].cmmtTotal + "시간</td>\n";
-			result += "<td>" + items[i].cmmtIsApply + "</td>\n";
-			result += "</tr>\n";
+			
+			if(items[i].cmmtEnd == null){
+				// result 문자열 조립할 거고, 포문 다끝나면 
+				result += "<tr>\n";
+				result += "<td>" + items[i].cmmtDate + "</td>\n";
+				result += "<td>" + items[i].cmmtStart + "</td>\n";
+				result += "<td>---------</td>\n";
+				result += "<td>" + items[i].cmmtOver + "시간</td>\n";
+				result += "<td>" + items[i].cmmtState + "</td>\n";
+				result += "<td>" + items[i].cmmtTotal + "시간</td>\n";
+				result += "<td>" + items[i].cmmtIsApply + "</td>\n";
+				result += "</tr>\n";
+			}else{
+				// result 문자열 조립할 거고, 포문 다끝나면 
+				result += "<tr>\n";
+				result += "<td>" + items[i].cmmtDate + "</td>\n"; /* 어떤 엘리먼트에도 원하는 값을 꽂아 넣을 수 있다. data-(원하는 이름)*/
+				result += "<td>" + items[i].cmmtStart + "</td>\n";
+				result += "<td>" + items[i].cmmtEnd + "</td>\n";
+				result += "<td>" + items[i].cmmtOver + "시간</td>\n";
+				result += "<td>" + items[i].cmmtState + "</td>\n";
+				result += "<td>" + items[i].cmmtTotal + "시간</td>\n";
+				result += "<td>" + items[i].cmmtIsApply + "</td>\n";
+				result += "</tr>\n";
+			}
 		} // end for
 		$("#list tbody").html(result); // 테이블 업데이트 ! 
 		
@@ -564,11 +578,17 @@ function changePageRows(){
 
 //page 번째 페이지 로딩 
 function loadPage(page){
-	
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+		xhr.setRequestHeader(header, token);
+      }
+	});
+	var data = $('#frm').serialize();
 	$.ajax({
 		url : "cmmtlist.ajax?page=" + page + "&pageRows=" + pageRows
-		, type : "get"
+		, type : "post"
 		, cache : false
+		, data : data 
 		, success : function(data, status){
 			if(status == "success"){
 				
@@ -584,61 +604,4 @@ function loadPage(page){
 	});
 	
 } // end loadPage()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -30,13 +30,14 @@
 
 			<form name="form1" method="post" action="${pageContext.request.contextPath }/login" class="box" onsubmit="return checkStuff()">
 				<h2>
-					YES25<span> Dashboard</span>
+					<span> Dashboard</span>
 				</h2>
 				<h4>Sign in to your number.</h4>
 
 				<input type="text" name="username" placeholder="사원번호"	autocomplete="off">  
 				
-				<input type="password" name="password" placeholder="비밀번호" id="pwd" autocomplete="off"><i class="fa fa-eye" id="eye"></i>
+				<input type="password" name="password" placeholder="비밀번호" id="pwd" autocomplete="off">
+				<i class="fa fa-eye" id="eye"></i>
 				<label><input type="checkbox">
 					<span></span> 
 					<small class="rmb">Remember me</small></label> 

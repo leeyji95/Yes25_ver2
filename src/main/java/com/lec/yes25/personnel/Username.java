@@ -8,6 +8,5 @@ public interface Username {
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	UserDetails userDetails = (UserDetails) principal;
 	String username = userDetails.getUsername();
-		
-
+	
 }

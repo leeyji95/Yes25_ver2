@@ -110,7 +110,7 @@ CREATE TABLE tb_commute
     username            NUMBER   		NOT NULL REFERENCES users (username), 
     commute_date        DATE            DEFAULT SYSDATE NULL, 
     commute_start       DATE       		NULL,  	
-    commute_end         DATE       		NULL DEFAULT '----', 	
+    commute_end         DATE       		 NULL, 	
     commute_overtime    NUMBER          NULL, 	
     commute_total       NUMBER          NULL,  	
     commute_state       VARCHAR2(10)    NULL,  
@@ -121,7 +121,7 @@ SELECT * FROM tb_commute ;
 
 -- 예시
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
-VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-08-01', 'yyyy-mm-dd'), TO_DATE('2020-08-01 08:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
+VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-08-01', 'yyyy-mm-dd'), 2020-08-, '출근');
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
 VALUES (cmmt_seq.nextval, 20070002, TO_DATE('2020-07-27', 'yyyy-mm-dd'), TO_DATE('2020-07-27 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), '출근');
@@ -184,10 +184,10 @@ AND TRUNC(SYSDATE ) = TRUNC(COMMUTE_START )
 
 -- 20070002 의 오늘날짜 출퇴근 지우기
 DELETE FROM tb_commute
-WHERE username = 20070002
+WHERE username = 20080001
 AND TO_DATE(SYSDATE, 'yyyy-mm-dd') = TO_DATE(COMMUTE_START , 'yyyy-mm-dd')
 
-SELECT * FROM tb_commute ORDER BY  COMMUTE_DATE ASC ;
+SELECT * FROM tb_commute ;
 
 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_state) 
@@ -226,7 +226,7 @@ FROM
 		ORDER BY commute_date DESC) T) 
 WHERE 
 	RNUM >= 1 AND RNUM < (1 + 10)
-	 ;
+;
 
 			
 			

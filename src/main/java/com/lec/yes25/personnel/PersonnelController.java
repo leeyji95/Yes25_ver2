@@ -17,7 +17,7 @@ import com.lec.yes25.personnel.command.EmpListCommand;
 
 @Controller
 @RequestMapping("/personnel")
-public class PersonnelController implements Username{
+public class PersonnelController {
 
 	// 컨트롤러는 서버가 가동될 때 생성되며, 스프링 컨테이너에 생성이 된다 .
 	//MyBatis  -> setter 만들어서 autowired 하기 
@@ -36,9 +36,12 @@ public class PersonnelController implements Username{
 
 	@GetMapping("/main")
 	public void personnelMain(HttpServletRequest request, Model model) {
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		System.out.println("----------------   PersonnelController 입니다  " + username + " -----------------------\n" 
 					+ "personnel/main 경로로...");
-
 		model.addAttribute("username", username);
 		new EmpListCommand().execute(model);
 	}
@@ -56,11 +59,11 @@ public class PersonnelController implements Username{
 		System.out.println("personnel/login 경로로... ----> 여기는 로그인화면!!!!");
 
 		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Accout(계정 다시 확인하라우)");
+			model.addAttribute("error", "정확한 사번번호를 입력하세요.");
 		}
 
 		if (logout != null) {
-			model.addAttribute("logout", "LogOut!!!!!!");
+			model.addAttribute("logout", "로그아웃합니다.");
 		}
 	}
 

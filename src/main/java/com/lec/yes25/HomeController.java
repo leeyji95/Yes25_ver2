@@ -53,4 +53,8 @@ public class HomeController {
 	public String left() {		 
 		return "left_menu";
 	}
+	@RequestMapping(value="/navmenu_template") 
+	public String navmenu() {		 
+		return "navmenu_template";
+	}
 }

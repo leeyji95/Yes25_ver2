@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ import com.lec.yes25.personnel.command.TotalworkCommand;
 
 @RestController
 @RequestMapping("/personnel/*.ajax")
-public class PersonnelAjaxController implements Username {
+public class PersonnelAjaxController  {
 
 	public PersonnelAjaxController() {
 		super();
@@ -30,6 +32,10 @@ public class PersonnelAjaxController implements Username {
 	@PostMapping("/personnel/writeOk.ajax")
 	public AjaxWriteResult writeOk(HttpServletRequest request, Model model)throws ParseException {
 		System.out.println("/writeOk.ajax----사원등록 누르면----여기로----");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		new NewempCommand().execute(request, model);
 		return buildResult(request);
 	}
@@ -37,7 +43,12 @@ public class PersonnelAjaxController implements Username {
 	@RequestMapping(value = "/personnel/gowork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult gowork(HttpServletRequest request, Model model) throws ParseException {
 		System.out.println("/gowork.ajax----출근 누르면 ----여기로----");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
+		
 		new GoworkCommand().execute(request, model);
 		return buildResult(request);
 	}
@@ -45,6 +56,10 @@ public class PersonnelAjaxController implements Username {
 	@RequestMapping(value = "/personnel/outwork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult outwork(HttpServletRequest request, Model model) throws ParseException {
 		System.out.println("/outwork.ajax----퇴근 누르면 ----여기로----");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		new OutworkCommand().execute(request, model);
 		return buildResult(request);
@@ -53,6 +68,10 @@ public class PersonnelAjaxController implements Username {
 	@RequestMapping(value = "/personnel/overwork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult overwork(HttpServletRequest request, Model model) throws ParseException {
 		System.out.println("/overwork.ajax---- 연장신청 누르면 ----여기로----");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		new OverworkCommand().execute(request, model);
 		return buildResult(request);
@@ -61,6 +80,10 @@ public class PersonnelAjaxController implements Username {
 	@RequestMapping(value = "/personnel/totalwork.ajax", method = { RequestMethod.GET, RequestMethod.POST })
 	public AjaxWriteResult totalwork(HttpServletRequest request, Model model) throws ParseException {
 		System.out.println("/totalwork.ajax----여기로----");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		new TotalworkCommand().execute(request, model);
 		return buildResult(request);
@@ -73,6 +96,10 @@ public class PersonnelAjaxController implements Username {
 				@RequestParam("endDate") String end) throws ParseException { // model 에 dto 담김
 		
 		System.out.println("/cmmtlist.ajax----여기로----");
+		// 현재 인증된(로그인한) 사용자의 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = userDetails.getUsername();
 		model.addAttribute("username", username);
 		model.addAttribute("start", start);
 		model.addAttribute("end", end);

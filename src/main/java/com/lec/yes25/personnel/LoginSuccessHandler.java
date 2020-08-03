@@ -33,44 +33,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		System.out.println("ROLE NAMES : " + roleNames);
 
-		// 세션 상세 정보 확인
-
-//		HttpSession session = request.getSession();
-//		Enumeration<?> attributeNames = session.getAttributeNames();
-//		while (attributeNames.hasMoreElements()) {
-//			String name = (String) attributeNames.nextElement();
-//			System.out.println(name);
-//			if (name.equals("SPRING_SECURITY_CONTEXT")) {
-//				SecurityContext value = (SecurityContext) session.getAttribute(name);
-//				authentication = value.getAuthentication();
-//				System.out.println("여긴?");
-//
-//				User principal = (User) authentication.getPrincipal();
-//				WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
-//				String username = authentication.getName();
-//				
-//				System.out.println("세션임 --> " + session);
-//				session.setAttribute("username", username);
-//				 System.out.println("유저네임....." + username);
-//				 
-//				
-//				String password = (String) authentication.getCredentials();
-//				System.out.println("name = " + name + "\n value = " + value.toString());
-//				System.out.println("authentication : " + authentication.toString());
-//				System.out.println("principal : " + principal);
-//				System.out.println("details : " + details.toString());
-//				System.out.println("username : " + username);
-//				System.out.println("password : " + password);
-//
-//			}
-//
-//		}
-		
-		
-
-		
-
-		// 이것도 저것도 아니면 여기로 가겠다.
+		// 
 		response.sendRedirect(request.getContextPath() + "/personnel/main");
 
 		// 이 클래스의 빈객체 컨텍스트에 만들어주기 !

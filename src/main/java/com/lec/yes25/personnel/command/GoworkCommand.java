@@ -98,14 +98,14 @@ public class GoworkCommand implements RCommand {
 						if (goworkGetTime <= stdGetTime9) {
 							System.out.println("출근");
 							state = "출근";
-							message.append("정상 출근\n" + paramDate);
+							message.append("정상 출근\n" + format1.format(goworkDate));
 							// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
 							cntUpdate = dao.goworkState(username, state);
 						} else if (stdGetTime9 < goworkGetTime && goworkGetTime <= stdGetTime12) {
 							System.out.println("지각");
 							state = "지각";
 							cntUpdate = dao.goworkState(username, state);
-							message.append("지각처리\n" + paramDate);
+							message.append("지각처리\n" + format1.format(goworkDate));
 						} else if (goworkGetTime > stdGetTime12) {
 							System.out.println("결근");
 							state = "결근";

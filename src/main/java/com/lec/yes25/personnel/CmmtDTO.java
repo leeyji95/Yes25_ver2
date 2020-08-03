@@ -11,14 +11,14 @@ public class CmmtDTO {
 	private int cmmtOver; // commute_overtime
 	private int cmmtTotal; // commute_total
 	private String cmmtState; // commute_state
-	private int cmmtIsApply; // commute_is_apply
+	private String cmmtIsApply; // commute_is_apply
 	
 	public CmmtDTO() {
 		super();
 	}
 	
 	public CmmtDTO(int cmmtUid, int username, String cmmtDate, String cmmtStart, String cmmtEnd, int cmmtOver, int cmmtTotal,
-			String cmmtState, int cmmtIsApply) {
+			String cmmtState, String cmmtIsApply) {
 		super();
 		this.cmmtUid = cmmtUid;
 		this.username = username;
@@ -79,10 +79,10 @@ public class CmmtDTO {
 	public void setCmmtState(String cmmtState) {
 		this.cmmtState = cmmtState;
 	}
-	public int getCmmtIsApply() {
+	public String getCmmtIsApply() {
 		return cmmtIsApply;
 	}
-	public void setCmmtIsApply(int cmmtIsApply) {
+	public void setCmmtIsApply(String cmmtIsApply) {
 		this.cmmtIsApply = cmmtIsApply;
 	}
 	

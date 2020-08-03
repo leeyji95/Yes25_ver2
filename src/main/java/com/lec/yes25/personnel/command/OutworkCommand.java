@@ -95,13 +95,13 @@ public class OutworkCommand implements RCommand {
 							state = "조퇴";
 							// 해당 username 에 해당하는 행의 컬럼 commute_state 를 update 한다
 							cntUpdate = dao.outworkState(username, state);
-							message.append("조퇴\n" + paramDate);
+							message.append("조퇴\n" + stdFormat.format(stdFormat.parse(paramDate)));
 
 						} else if (outworkGetTime >= stdGetTime18) {
 							System.out.println("정상퇴근");
 							state = "퇴근";
 							cntUpdate = dao.outworkState(username, state);
-							message.append("퇴근 처리\n" + paramDate);
+							message.append("퇴근 처리\n" + stdFormat.format(stdFormat.parse(paramDate)));
 						}
 					} else if (selectState.equalsIgnoreCase("결근")) {
 						if (outworkGetTime < stdGetTime18 || outworkGetTime >= stdGetTime18) {
