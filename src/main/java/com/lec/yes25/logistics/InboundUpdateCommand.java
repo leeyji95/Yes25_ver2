@@ -3,27 +3,13 @@ package com.lec.yes25.logistics;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
-
 import com.lec.yes25.common.C;
 import com.lec.yes25.common.Command;
 
 
 public class InboundUpdateCommand implements Command {
-
-	TransactionTemplate transactionTemplate;
-	
-	@Autowired
-	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-		this.transactionTemplate = transactionTemplate;
-	}
-	
-	
 	
 	@Override
-	@Transactional
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 
 		int cnt = 0;
@@ -64,10 +50,10 @@ public class InboundUpdateCommand implements Command {
 			}
 		}
 		
-		
 		request.setAttribute("result", cnt);
 		request.setAttribute("status", status);
 		request.setAttribute("message", message.toString());
+
 		
 	} // end execute
  

@@ -129,7 +129,7 @@ function update() {
 		if($(this).is(":checked")){
 			params.push({
 				book_isbn : $(this).val(),
-				price : $(this).parent().parent().find("input[name=price]").val(),
+				book_price : $(this).parent().parent().find("input[name=book_price]").val(),
 				stock_quantity : $(this).parent().parent().find("input[name=stock_quantity]").val()
 			});
 		}
@@ -187,7 +187,7 @@ function listUp1(jsonObj) {
 			result += "<td>-</td>\n";
 			result += "<td>" + items[i].book_subject + "</td>\n";
 			result += "<td>" + items[i].book_isbn + "</td>\n";
-			result += "<td><input style='width:80px' type='number' name='price' value='" + items[i].price + "' min='1'>원</td>\n";
+			result += "<td><input style='width:80px' type='number' name='book_price' value='" + items[i].book_price + "' min='1'>원</td>\n";
 			result += "<td><input style='width:50px' type='number' name='stock_quantity' value='" + items[i].stock_quantity + "' min='1' max='"+items[i].stock_quantity+"'>권</td>\n";
 			result += "<td>-</td>\n";
 			result += "<td>-</td>\n";
