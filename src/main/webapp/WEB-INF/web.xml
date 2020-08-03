@@ -51,6 +51,17 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- MultipartFilter 적용 -->
+<filter>
+    <filter-name>MultipartFilter</filter-name>
+    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>MultipartFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+
 
 	<!-- Security 관련 filter 추가 -->
 	<filter>
