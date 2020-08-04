@@ -307,6 +307,17 @@ INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, comm
 VALUES (cmmt_seq.nextval, 20080001, TO_DATE('2020-07-31', 'yyyy-mm-dd'), TO_DATE('2020-07-31 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), 
 		TO_DATE('2020-07-31 18:34:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 6, '퇴근');
 
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_end, commute_overtime, commute_total, commute_state) 
+VALUES (cmmt_seq.nextval, 20080001, TO_DATE('2020-08-01', 'yyyy-mm-dd'), TO_DATE('2020-08-01 08:27:25', 'YYYY-MM-DD hh24:mi:ss'), 
+		TO_DATE('2020-08-01 18:34:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 8, '퇴근');
+
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_end, commute_overtime, commute_total, commute_state) 
+VALUES (cmmt_seq.nextval, 20080001, TO_DATE('2020-08-02', 'yyyy-mm-dd'), TO_DATE('2020-08-02 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), 
+		TO_DATE('2020-08-02 20:34:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 6, '퇴근');
+
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_overtime, commute_total, commute_state) 
+VALUES (cmmt_seq.nextval, 20080001, TO_DATE('2020-08-03', 'yyyy-mm-dd'), TO_DATE('2020-08-03 15:20:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 6, '결근');
+
 -- 20080012 번 사원의 근태현황 데이터 
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_end, commute_overtime, commute_total, commute_state) 
 VALUES (cmmt_seq.nextval, 20080012, TO_DATE('2020-07-06', 'yyyy-mm-dd') , TO_DATE('2020-07-06 08:20:22', 'YYYY-MM-DD hh24:mi:ss'), 
@@ -405,6 +416,18 @@ VALUES (cmmt_seq.nextval, 20080012, TO_DATE('2020-07-30', 'yyyy-mm-dd'), TO_DATE
 INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_end, commute_overtime, commute_total, commute_state) 
 VALUES (cmmt_seq.nextval, 20080012, TO_DATE('2020-07-31', 'yyyy-mm-dd'), TO_DATE('2020-07-31 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), 
 		TO_DATE('2020-07-31 18:34:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 6, '퇴근');
+	
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_end, commute_overtime, commute_total, commute_state) 
+VALUES (cmmt_seq.nextval, 20080012, TO_DATE('2020-08-01', 'yyyy-mm-dd'), TO_DATE('2020-08-01 08:27:25', 'YYYY-MM-DD hh24:mi:ss'), 
+		TO_DATE('2020-08-01 18:34:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 8, '퇴근');
+
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_end, commute_overtime, commute_total, commute_state) 
+VALUES (cmmt_seq.nextval, 20080012, TO_DATE('2020-08-02', 'yyyy-mm-dd'), TO_DATE('2020-08-02 11:20:22', 'YYYY-MM-DD hh24:mi:ss'), 
+		TO_DATE('2020-08-02 20:34:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 6, '퇴근');
+
+INSERT INTO TB_COMMUTE (commute_uid, username, commute_date, commute_start, commute_overtime, commute_total, commute_state) 
+VALUES (cmmt_seq.nextval, 20080012, TO_DATE('2020-08-03', 'yyyy-mm-dd'), TO_DATE('2020-08-03 15:20:22', 'YYYY-MM-DD hh24:mi:ss'), 0, 6, '결근');
+
 
 
 SELECT u.USERNAME 사원번호, c.commute_start 출근시간, c.COMMUTE_STATE 근무상태

@@ -20,6 +20,13 @@
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
 <style>
 [v-cloak]{display : none;}
+#title {
+	font-size: 38px;
+	font-weight: bold;
+	padding: 15px 20px;
+	letter-spacing: 5px;
+}
+
 </style>
 
 <body>

@@ -9,8 +9,17 @@
 <title>도서관리</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/><link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" /></head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/><link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/personnel/commutelist.css" />
+<style type="text/css">
+#title {
+	font-size: 38px;
+	font-weight: bold;
+	padding: 15px 20px;
+	letter-spacing: 5px;
+}
+</style>
+</head>
 <body>
 
     
@@ -93,6 +102,9 @@
 
 														<!-- 본문, 내가 할 거 -->
 			<div class="col main pt-5 mt-3">
+				<div class="div_title">
+					<h1 class="display-4 d-none d-sm-block" id="title">근태현황</h1>
+				</div>
 				 <hr>
                 <div class="lead mt-5 d-none d-sm-block">
                     <!-- DatePicker 영역 -->
