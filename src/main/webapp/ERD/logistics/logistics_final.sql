@@ -354,29 +354,30 @@ END;
 
 
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 55000, 200000, 1, TO_DATE('2018-01-01', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 5500, 20000, 1, TO_DATE('2018-01-01', 'yyyy-mm-dd'));
 
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 49027, 257000, 1, TO_DATE('2019-01-01', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 10000, 2500, 1, TO_DATE('2019-01-01', 'yyyy-mm-dd'));
 
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 20000, 19000, 1, TO_DATE('2020-01-05', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 20000, 1900, 1, TO_DATE('2020-01-05', 'yyyy-mm-dd'));
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 10000, 12000, 1, TO_DATE('2020-02-10', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 10000, 1200, 1, TO_DATE('2020-02-10', 'yyyy-mm-dd'));
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 30000, 21000, 1, TO_DATE('2020-03-15', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 30000, 2100, 1, TO_DATE('2020-03-15', 'yyyy-mm-dd'));
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 49027, 18000, 1, TO_DATE('2020-04-20', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 49027, 1800, 1, TO_DATE('2020-04-20', 'yyyy-mm-dd'));
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 15000, 30000, 1, TO_DATE('2020-05-25', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 15000, 3000, 1, TO_DATE('2020-05-25', 'yyyy-mm-dd'));
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 15000, 12000, 1, TO_DATE('2020-06-30', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 15000, 1200, 1, TO_DATE('2020-06-30', 'yyyy-mm-dd'));
 INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
-VALUES (outbound_seq.NEXTVAL, 1, 15000, 28000, 1, TO_DATE('2020-07-15', 'yyyy-mm-dd'));
+VALUES (outbound_seq.NEXTVAL, 1, 15000, 2000, 1, TO_DATE('2020-07-15', 'yyyy-mm-dd'));
 
 
 
 
+/*
 INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
 VALUES (inbound_seq.NEXTVAL, 1, TO_DATE('2018-01-01', 'yyyy-mm-dd'));
 
@@ -397,6 +398,7 @@ INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
 VALUES (inbound_seq.NEXTVAL, 4, TO_DATE('2020-06-11', 'yyyy-mm-dd'));
 INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
 VALUES (inbound_seq.NEXTVAL, 3, TO_DATE('2020-07-03', 'yyyy-mm-dd'));
+*/
 
 
 
