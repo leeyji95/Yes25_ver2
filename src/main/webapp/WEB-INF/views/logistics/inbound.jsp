@@ -19,7 +19,7 @@
 <body>
 
 <div class="wrap">
-       <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
+       <nav class="nav-bar navbar-inverse fixed-top" role="navigation" style="overflow-y:hidden">
             <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
                 <ul class="nav navbar-nav">        

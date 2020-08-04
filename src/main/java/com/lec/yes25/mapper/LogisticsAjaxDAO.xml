@@ -151,7 +151,7 @@
 			WHERE 
 				book_isbn = #{item.book_isbn}
 			)
-			, #{item.price}
+			, #{item.book_price}
 			, (
 				CASE WHEN 
 					#{item.stock_quantity} > 
