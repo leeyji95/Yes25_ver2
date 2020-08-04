@@ -35,6 +35,7 @@ CREATE SEQUENCE calendar_seq;
 DROP VIEW v_inbound;
 DROP VIEW v_outbound;
 DROP VIEW v_book_stock;
+DROP VIEW v_outbound2;
 
 --테이블 생성
 
@@ -210,6 +211,19 @@ AS SELECT A.book_uid
 FROM tb_stock A, tb_book B, tb_outbound C
 WHERE A.book_uid = B.book_uid AND A.book_uid = C.book_uid;
 
+CREATE OR REPLACE VIEW v_outbound2
+AS SELECT A.book_uid
+			, A.outbound_uid
+			, A.outbound_quantity
+			, A.outbound_unit_price
+			, A.outbound_state
+			, A.outbound_date
+			, B.book_price
+			, B.book_subject
+			, B.book_isbn
+FROM tb_book B, tb_outbound A
+WHERE A.book_uid = B.book_uid;
+
 
 CREATE OR REPLACE VIEW v_book_stock
 AS SELECT A.book_uid
@@ -241,43 +255,11 @@ SELECT * FROM tb_publisher;
 SELECT * FROM tb_order;
 SELECT * FROM v_inbound;
 SELECT * FROM v_outbound;
+SELECT * FROM v_outbound2;
 SELECT * FROM v_book_order;
 SELECT * FROM v_book_stock;
 SELECT * FROM tb_calendar;
 
-
-/*INSERT INTO tb_category (category_uid, category_name, category_parent)
-	VALUES (category_seq.NEXTVAL, '문학', NULL);
-INSERT INTO tb_category (category_uid, category_name, category_parent)
-	VALUES (category_seq.NEXTVAL, '소설', 2);
-
-INSERT INTO tb_publisher (publisher_uid, publisher_name, publisher_num, publisher_rep, publisher_contact, publisher_address)
-	VALUES (publisher_seq.NEXTVAL, '예경', 2, '김예경', 1, '서울시');
-
-INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
-	VALUES (book_seq.NEXTVAL, '서양미술사', '곰브리치', '서양 미술의 역사', to_date('2003-07-10', 'yyyy-mm-dd'), 9788970840659, 2, 1, 34200);
-INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
-	VALUES (book_seq.NEXTVAL, '동양미술사', '김동양', '동양 미술의 역사', to_date('2003-07-11', 'yyyy-mm-dd'), 9788970840658, 2, 1, 34201);
-INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
-	VALUES (book_seq.NEXTVAL, '서양화', '김서양', '서양화의 역사', to_date('2003-07-12', 'yyyy-mm-dd'), 9788970840657, 2, 1, 34202);
-INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
-	VALUES (book_seq.NEXTVAL, '미술사', '김미술', '미술의 역사', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840656, 2, 1, 34203);
-INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
-	VALUES (book_seq.NEXTVAL, '미술사2', '김미술2', '미술의 역사2', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840636, 2, 1, 34203);
-INSERT INTO tb_book (book_uid, book_subject, book_author, book_content, book_pubdate, book_isbn, category_uid, publisher_uid, book_price)
-	VALUES (book_seq.NEXTVAL, '미술사3', '김미술3', '미술의 역사3', to_date('2003-07-13', 'yyyy-mm-dd'), 9788970840634, 2, 1, 34205);
-
-
-INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 1, 2, 1, 30000, 30, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 2, 2, 1, 30010, 40, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 3, 3, 1, 30030, 50, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 4, 4, 1, 30040, 60, SYSDATE, 0);
-INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 5, 5, 1, 30040, 70, SYSDATE, 0);*/
 
 
 
@@ -370,6 +352,51 @@ EXIT WHEN a_cnt > 31;
 END LOOP;
 END;
 
+
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 55000, 200000, 1, TO_DATE('2018-01-01', 'yyyy-mm-dd'));
+
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 49027, 257000, 1, TO_DATE('2019-01-01', 'yyyy-mm-dd'));
+
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 20000, 19000, 1, TO_DATE('2020-01-05', 'yyyy-mm-dd'));
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 10000, 12000, 1, TO_DATE('2020-02-10', 'yyyy-mm-dd'));
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 30000, 21000, 1, TO_DATE('2020-03-15', 'yyyy-mm-dd'));
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 49027, 18000, 1, TO_DATE('2020-04-20', 'yyyy-mm-dd'));
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 15000, 30000, 1, TO_DATE('2020-05-25', 'yyyy-mm-dd'));
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 15000, 12000, 1, TO_DATE('2020-06-30', 'yyyy-mm-dd'));
+INSERT INTO tb_outbound (outbound_uid, book_uid, outbound_unit_price, outbound_quantity, outbound_state, outbound_date)
+VALUES (outbound_seq.NEXTVAL, 1, 15000, 28000, 1, TO_DATE('2020-07-15', 'yyyy-mm-dd'));
+
+
+
+
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 1, TO_DATE('2018-01-01', 'yyyy-mm-dd'));
+
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 2, TO_DATE('2019-01-01', 'yyyy-mm-dd'));
+
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 2, TO_DATE('2020-01-04', 'yyyy-mm-dd'));
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 3, TO_DATE('2020-02-10', 'yyyy-mm-dd'));
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 3, TO_DATE('2020-03-14', 'yyyy-mm-dd'));
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 4, TO_DATE('2020-04-22', 'yyyy-mm-dd'));
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 1, TO_DATE('2020-05-20', 'yyyy-mm-dd'));
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 4, TO_DATE('2020-06-11', 'yyyy-mm-dd'));
+INSERT INTO tb_inbound (inbound_uid, order_uid, inbound_date)
+VALUES (inbound_seq.NEXTVAL, 3, TO_DATE('2020-07-03', 'yyyy-mm-dd'));
 
 
 

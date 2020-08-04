@@ -129,7 +129,7 @@
 											<option value='3'>출판사명</option>
 											<option value='4'>도서저자</option>
 										</select>
-										<input type="text" name='keyword'>
+										<input type="text" name='keyword' size="50px">
 									</div>
 									</td>
 								</tr>

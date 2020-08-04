@@ -68,7 +68,7 @@ function query1() {
 		var temp = param.replace(regExp, "");
 		param = temp;
 	}
-	var keyword = param.trim().replace(/ +/g, "");
+	var keyword = param.trim();
 	if(keyword == null || keyword== 0 || keyword.length == 0) keyword = 0;
 	
 	
@@ -165,7 +165,11 @@ function excel() {
 	var book_isbns= "";
 	
 	for (var i = 0; i < book_isbn.length; i++) {
-		book_isbns += "|"+book_isbn[i];
+		if(i == 0){
+			book_isbns += book_isbn[i];	
+		} else if(i != 0){
+			book_isbns += "|"+book_isbn[i];			
+		}
 	}
 	
 	//alert(book_isbns);
@@ -186,12 +190,12 @@ function excel() {
 			cache : false,
 			dataType : "json",
 			success : function(data, status) {
-				if (status == "success") {
-					alert("파일 다운로드 성공 (C:\JavaApp1\eclipse-jee-2019-12-R-win32-x86_64\eclipse\Stock)");
-				}
+				
+				
 			}
 		});
 		
+		alert("파일 다운로드 성공 \n (퐁더명: Stock)");
 		return true;
 	}
 		
