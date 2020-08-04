@@ -26,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
     <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
 
-<style type="text/css">
+<style type="text/css"> 
 .title { 
 	font-size: 38px;
 	font-weight: bold;
