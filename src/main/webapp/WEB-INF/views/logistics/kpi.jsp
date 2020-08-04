@@ -114,7 +114,7 @@
 							<button id="btnLeft">
 							<i class="fas fa-chevron-left"></i>
 							</button>
-							<span><span id="year">2020년 </span><span id="month"></span>월 <i class="far fa-calendar-alt fa-1x calendar"></i></span>
+							<span style="font-weight: bold;"><span id="year">2020년 </span><span id="month"></span>월 <i class="far fa-calendar-alt fa-1x calendar"></i></span>
 							<button id="btnRight">
 							<i class="fas fa-chevron-right"></i>
 							</button>

@@ -333,8 +333,8 @@ DECLARE
 	DD NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 28));
 BEGIN
   WHILE (num <= 30) LOOP
-  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
-  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(14000, 24000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
+  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(5000, 15000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
+  	INSERT INTO tb_order VALUES (order_seq.nextval, orderSetUid, (SELECT book_uid FROM (SELECT book_uid FROM tb_book WHERE publisher_uid = pubUid ORDER BY dbms_random.value) WHERE rownum = 1), pubUid, ROUND(CEIL(DBMS_RANDOM.VALUE(5000, 15000)),-3), CEIL(DBMS_RANDOM.VALUE(10, 100)), YYYY||'-'||MM||'-'||DD, 0); 
     num := num + 1;
     orderSetUid := order_set_seq.nextval;
    	pubUid := CEIL(DBMS_RANDOM.VALUE(0, 8));
@@ -345,3 +345,4 @@ BEGIN
 END;
 
 SELECT * FROM tb_order;
+

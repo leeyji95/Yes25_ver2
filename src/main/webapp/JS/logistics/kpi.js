@@ -39,6 +39,11 @@ $(document).ready(function() {
 		update2();
 		$('.div_datepicker').css("visibility", "hidden");
 		$('.div_datepicker span#year').css("visibility", "visible");
+		$(this).css('background-color','white');
+		$(this).css('color','#007bff');
+		
+		$("#btnDay").css('color','white');
+		$("#btnDay").css('background','#007bff');
 
 	});
 
@@ -47,7 +52,13 @@ $(document).ready(function() {
 		$("#btnMonth").disabled = false;
 		flag = 0;
 		update1();
-		$('.div_datepicker').css("visibility", "visible")
+		$('.div_datepicker').css("visibility", "visible");
+		
+		$(this).css('background-color','white');
+		$(this).css('color','#007bff');
+		
+		$("#btnMonth").css('color','white');
+		$("#btnMonth").css('background','#007bff');
 	});
 	
 

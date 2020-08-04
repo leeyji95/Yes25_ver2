@@ -63,7 +63,7 @@
 	
 	<update id="updateByUidInStockFromInbound" flushCache="true">
 		MERGE INTO
-			tb_stock_test A
+			tb_stock A
 		USING
 			(SELECT * FROM v_inbound WHERE order_uid IN (
 			<foreach collection="array" item="item" index="index" separator=",">
@@ -128,7 +128,7 @@
 		SELECT
 			*
 		FROM
-			v_outbound
+			v_outbound2
 		WHERE
 			REGEXP_LIKE(book_isbn, REGEXP_REPLACE(#{param1}, ' ', ''))
 		AND
@@ -151,7 +151,7 @@
 			WHERE 
 				book_isbn = #{item.book_isbn}
 			)
-			, #{item.price}
+			, #{item.book_price}
 			, (
 				CASE WHEN 
 					#{item.stock_quantity} > 
@@ -290,8 +290,6 @@
 						v_inbound
 					WHERE 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
-						AND 
-						TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
 					GROUP BY 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date)))
 						, TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date)))
@@ -327,7 +325,7 @@
 						, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day
 						, SUM(outbound_quantity) AS outbound_quantity 
 					FROM 
-						v_outbound
+						v_outbound2
 					WHERE 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
 						AND 
@@ -368,10 +366,9 @@
 						, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day
 						, SUM(outbound_quantity) AS outbound_quantity 
 					FROM 
-						v_outbound
+						v_outbound2
 					WHERE 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
-						AND TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
 					GROUP BY 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
 						TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
@@ -448,7 +445,7 @@
 						, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day
 						, SUM(outbound_quantity) AS outbound_quantity 
 					FROM 
-						v_outbound
+						v_outbound2
 					WHERE 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
 						AND 
@@ -491,8 +488,6 @@
 							v_inbound
 						WHERE 
 							TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))) = TO_CHAR(#{param1})
-							AND 
-							TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
 						GROUP BY 
 							TO_CHAR(EXTRACT(YEAR FROM TRUNC(inbound_date))),
 							TO_CHAR(EXTRACT(MONTH FROM TRUNC(inbound_date))),
@@ -525,11 +520,9 @@
 						, TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) AS C_MONTH
 						, TO_CHAR(EXTRACT(DAY FROM TRUNC(outbound_date))) AS c_day
 						, SUM(outbound_quantity) AS outbound_quantity 
-					FROM v_outbound
+					FROM v_outbound2
 					WHERE 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))) = TO_CHAR(#{param1})
-						AND 
-						TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))) = TO_CHAR(EXTRACT(MONTH FROM TRUNC(SYSDATE)))
 					GROUP BY 
 						TO_CHAR(EXTRACT(YEAR FROM TRUNC(outbound_date))),
 						TO_CHAR(EXTRACT(MONTH FROM TRUNC(outbound_date))),
