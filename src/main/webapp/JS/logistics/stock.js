@@ -144,62 +144,6 @@ function listUp1(jsonObj) {
 	return false;
 } // end outboundListUp1()
 
-/*function excel() {
-	 $.ajaxSetup({
-	        beforeSend: function(xhr) {
-	           xhr.setRequestHeader(header, token);
-	         }
-	    });
-	 
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	
-	var classification = $("#query select[name=classification]").val();
-	
-	var param = $("#query input[name=keyword]").val();
-	if(regExp.test(param)){
-		var temp = param.replace(regExp, "");
-		param = temp;
-	}
-	var keyword = param.trim().replace(/ +/g, "");
-	if(keyword == null || keyword== 0 || keyword.length == 0) keyword = 0;
-	
-	
-	var category_uid = $("#query select[name=category_uid]").val();
-	
-	var fromDate = $("#query input[name=datepicker1]").val();
-	if(fromDate == null || fromDate == 0 || fromDate.length == 0) fromDate = 0;
-	
-	var toDate = $("#query input[name=datepicker2]").val();
-	if(toDate == null || toDate== 0 || toDate.length == 0) toDate = 0;
-	
-	alert(classification);
-	alert(keyword);
-	alert(category_uid);
-	alert(fromDate);
-	alert(toDate);
-	
-	if (!confirm("엑셀파일 다운로드")) return false;
-
-		$.ajax({
-			url : "excel.ajax",
-			type : "POST",
-			data : { 
-				'classification' : classification,
-				'keyword' : keyword,
-				'category_uid' : category_uid,
-				'fromDate': fromDate,
-				'toDate': toDate,
-			},
-			cache : false,
-			dataType : "json",
-			success : function(data, status) {
-				
-			}
-		});
-	
-	return true;
-} // end excel()
-*/
 
 function excel() {
 	$.ajaxSetup({
@@ -229,7 +173,7 @@ function excel() {
 	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 
 	
-	alert(book_isbns);
+	//alert(book_isbns);
 	
 		
 		
@@ -242,7 +186,9 @@ function excel() {
 			cache : false,
 			dataType : "json",
 			success : function(data, status) {
-				
+				if (status == "success") {
+					alert("파일 다운로드 성공 (C:\JavaApp1\eclipse-jee-2019-12-R-win32-x86_64\eclipse\Stock)");
+				}
 			}
 		});
 		

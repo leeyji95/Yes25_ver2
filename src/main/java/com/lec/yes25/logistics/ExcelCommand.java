@@ -122,7 +122,7 @@ public class ExcelCommand implements Command {
 			
 			sheet1.setColumnWidth(0, 300);
 			sheet1.setColumnWidth(1, 1500);
-			sheet1.setColumnWidth(2, 5000);
+			sheet1.setColumnWidth(2, 8000);
 			sheet1.setColumnWidth(3, 5000);
 			sheet1.setColumnWidth(7, 3000);
 			sheet1.setColumnWidth(8, 3000);

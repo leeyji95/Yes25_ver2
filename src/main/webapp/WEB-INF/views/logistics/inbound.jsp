@@ -19,7 +19,7 @@
 <body>
 
 <div class="wrap">
-       <nav class="nav-bar navbar-inverse fixed-top" role="navigation" style="overflow-y:hidden">
+       <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
             <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
                 <ul class="nav navbar-nav">        
@@ -37,7 +37,7 @@
         </nav>
         
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y: scroll;">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
        	<div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>

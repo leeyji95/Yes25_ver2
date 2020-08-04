@@ -1,8 +1,8 @@
 --테이블 삭제
-DROP TABLE tb_publisher CASCADE CONSTRAINT purge;
+/*DROP TABLE tb_publisher CASCADE CONSTRAINT purge;
 DROP TABLE tb_book CASCADE CONSTRAINT purge;
 DROP TABLE tb_category CASCADE CONSTRAINT purge;
-DROP TABLE tb_order CASCADE CONSTRAINT purge;
+DROP TABLE tb_order CASCADE CONSTRAINT purge;*/
 DROP TABLE tb_stock CASCADE CONSTRAINT purge;
 DROP TABLE tb_inbound CASCADE CONSTRAINT purge;
 DROP TABLE tb_outbound CASCADE CONSTRAINT purge;
@@ -10,10 +10,10 @@ DROP TABLE tb_calendar CASCADE CONSTRAINT purge;
 
 
 -- 시퀀스 삭제
-DROP SEQUENCE publisher_seq;
+/*DROP SEQUENCE publisher_seq;
 DROP SEQUENCE book_seq;
 DROP SEQUENCE category_seq;
-DROP SEQUENCE order_seq;
+DROP SEQUENCE order_seq;*/
 DROP SEQUENCE stock_seq;
 DROP SEQUENCE inbound_seq;
 DROP SEQUENCE outbound_seq;
@@ -22,10 +22,10 @@ DROP SEQUENCE calendar_seq;
 
 
 --시퀀스 생성
-CREATE SEQUENCE publisher_seq;
+/*CREATE SEQUENCE publisher_seq;
 CREATE SEQUENCE book_seq;
 CREATE SEQUENCE category_seq;
-CREATE SEQUENCE order_seq;
+CREATE SEQUENCE order_seq;*/
 CREATE SEQUENCE stock_seq;
 CREATE SEQUENCE inbound_seq;
 CREATE SEQUENCE outbound_seq;
@@ -38,7 +38,7 @@ DROP VIEW v_book_stock;
 
 --테이블 생성
 
-CREATE TABLE tb_category
+/*CREATE TABLE tb_category
 (
     category_uid       NUMBER          NOT NULL, 
     category_name      VARCHAR2(30)    NULL, 
@@ -104,7 +104,7 @@ CREATE TABLE tb_order
 
 ALTER TABLE tb_order
     ADD CONSTRAINT FK_tb_order_book_uid_tb_book FOREIGN KEY (book_uid)
-        REFERENCES tb_book (book_uid);
+        REFERENCES tb_book (book_uid);*/
 
 
 
@@ -246,7 +246,7 @@ SELECT * FROM v_book_stock;
 SELECT * FROM tb_calendar;
 
 
-INSERT INTO tb_category (category_uid, category_name, category_parent)
+/*INSERT INTO tb_category (category_uid, category_name, category_parent)
 	VALUES (category_seq.NEXTVAL, '문학', NULL);
 INSERT INTO tb_category (category_uid, category_name, category_parent)
 	VALUES (category_seq.NEXTVAL, '소설', 2);
@@ -277,7 +277,7 @@ INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_u
 INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
 	VALUES (order_seq.NEXTVAL, 4, 4, 1, 30040, 60, SYSDATE, 0);
 INSERT INTO tb_order (order_uid, order_set_uid, book_uid, publisher_uid, order_unit_cost, order_quantity, order_date, order_state)
-	VALUES (order_seq.NEXTVAL, 5, 5, 1, 30040, 70, SYSDATE, 0);
+	VALUES (order_seq.NEXTVAL, 5, 5, 1, 30040, 70, SYSDATE, 0);*/
 
 
 

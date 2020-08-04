@@ -139,10 +139,31 @@
 									<div>
 										<select name='category_uid'>
 											<option value='0' selected>선택</option>
-											<option value='1'>문학</option>
-											<option value='2'>소설</option>
-											<option value='3'>전산</option>
-											<option value='4'>과학</option>
+											<option value='1'>IT 모바일</option>
+											<option value='2'>게임</option>
+											<option value='3'>그래픽</option>
+											<option value='4'>네트워크</option>
+											<option value='5'>프로그래밍</option>
+											<option value='6'>오피스활용</option>
+											<option value='7'>웹사이트</option>
+											<option value='8'>게임 기획</option>
+											<option value='9'>게임 개발</option>
+											<option value='10'>3DS</option>
+											<option value='11'>포토샵</option>
+											<option value='12'>프리미어</option>
+											<option value='13'>네트워크 일반</option>
+											<option value='14'>보안/해킹</option>
+											<option value='15'>Java</option>
+											<option value='16'>C</option>
+											<option value='17'>Python</option>
+											<option value='18'>Ruby</option>
+											<option value='19'>엑셀</option>
+											<option value='20'>파워포인트</option>
+											<option value='21'>한글</option>
+											<option value='22'>HTML/CSS</option>
+											<option value='23'>웹디자인</option>
+											<option value='24'>웹기획</option>
+											<option value='25'>JavaScript</option>
 										</select>
 									</div>
 									</td>	
