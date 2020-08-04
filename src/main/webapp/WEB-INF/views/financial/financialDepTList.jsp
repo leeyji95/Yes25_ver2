@@ -2,8 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<!-- 전표가 없으면 재무 메인 페이지로 갈 수 있도록 설정 -->
+<c:choose>
+	<c:when test="${curDept != 20}">
+			<script>
+				alert("재무 부서만 들어올 수 있는 페이지입니다.\n해당 페이지에 권한이 없습니다.");
+				location.href="financialMain.bn";
+			</script>
+	</c:when>
+<c:otherwise>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -11,21 +19,25 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>서점ERP시스템</title>
     
-	<link rel="stylesheet"	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <!-- 내 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
-    <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
-    <style>
-    	#title
-   	{font-size: 38px;
-	    font-weight: bold;
-	    padding: 15px 20px;
-	    letter-spacing: 5px;}
-    </style>
-    </head>
     
+    <!-- 내 CSS -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
+    <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
+
+<style type="text/css">
+.title { 
+	font-size: 38px;
+	font-weight: bold;
+	padding: 15px 20px;
+	letter-spacing: 5px;
+}
+</style>
+
+  </head>
 <body style="margin: 0;">
+
 <div class="wrap">
          <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
             <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
@@ -39,12 +51,12 @@
                             <li><a href="${pageContext.request.contextPath }/personnel/logout"><span class="fa fa-power-off"></span>Logout</a></li>
                         </ul>
                     </li>
-                    
                 </ul>
             </div>      
         </nav>
+        
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation" style="width: 22em;">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y: scroll;">           
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
                  	<div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
@@ -108,11 +120,11 @@
 
 					<hr>
 					<div class="lead mt-5 d-none d-sm-block">
-					
-						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
 
 
-<!-- 작업페이지 -->
+
+
+<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>
 <!-- 현제 로그인된 아이디, 부서 정보 -->
 <input name="thisLogId" hidden="true"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
@@ -142,12 +154,12 @@
 	<table class="width100">
 		
 		<thead class="width100">
-			<th style="width: 5%; text-align: center;">삭제</th>
+			<th style="width: 10%; text-align: center;">삭제</th>
 			<th style="width: 10%; text-align: center;">날짜</th>
-			<th style="width: 15%; text-align: center;">계정과목</th>
-			<th style="width: 35%; text-align: center;">적요</th>
+			<th style="width: 10%; text-align: center;">계정과목</th>
+			<th style="width: 30%; text-align: center;">적요</th>
 			<th style="width: 20%; text-align: center;">금액</th>
-			<th style="width: 15%; text-align: center;">결제 진행 사항</th>
+			<th style="width: 20%; text-align: center;">결제 진행 사항</th>
 		</thead>
 		
 		<tbody id="tbodyList" class="width100"></tbody>
@@ -163,29 +175,36 @@
 </div>
 
 <!-- 버튼 -->
-<button type="button" class="btnMyself info" style="float: right;"
+<button type="button" class="btnMyself info" style="float: right; margin-bottom: 50px;"
 	onclick="location.href='financialMain.bn'">재무 메인</button>
-<br><br><br><br>
 
-						<!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ -->
-						
+<!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>						
 					</div>
 				</div>
 			</section>
 		</div> <!-- </div content> --> 
-    </div> <!-- </div wrap -->
-    	<!-- JS 로드 -->
+	</div> <!-- </div wrap -->
+<!----------------------------------------------------------------------------------------------------->  
+    
+    
+    
+    
+    <!-- JS 로드 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- 내 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/JS/financial/financialList.js"></script>
+    
     <!-- JS, Popper.js -->
-	 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/JS/navmenu_template.js"></script>
+    
 </body>
 </html>
+
+</c:otherwise>
+</c:choose>

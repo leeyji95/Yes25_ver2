@@ -215,21 +215,21 @@ function updateList(jsonObj) {
 			result += "<tr>\n";
 			
 			// 삭제 버튼
-			result += "<td style='width: 5%; text-align: center;'>"
-				+ "<button class='stmtUidValue btn btn-default btn-lg skyinfo' style='color: white; width: 100%;' value='" 
+			result += "<td style='width: 10%; text-align: center;'>"
+				+ "<button class='stmtUidValue btn skyinfo' style='color: white; width: 100%;' value='" 
 				+ items[i].stmt_uid + "'>삭제</button></td>\n";
 			// 전표번호
 			//tbodyResult += "<td>" + items[i].stmt_uid + "</td>\n";
 			// 날짜
 			result += "<td style='width: 10%; text-align: center;'>" + items[i].regDate + "</td>\n";
 			// 계정과목
-			result += "<td style='width: 15%; text-align: center;''>" + accountName(items[i].account_uid) + "</td>\n";
+			result += "<td style='width: 10%; text-align: center;''>" + accountName(items[i].account_uid) + "</td>\n";
 			// 적요
-			result += "<td style='width: 35%; text-align: center;'>" + items[i].summary + "</td>\n";
+			result += "<td style='width: 30%; text-align: center;'>" + items[i].summary + "</td>\n";
 			// 금액
 			result += "<td style='width: 20%; text-align: center;'>" + items[i].money + "</td>\n";
 			// 결제라인
-			result += "<td style='width: 15%; text-align: center;'>" + proceedName(items[i].proceed) + "</td>\n";
+			result += "<td style='width: 20%; text-align: center;'>" + proceedName(items[i].proceed) + "</td>\n";
 						
 			result += "</tr>\n";
 		} // end for

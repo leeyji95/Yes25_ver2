@@ -9,6 +9,8 @@ public class AjaxViewResult extends AjaxWriteResult {
 	@JsonProperty("data")
 	private List<FinancialDTO> list;	// 데이터 목록
 
+	// 생성자
+	public AjaxViewResult() {}
 	
 	// getter setter
 	public List<FinancialDTO> getList() {

@@ -10,20 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lec.yes25.financial.ajax.*;
-import com.lec.yes25.financial.ajax.command.AjaxAccountNameCommand;
-import com.lec.yes25.financial.ajax.command.AjaxDeleteCommand;
-import com.lec.yes25.financial.ajax.command.UserInfoCommand;
-import com.lec.yes25.financial.ajax.command.AjaxDetailViewCommand;
-import com.lec.yes25.financial.ajax.command.AjaxFinancialDeptListCommand;
-import com.lec.yes25.financial.ajax.command.AjaxIncomeViewCommand;
-import com.lec.yes25.financial.ajax.command.AjaxMonthSalesCommand;
-import com.lec.yes25.financial.ajax.command.AjaxProceedListCommand;
-import com.lec.yes25.financial.ajax.command.AjaxSearchCommand;
-import com.lec.yes25.financial.ajax.command.AjaxUpdateCommand;
-import com.lec.yes25.financial.ajax.command.AjaxWriteCommand;
-import com.lec.yes25.financial.ajax.command.AjaxWriteListCommand;
-import com.lec.yes25.financial.bean.AccountDTO;
-import com.lec.yes25.financial.bean.FinancialDTO;
+import com.lec.yes25.financial.ajax.command.*;
+import com.lec.yes25.financial.bean.*;
 import com.lec.yes25.personnel.UserDTO;
 
 @RestController
@@ -132,7 +120,7 @@ public class AjaxController {
 	public AjaxWriteResult searchAccountName(HttpServletRequest request, HttpServletResponse response) {
 		new AjaxAccountNameCommand().execute(request, response);
 		
-		List<com.lec.yes25.financial.bean.AccountDTO> list = (List<AccountDTO>) request.getAttribute("list");
+		List<AccountDTO> list = (List<AccountDTO>) request.getAttribute("list");
 		
 		AjaxAccountResult result = new AjaxAccountResult();
 		result.setStatus((String)request.getAttribute("status")); 
@@ -255,5 +243,6 @@ public class AjaxController {
 		
 		return result;
 	}
+	
 	
 } // end Controller

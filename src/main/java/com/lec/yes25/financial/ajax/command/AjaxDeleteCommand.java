@@ -45,7 +45,6 @@ public class AjaxDeleteCommand implements Command {
 				message.append("[트랜잭션 에러:" + e.getMessage() + "]");
 			} // end try
 		} // end if
-		
 
 		request.setAttribute("result", cnt);
 		request.setAttribute("status", status);
