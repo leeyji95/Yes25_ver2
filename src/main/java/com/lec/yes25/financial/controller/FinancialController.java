@@ -66,7 +66,8 @@ public class FinancialController {
 	
 	// 재무부서용 목록 리스트 -> Ajax에서 정보 로딩
 	@RequestMapping("/financialDeptList.bn")
-	public String financialDepTList() {
+	public String financialDepTList(Model model) {
+		new FSelectLoginDeptCommand().execute(model);
 		return "financial/financialDepTList";
 	}
 	

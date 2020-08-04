@@ -8,7 +8,6 @@
 <!-- 결재를 기다리고 있는 전표, 페이징 -->
 <select id="selectFromRowProceed" 
 		resultType="com.lec.yes25.financial.bean.FinancialDTO">
-	
 	<!-- 비교연산자 같은 경우에는 xml에서 사용할 수 없기 때문에 CDATA를 이용하여 사용 -->
 	<![CDATA[
 	SELECT 
@@ -29,7 +28,6 @@
 	WHERE 
 		RNUM >= #{from} AND RNUM < (#{from} + 10)
 	]]>
-	
 </select>
 <select id="countAllProceed" resultType="int">
 	SELECT 
@@ -43,8 +41,6 @@
 <!-- 작성한 전표 목록 검색, 페이징 -->
 <select id="selectFromRowWrite" 
 		resultType="com.lec.yes25.financial.bean.FinancialDTO">
-	
-	<!-- 비교연산자 같은 경우에는 xml에서 사용할 수 없기 때문에 CDATA를 이용하여 사용 -->
 	<![CDATA[
 	SELECT 
 		stmt_uid, 
@@ -87,7 +83,6 @@
 		#{manager},
 		#{approver})
 </insert>
-
 
 <!-- 계정과목 검색, 사용자 검색용 -->
 <select id="searchAccount" resultType="com.lec.yes25.financial.bean.AccountDTO">
@@ -163,8 +158,6 @@
 <!-- 재무부서용, 페이징 -->
 <select id="selectFromRowFinancialDept" 
 		resultType="com.lec.yes25.financial.bean.FinancialDTO">
-	
-	<!-- 비교연산자 같은 경우에는 xml에서 사용할 수 없기 때문에 CDATA를 이용하여 사용 -->
 	<![CDATA[
 	SELECT 
 		stmt_uid, 
@@ -185,9 +178,7 @@
 	WHERE 
 		RNUM >= #{from} AND RNUM < (#{from} + 10)
 	]]>
-	
 </select>
-
 <select id="countAllFinancialDept" resultType="int">
 	<![CDATA[
 	SELECT count(*)
@@ -263,7 +254,5 @@
 		order_date>=#{startDate} AND order_date<=#{endDate}
 	]]>
 </select>
-
-
 
 </mapper>

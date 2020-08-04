@@ -20,6 +20,7 @@ public class MemberSelectCommand implements BCommand {
 		List<UserDTO> list = dao.memberSelectAll();
 		
 		model.addAttribute("list", list);
+		
 	} // end execute()
 
 } // end class

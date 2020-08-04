@@ -9,7 +9,6 @@ public class AjaxWriteList extends AjaxWriteResult {
 	@JsonProperty("data")
 	private List<FinancialDTO> lise;	// 데이터 목록
 	
-	
 	// 페이징 관련
 	private int page;	// 현재 페이지
 	@JsonProperty("totalpage")
@@ -21,6 +20,8 @@ public class AjaxWriteList extends AjaxWriteResult {
 	@JsonProperty("pagerows")
 	private int pageRows;	// 한 페이지에 몇개의 글들을 리스트에 보여질 것인가?
 	
+	// 생성자
+	public AjaxWriteList() {}
 	
 	// getter setter
 	public List<FinancialDTO> getLise() {

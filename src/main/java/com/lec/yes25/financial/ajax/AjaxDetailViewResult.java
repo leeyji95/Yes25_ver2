@@ -7,11 +7,13 @@ public class AjaxDetailViewResult extends AjaxWriteResult {
 	@JsonProperty("data")
 	private FinancialDTO list;	// 데이터 목록
 
+	// 생성자
+	public AjaxDetailViewResult() {}
+	
 	// getter, setter
 	public FinancialDTO getList() {
 		return list;
 	}
-
 	public void setList(FinancialDTO list) {
 		this.list = list;
 	}

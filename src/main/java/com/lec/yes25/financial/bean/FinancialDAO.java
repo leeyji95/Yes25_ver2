@@ -28,5 +28,4 @@ public interface FinancialDAO {
 			@Param("username") int username
 			);
 	
-	
 }

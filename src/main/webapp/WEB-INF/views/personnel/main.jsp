@@ -101,17 +101,17 @@
 
 			<section class="content-inner">
 				<div class="col main pt-5 mt-3">
-					<h3 class="display-4 d-none d-sm-block">
+					<h1 class="display-4 d-none d-sm-block" id="title">
 					<c:choose>
 						<c:when test="${empty list || fn:length(list) == 0}">  <!-- list 라는 이름으로 요청 받은 결과들의 배열이 있는가, 혹은 fn 사용해서, length 값으로 없으면 -->
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="dto" items="${list }">
-								  ${dto.name} 님 안녕하세요!
+								  ${dto.name} 님 안녕하세요! 
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
-					</h3>
+					</h1>
 					<hr>
 					<div class="lead mt-5 d-none d-sm-block">
 					

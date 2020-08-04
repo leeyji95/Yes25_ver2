@@ -8,23 +8,26 @@
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>서점ERP시스템</title>
-
     
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+	
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
-    <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
-    <style type="text/css">
-    	.title
-   	{font-size: 38px;
-	    font-weight: bold;
-	    letter-spacing: 5px;}
-    </style>
+    <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css"/>
+
+<style type="text/css">
+.title {
+	font-size: 38px;
+	font-weight: bold;
+	letter-spacing: 5px;
+}
+</style>
+
   </head>
 <body>
 
-<div class="wrap ">
+<div class="wrap">
         <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
             <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/personnel/main">Yes25 ERP</a>
@@ -42,7 +45,7 @@
         </nav>
         
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y: scroll;">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
                       <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
@@ -106,12 +109,15 @@
 					<hr>
 					
 					<div class="lead mt-5 d-none d-sm-block">
-						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
 
 
-<div style="width: 80%; margin: 50px auto 5px auto; height: 500px;">
+
+
+<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>
+<div style="width: 80%; margin: 50px auto 5px auto; height: 400px;">
     <canvas id="monthSales"></canvas>
 </div>
+
 
 
 
@@ -125,7 +131,7 @@
 <tr class="width100">
 	<td class="width50">
 		<button id="proceedChoiceBtn" class="width100 infohover" 
-			style="padding: 15px; border: none; border-radius: 10px 0 0 0">결제를 기다리고 있는 전표 목록</button>
+			style="padding: 15px; border: none; border-radius: 10px 0 0 0">결재를 기다리고 있는 전표 목록</button>
 	</td>
 	<td class="width50">
 		<button id="writeChoiceBtn" class="width100 info" 
@@ -136,7 +142,7 @@
 
 
 <!-- 제목 -->
-<h1 id="proceedHeader" class="display-4 d-none d-sm-block">결제를 기다리고 있는 전표 목록</h1>
+<h1 id="proceedHeader" class="display-4 d-none d-sm-block">결재를 기다리고 있는 전표 목록</h1>
 <h1 id="writeHeader" class="display-4 d-none d-sm-block">작성한 전표 목록</h1> 
 
 
@@ -176,7 +182,7 @@
 </div>
 
 <!-- 버튼 -->
-<div style="text-align:center; margin: 20px 0;">
+<div style="text-align:center; margin: 100px 0; width: 100%">
 <button type="button" data-toggle="modal" data-target="#WriteModal"
 	class="btnMyself info btn-toggle" id="btnWrite">전표입력</button>
 
@@ -189,25 +195,17 @@
 <button type="button" class="btnMyself info"
 	onclick="location.href='incomeView.bn'">손익계산서 확인</button>
 </div>
-<br><br><br><br>
 
-
-
-						<!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ -->
-						
+<!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>
 					</div>
 				</div>
 			</section>
 		</div> <!-- </div content> --> 
     </div> <!-- </div wrap -->
-
-<!-- 작업페이지 -->
-
+<!----------------------------------------------------------------------------------------------------->	
 
 
 
-
-<!-- ---------------------------------------------------------------------- -->	
 
 <!-- 글작성 모달창 -->
 <div id="WriteModal" class="modal fade" 
@@ -388,22 +386,23 @@
 	</div>
 </div>
 
-		
- <!-- JS 로드 -->
+
+
+
+	<!-- JS 로드 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- 내 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/JS/financial/main.js"></script>
-     <!-- 월별 매출 그래프를 사용하기 위한 Chart.js 선언 -->
+    <!-- 월별 매출 그래프를 사용하기 위한 Chart.js 선언 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     
     <!-- JS, Popper.js -->
-	 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/JS/navmenu_template.js"></script>
 
 </body>

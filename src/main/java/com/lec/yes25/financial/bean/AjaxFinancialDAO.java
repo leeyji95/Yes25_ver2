@@ -1,9 +1,7 @@
 package com.lec.yes25.financial.bean;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import com.lec.yes25.personnel.UserDTO;
 
 public interface AjaxFinancialDAO {

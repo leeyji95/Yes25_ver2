@@ -22,6 +22,7 @@ public class FUpdateCommand implements BCommand {
 		
 		model.addAttribute("result", cnt);
 		model.addAttribute("proceed", proceed);
+		
 	} // end execute()
 
 } // end Command

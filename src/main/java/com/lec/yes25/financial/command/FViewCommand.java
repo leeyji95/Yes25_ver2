@@ -22,6 +22,7 @@ public class FViewCommand implements BCommand {
 		FinancialDTO dto = dao.readByStmt_uid(stmt_uid);
 		
 		model.addAttribute("list", Arrays.asList(dto));
+		
 	} // end execute()
 
 } // end Command
