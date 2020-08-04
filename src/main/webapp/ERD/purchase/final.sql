@@ -302,11 +302,11 @@ DELETE FROM tb_book;
 DECLARE num number := 1;
 BEGIN
   WHILE (num <= 100) LOOP
-	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 기초편'||book_seq.nextval, '남궁성', 'Java 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석'||book_seq.nextval, '남궁성', 'Java 책입니다.', 27000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C 프로그래밍'||book_seq.nextval, '윤성우', 'C 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 16, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 기초편 '||book_seq.nextval, '남궁성', 'Java 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 '||book_seq.nextval, '남궁성', 'Java 책입니다.', 27000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C 프로그래밍 '||book_seq.nextval, '윤성우', 'C 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 16, CEIL(DBMS_RANDOM.VALUE(0, 8)));
 	INSERT INTO tb_book VALUES (book_seq.nextval, '프로그래밍 루비 '||book_seq.nextval, '데이브 토머스,앤디 헌트,차드 파울러', 'Ruby 책입니다.', 24300, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 18, CEIL(DBMS_RANDOM.VALUE(0, 8)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '2020 시나공 GTQ 포토샵 1급'||book_seq.nextval, '길벗알앤디', '포토샵 책입니다.', 17100, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 11, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '2020 시나공 GTQ 포토샵 1급 '||book_seq.nextval, '길벗알앤디', '포토샵 책입니다.', 17100, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 11, CEIL(DBMS_RANDOM.VALUE(0, 8)));
     num := num + 1;
   END LOOP;
 END;
@@ -331,7 +331,7 @@ BEGIN
     orderSetUid := order_set_seq.nextval;
    	pubUid := CEIL(DBMS_RANDOM.VALUE(0, 8));
    	YYYY := CEIL(DBMS_RANDOM.VALUE(2017, 2020));
-   	MM := CEIL(DBMS_RANDOM.VALUE(0, 8));
+   	MM := CEIL(DBMS_RANDOM.VALUE(0, 6));
    	DD := CEIL(DBMS_RANDOM.VALUE(0, 28));
   END LOOP;
 END;
