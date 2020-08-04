@@ -24,7 +24,7 @@ public class FinancialDTO {
 	private int approver;	//stmt_approver, 결제자
 	private int proceed;	//stmt_proceed, 결제진행사항
 	
-	// 생성자 생성
+	// 생성자
 	public FinancialDTO() {}
 	public FinancialDTO(int stmt_uid, Timestamp regDate, int account_uid, String summary, int money, int writer,
 			int manager, int approver, int proceed) {
@@ -39,7 +39,6 @@ public class FinancialDTO {
 		this.approver = approver;
 		this.proceed = proceed;
 	}
-
 
 	// getter setter
 	public int getStmt_uid() {
@@ -104,4 +103,5 @@ public class FinancialDTO {
 	public void setProceed(int proceed) {
 		this.proceed = proceed;
 	}
+	
 }

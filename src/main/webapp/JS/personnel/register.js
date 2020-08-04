@@ -41,10 +41,10 @@ function chkWrite() {
 				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
 
 					// loadPage(1); // 첫페이지 리로딩 되도록
-					alert("INSERT 성공" + data.count + "개:" + data.status);
+					alert("등록 완료되었습니다.");
 					location.href = 'main';
 				} else {
-					alert("INSERT 실패" + data.status + " : " + data.message);
+					alert("등록 실패" + data.status + ": Err메시지: " + data.message);
 				}
 			}
 		}

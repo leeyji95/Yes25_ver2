@@ -11,9 +11,11 @@ public class AjaxWriteResult {
 	 	message : ○○○ 
 	 } 
 	 */
+	
+	// 생성자
 	public AjaxWriteResult() {}
 
-	
+	// getter, setter
 	public int getCount() {
 		return count;
 	}
