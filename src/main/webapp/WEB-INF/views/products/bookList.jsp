@@ -18,6 +18,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
+<style>
+[v-cloak]{display : none;}
+</style>
 
 <body>
 <div class="wrap">
@@ -39,7 +42,7 @@
         </nav>
         
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y:scroll;">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
                      <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
@@ -103,10 +106,10 @@
 					<div class="lead mt-5 d-none d-sm-block">
 					
 						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
-						<div id="app">
+						<div id="app" v-cloak>
             <v-app>
 
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 row">
                     <div class="form-group input-group-prepend">
                         <select v-model="searchOption" class="form-control">
                             <option value=1>전체</option>
@@ -126,6 +129,7 @@
                     hide-selected
                     item-text="subject"
                     item-value="subject"
+                    @keyUp.enter="doSearch"
                     >
                 </v-autocomplete>
                     <div class="input-group-append">
@@ -237,7 +241,7 @@
                                             <div class="form-group">
                                                 <label for="price">정가</label>
                                                 <input v-model.number.trim="price" @input="maxLengthCheck"
-                                                    class="form-control" type="number">
+                                                    class="form-control" type="number">	
                                             </div>
                                         </div>
 
