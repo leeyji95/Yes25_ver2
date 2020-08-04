@@ -1,70 +1,12 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700);
 
-/* body {
-  background: #2196F3;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 200;
-  
-} */
-/* body, html {
-  height:100%;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-} */
-/*
- * Off Canvas sidebar at medium breakpoint
- * --------------------------------------------------
- */
-/* @media screen and (max-width: 992px) {
-
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -33%;
-  }
-
-  .row-offcanvas-left.active {
-    left: 33%;
-    margin-left: -6px;
-  }
-
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 33%;
-    height: 100%;
-  }
-}
-
-
- * Off Canvas wider at sm breakpoint
- * --------------------------------------------------
-
-@media screen and (max-width: 34em) {
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -45%;
-  }
-
-  .row-offcanvas-left.active {
-    left: 45%;
-    margin-left: -6px;
-  }
-  
-  .sidebar-offcanvas {
-    width: 45%;
-  }
-} */
-
-
-
+#title{
+  font-size: 42px;
+  font-weight: 400;
+  padding: 30px 30px;
+  letter-spacing: 5px;
+ }
 .container {
   height: 100vh;
   width: 100%;
@@ -175,7 +117,7 @@ html {
 .app__text {
   position: absolute;
   right: 165px;
-  top: 150px;
+  top: 100px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   z-index: 1;
@@ -341,7 +283,7 @@ html {
   padding: 15px;
   font-size: 18px;
   font-weight: 300;
-  background: #aee3df;
+  background: #cbcaca;
   cursor: pointer;
 }
 
@@ -356,6 +298,6 @@ html {
 .top-active-button {
   color: #fff !important;
   box-shadow: 0 0 20px #2a2a2a;
-  background: linear-gradient(#acccee,#007bff) !important;
+  background: linear-gradient(#f0b24b,#b86702) !important;
   transition: all 0.3s ease;
 }

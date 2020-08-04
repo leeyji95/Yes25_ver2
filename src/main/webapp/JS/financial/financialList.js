@@ -1,4 +1,4 @@
-var page = 1	// 현재 페이지 
+var page = 1		// 현재 페이지 
 var start = ''		// 시작일
 var end	= ''		// 종료일
 
@@ -239,10 +239,10 @@ function updateList(jsonObj) {
 		$(".stmtUidValue").click(function(){
 			if(confirm('삭제 후 복구가 어렵습니다.\n정말로 삭제하시겠습니까?')) {
 				deleteByStmtUid($(this).val());
-				loadPage(page);
+				loadPage(page, start, end)
 			} else {
 				alert('삭제가 취소되었습니다.');
-				loadPage(page);
+				loadPage(page, start, end)
 			}
 		});	
 		
@@ -313,7 +313,7 @@ function buildPagination(writePages, totalPage, curPage, pageRows){
     		+ "<a onclick='loadPage(" + (end_page + 1 ) + ", \'" + start + "\', \'" + end + "\')\">"
     		+ "<span class='icon-pointer-button-square-right'><i class='fas fa-chevron-right'></i></span></a></li>";
     }
-	console.log("페이징 : " + start + ", " + end);
+	//console.log("페이징 : " + start + ", " + end);
 	return str;
 } // end buildPagination()
 //계정과목 검색, 보여주기용
@@ -347,11 +347,11 @@ function deleteByStmtUid(stmt_uid) {
 			if(status == "success"){
 				if(data.status == "OK"){
 					alert("전표 삭제 성공 " + data.count + "개");
-					loadPage(window.page, 2);	// 현재 페이지 리로딩
 				} else {
 					alert("전표 삭제 실패 " + data.message);
 				}
 			}
 		}
 	});
+	
 } // end deleteByStmtUid()

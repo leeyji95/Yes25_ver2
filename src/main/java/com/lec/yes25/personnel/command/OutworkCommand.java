@@ -113,7 +113,7 @@ public class OutworkCommand implements RCommand {
 							message.append(
 									cmmtEndFormatter.format(cmmtEndFormatter.parse(paramDate)) + "\n이미 결근처리 되었습니다.");
 						}
-					}
+					} 
 
 					if (cntUpdate == 0) {
 						message.append("[트랜잭션 실패: 0 update");
