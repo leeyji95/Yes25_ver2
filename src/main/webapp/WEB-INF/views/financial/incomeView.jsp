@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -11,16 +10,16 @@
     <title>서점ERP시스템</title>
     
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
-	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
+    
     <!-- 내 CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/main.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/CSS/financial/imcome.css"/>
     <link rel="stylesheet"	href="${pageContext.request.contextPath}/CSS/navmenu_template.css" />
-      
 
   </head>
-
 <body>
+
 <div class="wrap">
       <nav class="nav-bar navbar-inverse fixed-top" role="navigation">
             <div id ="top-menu" class="container-fluid active" style="background-color: #222;">
@@ -40,7 +39,7 @@
         </nav>
         
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y: scroll;">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
                       <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
@@ -100,12 +99,11 @@
 					<h3 class="display-4 d-none d-sm-block" style="text-align: center; padding-top: 50px; padding-bottom: 10px;">손익계산서</h3>
 					<hr>
 					<div class="lead mt-5 d-none d-sm-block">
-					
-						<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ -->
 
 
-													<!-- 작업페이지 -->
 
+
+<!-- 시작________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>
 <div style="text-align: right;">
 	<select id="choiceYear" style="padding: 10px 20px;">
 		<option value="2019" selected="selected">2019년</option>
@@ -230,34 +228,33 @@
 
 <div id="result"></div>
 
-
-						<!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ -->
-						
+<!-- 끝________________본문____해당파트___삽입하기(내부분)_________________ ------------------------------------>
 					</div>
 				</div>
 			</section>
 		</div> <!-- </div content> --> 
     </div> <!-- </div wrap -->
+<!----------------------------------------------------------------------------------------------------->	
 
- <!-- JS 로드 -->
- 	<!-- jQuery library --> 
+
+
+
+	<!-- JS 로드 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-	<!-- Popper JS --> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
-	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
-    <!-- jQuery 선언 -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    
     <!-- 내 자바스크립트 -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/JS/financial/incomeView.js"></script>
     
+    <!-- JS 로드 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     
-    <!-- JS, Popper.js -->
-	 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <script src="${pageContext.request.contextPath}/JS/navmenu_template.js"></script>
 </body>
 </html>

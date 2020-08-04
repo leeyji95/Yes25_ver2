@@ -13,13 +13,13 @@
 }
 
 /* 헤더와 같은 파란 버튼 색상 */
-.info {background-color: #007bff!important; color: white; border: none;}
-.infohover {background: #0052ac!important; color: white; border: none;}
-.info:hover {background: #0052ac!important; color: white; border: none;}
+.info {background-color: #404040; color: white; border: none;}
+.infohover {background: #0052ac; color: white; border: none;}
+.info:hover {background: #0052ac; color: white; border: none;}
 
-/* 헤더와 어울릴만한 바다색 */
-.skyinfo {background-color: #4d7cc4!important; color: white; border: none;}
-.skyinfo:hover {background-color: #3561a2!important; color: white; border: none;}
+/* 헤더와 어울릴만한 연한 회색 */
+.skyinfo {background-color: #808080; color: white; border: none;}
+.skyinfo:hover {background-color: #3561a2; color: white; border: none;}
 
 /* 제목에 헤더 줌*/
 #proceedHeader, #writeHeader {
@@ -57,7 +57,7 @@
 }
 .clear { clear: both; }
 .moveFinancialView:hover {
-	background-color: #3997ff!important;
+	background-color: #0052ac;
 	color: white;
 	cursor: pointer;
 }
@@ -67,7 +67,7 @@
 #viewTable {
 	margin: 100px 0;
 	text-align: center;
-	font-size: 30px;
+	font-size: 25px;
 }
 
 /* 글쓰기 모달창 */
@@ -102,7 +102,7 @@
 	padding: 10px 0;
 }
 .searchValue:hover {
-	background-color: #3997ff!important;
+	background-color: #0052ac;
 	color: white;
 }
 
@@ -134,7 +134,7 @@
     text-align: center;
 }
 .pagination>li[role=active] {
-    background-color: #007bff!important;
+    background-color: #007bff;
     color: #ffffff;
     cursor: default
 }
