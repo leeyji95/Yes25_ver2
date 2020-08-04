@@ -38,7 +38,7 @@
         </nav>
         
         <!-- 왼쪽 메뉴바 -->
-        <aside id="side-menu" class="aside" role="navigation">            
+        <aside id="side-menu" class="aside" role="navigation" style="overflow-y: scroll;">            
               <ul class="nav nav-list accordion">                    
                 <li class="nav-header">
                    <div class="link"><i class="fa fa-lg fa-users"></i>인사관리<i class="fa fa-chevron-down"></i></div>
