@@ -302,11 +302,13 @@ DELETE FROM tb_book;
 DECLARE num number := 1;
 BEGIN
   WHILE (num <= 100) LOOP
-	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 기초편'||book_seq.nextval, '남궁성', 'Java 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석'||book_seq.nextval, '남궁성', 'Java 책입니다.', 27000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C 프로그래밍'||book_seq.nextval, '윤성우', 'C 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 16, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 기초편 '||book_seq.nextval, '남궁성', 'Java 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '자바의 정석 '||book_seq.nextval, '남궁성', 'Java 책입니다.', 27000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 15, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '윤성우의 열혈 C 프로그래밍 '||book_seq.nextval, '윤성우', 'C 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 16, CEIL(DBMS_RANDOM.VALUE(0, 8)));
 	INSERT INTO tb_book VALUES (book_seq.nextval, '프로그래밍 루비 '||book_seq.nextval, '데이브 토머스,앤디 헌트,차드 파울러', 'Ruby 책입니다.', 24300, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 18, CEIL(DBMS_RANDOM.VALUE(0, 8)));
-	INSERT INTO tb_book VALUES (book_seq.nextval, '2020 시나공 GTQ 포토샵 1급'||book_seq.nextval, '길벗알앤디', '포토샵 책입니다.', 17100, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 11, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '2020 시나공 GTQ 포토샵 1급 '||book_seq.nextval, '길벗알앤디', '포토샵 책입니다.', 17100, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 11, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, '레트로의 유니티 게임 프로그래밍 에센스 '||book_seq.nextval, '이제민', '게임개발 책입니다.', 54000, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 9, CEIL(DBMS_RANDOM.VALUE(0, 8)));
+	INSERT INTO tb_book VALUES (book_seq.nextval, 'Do it! HTML5+CSS3 웹 표준의 정석 '||book_seq.nextval, '고경희', '웹디자인 책입니다.', 22500, sysdate, sysdate, CEIL(DBMS_RANDOM.VALUE(999999, 9999999)), 23, CEIL(DBMS_RANDOM.VALUE(0, 8)));
     num := num + 1;
   END LOOP;
 END;
@@ -315,13 +317,19 @@ END;
 -- 발주 더미 데이터
 DELETE FROM tb_order;
 
+-- 최초 1회만 실행해주면 됩니다.
 SELECT order_set_seq.nextval FROM dual;
+------------------------------
+
+-- 발주 더미 데이터
+-- 영역을 블록 씌워준뒤 컨트롤+엔터 해주시면 생성 됩니다.. 
+-- 무작위로 값이 들어가다가 중복값이 있으면 실패할 수도 있습니다.. 
 DECLARE 
 	num NUMBER := 1;
 	orderSetUid NUMBER := order_set_seq.currval;
 	pubUid NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 8));
 	YYYY NUMBER := CEIL(DBMS_RANDOM.VALUE(2017, 2020));
-	MM NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 6));
+	MM NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 7));
 	DD NUMBER := CEIL(DBMS_RANDOM.VALUE(0, 28));
 BEGIN
   WHILE (num <= 30) LOOP
@@ -331,7 +339,7 @@ BEGIN
     orderSetUid := order_set_seq.nextval;
    	pubUid := CEIL(DBMS_RANDOM.VALUE(0, 8));
    	YYYY := CEIL(DBMS_RANDOM.VALUE(2017, 2020));
-   	MM := CEIL(DBMS_RANDOM.VALUE(0, 8));
+   	MM := CEIL(DBMS_RANDOM.VALUE(0, 7));
    	DD := CEIL(DBMS_RANDOM.VALUE(0, 28));
   END LOOP;
 END;
