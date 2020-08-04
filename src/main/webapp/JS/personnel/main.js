@@ -148,32 +148,37 @@ $(".outWork").on("click", function () {
 	      }
 	 });
 	  
-	$.ajax({
-		url : "outwork.ajax?paramDate=" + paramDate,
-		type : "post",
-		dataType : 'json',
-		cache : false,
-		data : paramDate, // POST 로 ajax request 하는 경우 parameter 담기
-		success : function(data, status) {
-			if (status == "success") { // 여기서의 success 는 코드 200
-				if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
-					
-					if(data.countUpdate == 99){
-						// 총근무시간 DB에 넣어주기 위한 ajax function 실행 
-						alert(data.message);
-					} else{
-						alert(data.message);
-						totalWorkTime();
+	 if (confirm("다시 처리하실 수 없습니다.\n 퇴근 하시겠습니까?") == true){    //확인
+	 
+		$.ajax({
+			url : "outwork.ajax?paramDate=" + paramDate,
+			type : "post",
+			dataType : 'json',
+			cache : false,
+			data : paramDate, // POST 로 ajax request 하는 경우 parameter 담기
+			success : function(data, status) {
+				if (status == "success") { // 여기서의 success 는 코드 200
+					if (data.status == "OK") { // 정상적으로 insert 되었다는 의미
+						
+						if(data.countUpdate == 99){
+							// 총근무시간 DB에 넣어주기 위한 ajax function 실행 
+							alert(data.message);
+						} else{
+							alert(data.message);
+							totalWorkTime();
+						}
+						$('#changetext').text(data.message);
+					} else {
+						alert("출근을 먼저 등록해주세요");
 					}
-					$('#changetext').text(data.message);
-				} else {
-					alert("출근을 먼저 등록해주세요");
 				}
 			}
+		});
+		$(this).removeClass("top-active-button");
+		$(this).attr('disabled', true);
+	 }else{   //취소
+		    return;
 		}
-	});
-	$(this).removeClass("top-active-button");
-	$(this).attr('disabled', true);
 	
 	return false;
 });
