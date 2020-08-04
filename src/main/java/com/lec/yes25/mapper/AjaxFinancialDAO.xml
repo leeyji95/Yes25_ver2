@@ -23,7 +23,7 @@
 	FROM 
 		(SELECT ROWNUM AS RNUM, T.* FROM 
 			(SELECT * FROM tb_statement 
-			WHERE (stmt_manager=#{logId} OR stmt_approver=#{logId}) AND stmt_proceed IN (1,2)
+			WHERE (stmt_manager=#{logId} AND stmt_proceed=1) OR (stmt_approver=#{logId} AND stmt_proceed=2)
 			ORDER BY stmt_uid DESC) T) 
 	WHERE 
 		RNUM >= #{from} AND RNUM < (#{from} + 10)
@@ -35,7 +35,7 @@
 	FROM
 		tb_statement
 	WHERE 
-		(stmt_manager=#{logId} OR stmt_approver=#{logId}) AND stmt_proceed IN (1,2)
+		(stmt_manager=#{logId} AND stmt_proceed=1) OR (stmt_approver=#{logId} AND stmt_proceed=2)
 </select>
 
 <!-- 작성한 전표 목록 검색, 페이징 -->
