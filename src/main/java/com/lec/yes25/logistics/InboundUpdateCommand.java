@@ -47,6 +47,7 @@ public class InboundUpdateCommand implements Command {
 				message.append("[유효하지 않은 parameter]"+ params);
 			} catch (Exception e) {
 				message.append("[트렌잭션 에러:"+ e.getMessage() + "]");
+				e.printStackTrace();
 			}
 		}
 		

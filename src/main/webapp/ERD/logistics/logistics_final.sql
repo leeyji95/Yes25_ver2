@@ -112,7 +112,7 @@ ALTER TABLE tb_order
 CREATE TABLE tb_stock
 (
     stock_uid    NUMBER    NOT NULL, 
-    book_uid     NUMBER    UNIQUE NOT NULL, 
+    book_uid     NUMBER    NOT NULL, 
     stock_quantity        NUMBER    DEFAULT 0 NOT NULL,
     CONSTRAINT TB_STOCK_PK PRIMARY KEY (stock_uid),
     CONSTRAINT check_stock_quantity CHECK (stock_quantity >= 0 )
