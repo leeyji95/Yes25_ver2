@@ -142,7 +142,7 @@
 								<!-- 발주현황  -->
 								<div class="col-sm-6">
 									<div class="card">
-										<div class="card-header bg-dark text-white">검색결과</div>
+										<div class="card-header bg-dark text-white">발주 목록</div>
 										<div class="card-body">
 											<div class="col-sm-12 row page-info-panel">
 												<div class="col-sm-8 text-left align-self-end"

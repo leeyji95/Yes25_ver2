@@ -28,7 +28,8 @@ $(document).ready(function(){
 	    autoclose : true, // 사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
 	    todayHighlight : true ,	// 오늘 날짜에 하이라이팅 기능 기본값 : false 
 	    toggleActive : true, // 이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
-	    language : "ko" // 달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+	    language : "ko", // 달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+	    orientation: "bottom"
 	});
 	
 	// 거래처 검색
